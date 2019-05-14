@@ -15,7 +15,7 @@ class Artwork(db.Model):
     artist = db.Column(db.String(50))                                    # nullable= true assumed - because some user entered artworks won't have artist 
     artist_desc = db.Column(db.String(150))
     location = db.Column(db.String(100), nullable=False)                  # can I store lat/lng tuple 
-    location_geojson = db.Column(Geometry('POINT'), nullable=False)       # call using > geom = 'POINT(37 122)'
+    location_geojson = db.Column(db.Geometry('POINT'), nullable=False)       # call using > geom = 'POINT(37 122)'
     source = db.Column(db.sting(10), nullable=False)                      # graffiti, one_per, civic, user
     neighborhood_id = db.Column(db.Integer, db.ForiegnKey('neighborhoods.neighborhood_id'), nullable=False)
     medium = db.Column(db.String(100))
@@ -72,7 +72,7 @@ class Log(db.Model):
     user_id = db.Column(db.Integer, db.ForiegnKey('users.user_id'))
     art_id = db.Column(db.Integer, db.ForiegnKey('artworks.art_id'))
     date_time_logged = db.Column(db.DateTime, nullable=False)
-    comment = db.Column(db.String(100))
+    comment = db.Column(db.String(150))
     img = db.Column(db.string(50), nullable=False)                           # filename string? 
 
     # relationship syntactic sugar 
@@ -92,7 +92,8 @@ class Neighborhood(db.Model):
     __tablename__ = "neighborhoods"
 
     neighborhood_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    name = db.Column(db.String(100), nullable=False)
+    neighborhood_geom = db.Column(db.Geometry('MULTIPOLYGON'), nullable=False)
 
 
     def __repr__(self):
