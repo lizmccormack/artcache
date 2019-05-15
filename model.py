@@ -15,6 +15,7 @@ class Artwork(db.Model):
     title = db.Column(db.String(50))
     artist = db.Column(db.String(50))                                    
     artist_desc = db.Column(db.String(150))
+    creation_date = db.Column(db.String(50))
     location = db.Column(Geometry('POINT'), nullable=False)                 # creates spatial column to store lat/lng as a point 
     #location_geojson = db.Column(db.Geometry('POINT'), nullable=False)       # call using > geom = 'POINT(37 122)'
     source = db.Column(db.String(10), nullable=False)                      
