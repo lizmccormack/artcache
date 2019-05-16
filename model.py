@@ -17,7 +17,6 @@ class Artwork(db.Model):
     artist_desc = db.Column(db.String(150))
     creation_date = db.Column(db.String(50))
     location = db.Column(Geometry('POINT'), nullable=False)                 # creates spatial column to store lat/lng as a point 
-    #location_geojson = db.Column(db.Geometry('POINT'), nullable=False)       # call using > geom = 'POINT(37 122)'
     source = db.Column(db.String(10), nullable=False)                      
     neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'), nullable=False)
     medium = db.Column(db.String(100))
@@ -38,7 +37,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(50), nullable=False)     # need the user to have email, username and password 
+    email = db.Column(db.String(50), nullable=False)     
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
 
@@ -94,7 +93,8 @@ class Neighborhood(db.Model):
 
     neighborhood_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    neighborhood_geom = db.Column(Geometry('MULTIPOLYGON'), nullable=False)       # creates spatial column to store coordinate boundaries
+    neighborhood_geojson = db.Column(db.String(250), nullable=False)
+    #neighborhood_geom = db.Column(Geometry('MULTIPOLYGON'), nullable=False)       # creates spatial column to store coordinate boundaries
 
 
     def __repr__(self):
