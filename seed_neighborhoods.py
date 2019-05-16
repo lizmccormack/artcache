@@ -1,5 +1,6 @@
 from sqlalchemy import func 
 from model import Neighborhood
+from shapely.geometry import Polygon
 import requests
 
 
@@ -15,17 +16,16 @@ def load_neighborhood():
     for item in neighborhoods:
         name = item["name"]
         geojson = str(item["the_geom"])
-        geom = 
+        geom = from_shape(POLYGON(item["the_geom"]["coordinates"][0][0], , srid=4326)
 
         #shapley: POLYGON(item['the_geom'][coordinates][0][0])
-        #geom: use geo to_shape 
+        #geom: use geo from_shape 
 
         #instanciate a neighboorhood and add coverted geom to column neighborhood_geom (in below)
 
         neighborhood = Neighborhood(name=name,
                                     neighborhood_geojson=geojson,
-                                    neighborhood_geom=geom
-                                    )
+                                    neighborhood_geom=geom)
 
         # add the data objects to the session
         db.session.add(neighborhood)

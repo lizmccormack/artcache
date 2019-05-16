@@ -15,7 +15,7 @@ def load_oneper():
         title= item["title"]
         artist= item["title"]
         artist_desc= item["artistlink"]
-        location=(item["the_geom"]["latitude"], item["the_geom"]["longitude"])
+        location= POINT(item["the_geom"]["latitude"], item["the_geom"]["longitude"])
         medium=item["medium"]
         art_desc=item["name"] + item["location"]
         hint=item["accessibil"]
@@ -50,7 +50,7 @@ def load_civic():
         title= item["display_title"]
         artist= item["artist"]
         creation_date = item["creation_date"]
-        location=(item["point"]["latitude"], item["point"]["longitude"])
+        location= from_shape(POINT(item["point"]["latitude"], item["point"]["longitude"]), srid=4326)
         #neighborhood_id= 
         medium=item["medium"]
         art_desc=item["name"] + item["location"]
@@ -108,6 +108,21 @@ def load_graffiti():
     db.session.commit()
 
 
+
+def shapeify_neighborhoods(): 
+
+list_of_multipoly_geoms = db.session.query(Neighborhood.neighborhood_geom).all()
+
+list_of multipoly_shapify = []
+for item in list_of_multipoly_geoms: 
+    item = to_shape(neighborhood_geom)
+    list_of multipoly_shapify.append(item)
+
+
+def map_neighborhood(point, multipolygons): 
+    for multipolygon in multipolygons: 
+        if multipolygon.contains(point) == True: 
+          return neighborhood_id
 
 
 if __name__ == "__main__":
