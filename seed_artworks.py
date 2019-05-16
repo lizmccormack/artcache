@@ -109,20 +109,22 @@ def load_graffiti():
 
 
 
-def shapeify_neighborhoods(): 
+# def shapeify_neighborhoods(): 
 
-list_of_multipoly_geoms = db.session.query(Neighborhood.neighborhood_geom).all()
+# list_of_multipoly_geoms = db.session.query(Neighborhood.id, Neighborhood.neighborhood_geom).all()
 
-list_of multipoly_shapify = []
-for item in list_of_multipoly_geoms: 
-    item = to_shape(neighborhood_geom)
-    list_of multipoly_shapify.append(item)
+# # make a dictionary or tuples with id and shape related then pass back the id 
+
+# list_of multipolyg_shapify = []
+# for item in list_of_multipoly_geoms: 
+#     item = to_shape(neighborhood_geom)
+#     list_of multipoly_shapify.append(item)
 
 
-def map_neighborhood(point, multipolygons): 
-    for multipolygon in multipolygons: 
-        if multipolygon.contains(point) == True: 
-          return neighborhood_id
+# def map_neighborhood(point, multipolygons): 
+#     for multipolygon in multipolygons: 
+#         if multipolygon.contains(point) == True: 
+#           return tuple_polygons[0]
 
 
 if __name__ == "__main__":

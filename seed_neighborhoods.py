@@ -16,7 +16,7 @@ def load_neighborhood():
     for item in neighborhoods:
         name = item["name"]
         geojson = str(item["the_geom"])
-        geom = from_shape(POLYGON(item["the_geom"]["coordinates"][0][0], , srid=4326)
+        geom = from_shape(POLYGON(item["the_geom"]["coordinates"][0][0], srid=4326)
 
         #shapley: POLYGON(item['the_geom'][coordinates][0][0])
         #geom: use geo from_shape 
