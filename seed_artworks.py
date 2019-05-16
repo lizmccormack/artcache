@@ -1,10 +1,33 @@
 from sqlalchemy import func 
-from model import Artwork 
+from geoalchemy2.shape import from_shape, to_shape 
+from shapely.geometry import Point, asShape
+from model import Artwork, Neighborhood, connect_to_db, db
 import requests
+from server import app
 
 
 
-def load_oneper(): 
+def map_neighborhood(point): 
+
+    neighborhood_objects = db.session.query(Neighborhood).all()
+
+    dictionary = {}
+    for neighborhood_object in neighborhood_objects: 
+        try:
+            multipolygon = to_shape(neighborhood_object.neighborhood_geom)
+        except AssertionError:
+            print("assertion error")
+        dictionary[neighborhood_object.neighborhood_id] = multipolygon
+
+    for neighborhood_id, multipolygon in dictionary.items(): 
+        if multipolygon.contains(point) == True: 
+            return neighborhood_id
+        else: 
+            return 118
+
+
+
+def load_oneper(map_neighborhood): 
     """Load Public 1% Artwork into database"""
     print("Public 1% Artwork")
 
@@ -12,23 +35,29 @@ def load_oneper():
     one_per = r.json()
 
     for item in one_per: 
-        title= item["title"]
-        artist= item["title"]
-        artist_desc= item["artistlink"]
-        location= POINT(item["the_geom"]["latitude"], item["the_geom"]["longitude"])
-        medium=item["medium"]
-        art_desc=item["name"] + item["location"]
-        hint=item["accessibil"]
+        
+        try: 
+            title = item["title"]
+            artist = item["title"]
+            artist_desc = item["artistlink"]
+            location = from_shape(Point(float(item["the_geom"]["latitude"]), float(item["the_geom"]["longitude"])))
+            neighborhood_id = map_neighborhood(Point(float(item["the_geom"]["latitude"]), float(item["the_geom"]["longitude"])))
+            medium = item["medium"]
+            art_desc = item["name"] + item["location"]
+            hint = item["accessibil"]
+        
+        except KeyError as error: 
+            print("Key Error")
 
-        art = Artwork(title=title,
-                      artist=artist,
-                      artist_desc=artist_link,
-                      location=location,
-                      source='public_oneper',
-                      neighborhood_id=fill,
-                      medium=medium,
-                      art_desc=art_desc,
-                      hint=hint)
+        art = Artwork(title = title,
+                      artist = artist,
+                      artist_desc = artist_desc,
+                      location = location,
+                      source = 'public_oneper',
+                      neighborhood_id = neighborhood_id,
+                      medium = medium,
+                      art_desc = art_desc,
+                      hint = hint)
 
         # add the data objects to the session
         db.session.add(art)
@@ -39,7 +68,7 @@ def load_oneper():
 
 
 
-def load_civic(): 
+def load_civic(map_neighborhood): 
     """Load Civic Artwork into database."""
     print("Civic Artwork")
 
@@ -47,24 +76,28 @@ def load_civic():
     civic = r.json()
 
     for item in civic: 
-        title= item["display_title"]
-        artist= item["artist"]
-        creation_date = item["creation_date"]
-        location= from_shape(POINT(item["point"]["latitude"], item["point"]["longitude"]), srid=4326)
-        #neighborhood_id= 
-        medium=item["medium"]
-        art_desc=item["name"] + item["location"]
-        hint=item["location_description"]
+        try:
+            title = item["display_title"]
+            artist = item["artist"]
+            creation_date = item["creation_date"]
+            location = from_shape(Point(float(item["point"]["latitude"]), float(item["point"]["longitude"])))
+            neighborhood_id = map_neighborhood(Point(float(item["the_geom"]["latitude"]), float(item["the_geom"]["longitude"])))
+            medium = item["medium"]
+            art_desc = item["name"] + item["location"]
+            hint = item["location_description"]
+        
+        except KeyError as error: 
+            print("Key Error")
 
-        art = Artwork(title=title,
-                      artist=artist,
-                      creation_date=creation_date,
-                      location=location,
-                      source='civic',
-                      neighborhood_id=fill,
-                      medium=medium,
-                      art_desc=art_dex,
-                      hint=hint)
+        art = Artwork(title = title,
+                      artist = artist,
+                      creation_date = creation_date,
+                      location = location,
+                      source = 'civic',
+                      neighborhood_id = neighborhood_id,
+                      medium = medium,
+                      art_desc = art_dex,
+                      hint = hint)
 
         # add the data objects to the session
         db.session.add(art)
@@ -73,7 +106,7 @@ def load_civic():
     db.session.commit()
 
 
-def load_graffiti():
+def load_graffiti(map_neighborhood):
     """Load Graffiti into database."""
     print("Graffiti")
 
@@ -81,25 +114,27 @@ def load_graffiti():
     graffiti = r.json()
 
     for item in graffiti:
-        title=item['category'] 
-        creation_date=item['opened']
-        location=item['point']
-        source='graffiti'
-        #neighborhood_id= 
-        art_desc=item["request_details"]
-        hint=item["request_type"]
-        img=item["media_url"]
+        try:
+            title = item['category'] 
+            creation_date = item['opened']
+            location = from_shape(Point(float(item['point']['latitude']),float(item['point']['longitude'])))
+            source = 'graffiti'
+            neighborhood_id = map_neighborhood(Point(float(item["the_geom"]["latitude"]), float(item["the_geom"]["longitude"])))
+            art_desc = item["request_details"]
+            hint = item["request_type"]
+            img = item["media_url"]
+        
+        except KeyError as error:
+            print("Key Error")
 
-
-
-        art = Artwork(title=title,
-                  location=location,
-                  source='graffiti',
-                  neighborhood_id=fill,
-                  medium='graffiti',
-                  art_desc=art_desc,
-                  hint=hint,
-                  img=img)
+        art = Artwork(title = title,
+                      location = location,
+                      source = 'graffiti',
+                      neighborhood_id = neighborhood_id,
+                      medium = 'graffiti',
+                      art_desc = art_desc,
+                      hint = hint,
+                      img = img)
 
         # add the data objects to the session
         db.session.add(art)
@@ -109,27 +144,13 @@ def load_graffiti():
 
 
 
-# def shapeify_neighborhoods(): 
-
-# list_of_multipoly_geoms = db.session.query(Neighborhood.id, Neighborhood.neighborhood_geom).all()
-
-# # make a dictionary or tuples with id and shape related then pass back the id 
-
-# list_of multipolyg_shapify = []
-# for item in list_of_multipoly_geoms: 
-#     item = to_shape(neighborhood_geom)
-#     list_of multipoly_shapify.append(item)
-
-
-# def map_neighborhood(point, multipolygons): 
-#     for multipolygon in multipolygons: 
-#         if multipolygon.contains(point) == True: 
-#           return tuple_polygons[0]
-
-
 if __name__ == "__main__":
     
     connect_to_db(app)
+
+
+    load_oneper(map_neighborhood)
+
 
 
 

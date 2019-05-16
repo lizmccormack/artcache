@@ -1,8 +1,12 @@
 from sqlalchemy import func 
-from model import Neighborhood
-from shapely.geometry import Polygon
+from geoalchemy2.shape import from_shape 
+from model import Neighborhood, connect_to_db, db
+import json
+from shapely.geometry import shape
+import shapely.wkb
+import shapely.wkt
 import requests
-
+from server import app
 
 
 def load_neighborhood():
@@ -15,16 +19,13 @@ def load_neighborhood():
 
     for item in neighborhoods:
         name = item["name"]
-        geojson = str(item["the_geom"])
-        geom = from_shape(POLYGON(item["the_geom"]["coordinates"][0][0], srid=4326)
+        geojson = str(item["the_geom"]).replace("'", '"')
+        geom = from_shape(shape(json.loads(geojson)))
 
-        #shapley: POLYGON(item['the_geom'][coordinates][0][0])
-        #geom: use geo from_shape 
-
-        #instanciate a neighboorhood and add coverted geom to column neighborhood_geom (in below)
-
+        # json.loads() loads a geojson string into a python object 
+        # shape turns it into a shapely feature 
+        # from shape turns it into a geom 
         neighborhood = Neighborhood(name=name,
-                                    neighborhood_geojson=geojson,
                                     neighborhood_geom=geom)
 
         # add the data objects to the session
@@ -37,3 +38,11 @@ def load_neighborhood():
 if __name__ == "__main__":
     
     connect_to_db(app)
+
+    #db.create_all()
+
+    load_neighborhood()
+
+    neighborhood = Neighborhood(name='outside_sf')
+    db.session.add(neighborhood)
+    db.session.commit()
