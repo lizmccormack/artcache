@@ -4,47 +4,46 @@ from server import app
 
 from sqlalchemy import func 
 from geoalchemy2.shape import from_shape, to_shape 
-from shapely.geometry import Point
+from shapely.geometry import Point, asShape
 
 
 
 
-def load_oneper(): 
-    """Load Public 1% Artwork into database"""
-    print("Public 1% Artwork")
+def load_civic(): 
+    """Load Civic data."""
+    print("Civic Artwork")
 
-    r = requests.get("https://data.sfgov.org/resource/cf6e-9e4j.json")
-    one_per = r.json()
+    r = requests.get("https://data.sfgov.org/resource/7rjr-9n9w.json")
+    civic = r.json()
+    
 
-    for item in one_per: 
-        
-        try: 
-            art_title = item["title"].split(" by ")
-            title = art_title[0]                       #to do: remove the '\' on either side of title
-            artist = art_title[1]
-            artist_desc = item["artistlink"]
-            location = from_shape(Point(float(item["the_geom"]["latitude"]), float(item["the_geom"]["longitude"])))
-            latitude=item["the_geom"]["latitude"]
-            longitude=item["the_geom"]["longitude"]
+    for item in civic: 
+
+        try:
+            title = item["display_title"]
+            artist = item["artist"]
+            creation_date = item["creation_date"]
+            location = from_shape(Point(float(item["point"]["latitude"]), float(item["point"]["longitude"])))
+            latitude = item["latitude"]
+            longitude = item["longitude"]
             medium = item["medium"]
-            art_desc = item["name"] + item["location"]
-            hint = item["accessibil"]
+            art_desc = item["facility"] + item["current_location"]
+            hint = item["location_description"]
         
         except KeyError as error: 
             print("Key Error")
-        except IndexError as error:
-            print("IndexError")
 
         art = Artwork(title = title,
                       artist = artist,
-                      artist_desc = artist_desc,
+                      creation_date = creation_date,
                       location = location,
                       latitude = latitude,
                       longitude = longitude,
-                      source = 'public_oneper', 
+                      source = 'civic',
                       medium = medium,
                       art_desc = art_desc,
                       hint = hint)
+
 
         # add the data objects to the session
         db.session.add(art)
@@ -53,8 +52,8 @@ def load_oneper():
     db.session.commit()
 
 
-
 ################################################################################
+
 
 def set_val_art_id():
     """Set value for the next art_id"""
@@ -73,10 +72,5 @@ if __name__ == "__main__":
     
     connect_to_db(app)
 
-    load_oneper()
+    load_civic()
     set_val_art_id()
-
-
-
-
-

@@ -1,0 +1,20 @@
+{% extends 'base.html'%}
+
+{% block title %}Add Art{% endblock%}
+
+{% block content %}
+
+<h1>Add Art Site</h1>
+<form action="/add_art" method="POST"> 
+  Title:<input type="text", name="title"></input><br>  
+  Artist:<input type="text", name="artist"></input><br>
+  Artist Description: <input type="text", name="artist_desc"></input><br>
+  Street Adress:<input type="text", name="street"></input><br>
+  Medium:<input type="text", name="medium"></input><br>
+  Art Descrition:<input type="text" name="art_desc"></input><br>
+  Hint:<input type="text" name="hint"></input><br>
+  <input type="submit" value="add art">
+</form>
+
+
+{% endblock %}

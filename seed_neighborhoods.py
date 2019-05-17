@@ -1,3 +1,7 @@
+import requests
+import json
+from server import app
+
 from sqlalchemy import func 
 from geoalchemy2.shape import from_shape 
 from model import Neighborhood, connect_to_db, db
@@ -5,8 +9,7 @@ import json
 from shapely.geometry import shape
 import shapely.wkb
 import shapely.wkt
-import requests
-from server import app
+
 
 
 def load_neighborhood():

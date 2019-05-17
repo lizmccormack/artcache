@@ -1,9 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
 from geoalchemy2 import Geometry        # imports geoalchemy2 for geoJSON fields 
+from geoalchemy2.shape import from_shape, to_shape 
 
 # connection to the postgresql database through Flask-SQLAlchemy 
 db = SQLAlchemy()
 
+
+################################################################################
+# Model definitions 
 
 class Artwork(db.Model):
     """Artwork model."""
@@ -11,20 +15,19 @@ class Artwork(db.Model):
     __tablename__ = 'artworks' 
     
     art_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(100))
-    artist = db.Column(db.String(100))                                    
+    title = db.Column(db.String(255))
+    artist = db.Column(db.String(255))                                    
     artist_desc = db.Column(db.String(150))
     creation_date = db.Column(db.String(100))
-    location = db.Column(Geometry('POINT'), nullable=False)                 # creates spatial column to store lat/lng as a point 
-    source = db.Column(db.String(100), nullable=False)                      
-    #neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'), nullable=False)
+    location = db.Column(Geometry('POINT'))                
+    latitude =db.Column(db.String(50))
+    longitude = db.Column(db.String(50))
+    source = db.Column(db.String(255), nullable=False)                      
     medium = db.Column(db.String(250))
     art_desc = db.Column(db.String(200))
     hint = db.Column(db.String(250), nullable=False)
-    img = db.Column(db.String(100)) 
+    img = db.Column(db.String(255)) 
 
-    # relationship 
-    #neighborhood = db.relationship('Neighborhood', backref='artworks')
 
     def __repr__(self):
         """Create a readable data object for artworks objects."""
@@ -92,7 +95,7 @@ class Neighborhood(db.Model):
 
     neighborhood_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    neighborhood_geom = db.Column(Geometry('MULTIPOLYGON'))       # creates spatial column to store coordinate boundaries
+    neighborhood_geom = db.Column(Geometry('MULTIPOLYGON'))       
 
 
     def __repr__(self):
@@ -100,13 +103,18 @@ class Neighborhood(db.Model):
         return f'<Neighborhood neighborhood_id:{self.neighborhood_id} name:{self.name}>'
 
 
+
+
+
+################################################################################
+# Helper functions 
+
 def connect_to_db(app):
     """Connect the database to flask app"""
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///artcache'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
-
 
 
 if __name__ == "__main__": 
