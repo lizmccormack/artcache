@@ -17,14 +17,14 @@ class Artwork(db.Model):
     creation_date = db.Column(db.String(100))
     location = db.Column(Geometry('POINT'), nullable=False)                 # creates spatial column to store lat/lng as a point 
     source = db.Column(db.String(100), nullable=False)                      
-    neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'), nullable=False)
+    #neighborhood_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.neighborhood_id'), nullable=False)
     medium = db.Column(db.String(250))
     art_desc = db.Column(db.String(200))
     hint = db.Column(db.String(250), nullable=False)
     img = db.Column(db.String(100)) 
 
-    # relationship syntatic sugar 
-    neighborhood = db.relationship('Neighborhood', backref='artworks')
+    # relationship 
+    #neighborhood = db.relationship('Neighborhood', backref='artworks')
 
     def __repr__(self):
         """Create a readable data object for artworks objects."""
@@ -54,7 +54,7 @@ class Add(db.Model):
     art_id = db.Column(db.Integer, db.ForeignKey('artworks.art_id'), primary_key=True)
     date_time_added = db.Column(db.DateTime, nullable=False)
 
-    # relationship syntactic sugar 
+    # relationship 
     user = db.relationship('User', backref='adds')
     artwork = db.relationship('Artwork', backref='adds')
 
@@ -74,7 +74,7 @@ class Log(db.Model):
     comment = db.Column(db.String(150))
     img = db.Column(db.String(50), nullable=False)                          
 
-    # relationship syntactic sugar 
+    # relationship 
     user = db.relationship('User', backref='logs')
     artwork = db.relationship('Artwork', backref='logs')
 

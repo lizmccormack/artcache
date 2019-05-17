@@ -1,3 +1,4 @@
 env/
 __pycache__/
 notes.txt
+seed_artworks_w_neigh_id.py

@@ -13,18 +13,16 @@ def load_neighborhood():
     """Load neighborhood data into database."""
     print("SF Neighborhoods")
 
+    # requests data from SFData 
     r = requests.get("https://data.sfgov.org/resource/6ia5-2f8k.json")
     neighborhoods = r.json()
     
 
     for item in neighborhoods:
+        
         name = item["name"]
         geojson = str(item["the_geom"]).replace("'", '"')
-        geom = from_shape(shape(json.loads(geojson)))
-
-        # json.loads() loads a geojson string into a python object 
-        # shape turns it into a shapely feature 
-        # from shape turns it into a geom 
+        geom = from_shape(shape(json.loads(geojson)))     # json.loads() loads a geojson string into a python object, shape turns it into a shapely feature, from shape turns it into a geom 
         neighborhood = Neighborhood(name=name,
                                     neighborhood_geom=geom)
 
@@ -35,14 +33,10 @@ def load_neighborhood():
     db.session.commit()
 
 
+
+
 if __name__ == "__main__":
     
     connect_to_db(app)
 
-    #db.create_all()
-
     load_neighborhood()
-
-    neighborhood = Neighborhood(name='outside_sf')
-    db.session.add(neighborhood)
-    db.session.commit()

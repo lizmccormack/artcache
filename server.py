@@ -23,7 +23,7 @@ def homepage():
 @app.route('/art/{id}')
 def art_info():
     """Show Art Information"""
-    pass 
+    return render_template("art_info.html")
 
 @app.route('/art/{id}', methods=['POST'])
 def add_art():
@@ -32,7 +32,15 @@ def add_art():
 
 def login():
     """User login."""
-    pass
+    return render_template("login.html")
+
+
+
+
+
+
+
+
 
 
 
