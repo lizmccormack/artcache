@@ -11,18 +11,17 @@ from shapely.geometry import Point
 from model import Artwork, User, Add, Log, Neighborhood, connect_to_db, db
 import json
 import googlemaps
-import os
 
-gmaps = googlemaps.Client(key=os.GOOGLE_MAPS_KEY)
+#gmaps = googlemaps.Client(key=GOOGLE_MAPS_KEY)
 app = Flask(__name__)
 
 # requires a secret key to use Flask session and debug toolbar 
 app.secret_key ='12345'
 
-
 # makes sure jinja fails loudly with an error 
 app.jinja_env.undefined = StrictUndefined
 
+################################################################################
 
 @app.route('/')
 def get_homepage():
@@ -30,26 +29,14 @@ def get_homepage():
 
     artworks = db.session.query(Artwork).all()
 
-    
-    # art_geojson = 
-    #     { "type" : "Feature Collection",
-    #         {"features" : [{
-    #             "type": "Feature",
-    #             "geometry": {
-    #                 "type": "Point",
-    #                 "coordinates": [artwork.latitude, artwork.longitude]
-    #             },
-    #             "properties": {
-    #             "name": artwork.title
-    #     }
-    # }
-
     return render_template("homepage.html")
+
 
 @app.route('/add_art', methods=['GET'])
 def add_art_form():
     """Shows form for adding art"""
     return render_template('add_art.html')
+
 
 @app.route('/add_art', methods=['POST'])
 def add_art():
@@ -83,8 +70,6 @@ def add_art():
     db.session.commit()
 
     return redirect('/')
-
-
 
 
 @app.route('/art/{id}')

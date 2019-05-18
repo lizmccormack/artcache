@@ -3,7 +3,7 @@ from model import Artwork, Neighborhood, connect_to_db, db
 from server import app
 
 from sqlalchemy import func 
-from geoalchemy2.shape import from_shape, to_shape 
+from geoalchemy2.shape import from_shape
 from shapely.geometry import Point
 
 

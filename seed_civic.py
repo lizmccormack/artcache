@@ -3,8 +3,8 @@ from model import Artwork, Neighborhood, connect_to_db, db
 from server import app
 
 from sqlalchemy import func 
-from geoalchemy2.shape import from_shape, to_shape 
-from shapely.geometry import Point, asShape
+from geoalchemy2.shape import from_shape
+from shapely.geometry import Point
 
 
 
@@ -23,27 +23,26 @@ def load_civic():
             title = item["display_title"]
             artist = item["artist"]
             creation_date = item["creation_date"]
-            location = from_shape(Point(float(item["point"]["latitude"]), float(item["point"]["longitude"])))
-            latitude = item["latitude"]
-            longitude = item["longitude"]
+            #location = from_shape(Point(float(item["point"].get("latitude",0)), float(item["point"].get("longitude",0)))),
+            latitude = item.get("latitude", 0)
+            longitude = item.get("longitude",0)
             medium = item["medium"]
             art_desc = item["facility"] + item["current_location"]
             hint = item["location_description"]
-        
+            
         except KeyError as error: 
             print("Key Error")
 
         art = Artwork(title = title,
                       artist = artist,
                       creation_date = creation_date,
-                      location = location,
+                      #location = from_shape(Point(float(item["point"].get("latitude",0)), float(item["point"].get("longitude",0)))),
                       latitude = latitude,
                       longitude = longitude,
                       source = 'civic',
                       medium = medium,
                       art_desc = art_desc,
                       hint = hint)
-
 
         # add the data objects to the session
         db.session.add(art)
