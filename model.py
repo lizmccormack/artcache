@@ -104,9 +104,6 @@ class Neighborhood(db.Model):
         return f'<Neighborhood neighborhood_id:{self.neighborhood_id} name:{self.name}>'
 
 
-
-
-
 ################################################################################
 # Helper functions 
 

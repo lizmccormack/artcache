@@ -38,7 +38,7 @@ app.jinja_env.undefined = StrictUndefined
 def get_homepage():
     """Homepage route."""
 
-    artworks = db.session.query(Artwork).all()
+    #artworks = db.session.query(Artwork).all()
 
     return render_template("homepage.html")
 
@@ -121,9 +121,11 @@ def login_user():
 
 
 ################################################################################
+# Helper Functions 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 if __name__ == "__main__":
     # needs to be true for the debug toolbar 
