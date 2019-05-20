@@ -5,7 +5,7 @@
 {% block content %}
 
 <h1>Add Art Site</h1>
-<form action="/add_art" method="POST"> 
+<form action="/add_art" enctype="multipart/form-data" method="POST"> 
   Title:<input type="text", name="title"></input><br>  
   Artist:<input type="text", name="artist"></input><br>
   Artist Description: <input type="text", name="artist_desc"></input><br>
@@ -13,6 +13,7 @@
   Medium:<input type="text", name="medium"></input><br>
   Art Descrition:<input type="text" name="art_desc"></input><br>
   Hint:<input type="text" name="hint"></input><br>
+  Image:<input type="file" name="image"></input><br>
   <input type="submit" value="add art">
 </form>
 

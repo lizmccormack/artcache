@@ -53,7 +53,6 @@ def load_civic():
 
 ################################################################################
 
-
 def set_val_art_id():
     """Set value for the next art_id"""
 

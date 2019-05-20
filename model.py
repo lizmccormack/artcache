@@ -26,7 +26,8 @@ class Artwork(db.Model):
     medium = db.Column(db.String(250))
     art_desc = db.Column(db.String(200))
     hint = db.Column(db.String(250), nullable=False)
-    img = db.Column(db.String(255)) 
+    img_filename = db.Column(db.String(255)) 
+    img_url = db.Column(db.String(255))
 
 
     def __repr__(self):

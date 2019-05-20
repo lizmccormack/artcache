@@ -1,6 +1,8 @@
 from jinja2 import StrictUndefined
-from flask import (Flask, render_template, redirect, request, session) 
+from flask import (Flask, render_template, redirect, request, session, url_for, flash) 
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_uploads import UploadSet, IMAGES, configure_uploads
+from werkzeug.utils import secure_filename
 
 from sqlalchemy import func 
 from geoalchemy2 import Geometry
@@ -9,17 +11,26 @@ from geoalchemy2.shape import from_shape, to_shape
 from shapely.geometry import Point
 
 from model import Artwork, User, Add, Log, Neighborhood, connect_to_db, db
+import os
 import json
 import googlemaps
 
-#gmaps = googlemaps.Client(key=GOOGLE_MAPS_KEY)
+# flask-upload 
+UPLOAD_FOLDER = 'static/image_uploads'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+# implement API key from secrets file 
+gmaps = googlemaps.Client(os.environ['GOOGLE_MAPS'])
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # requires a secret key to use Flask session and debug toolbar 
 app.secret_key ='12345'
 
 # makes sure jinja fails loudly with an error 
 app.jinja_env.undefined = StrictUndefined
+
 
 ################################################################################
 
@@ -50,10 +61,20 @@ def add_art():
     art_desc = request.form['medium']
     hint = request.form['hint']
     
-    location = street_address + ',' + 'San Francisco' + 'CA'
+    # geocoding
+    location = street_address + ',' + 'San Francisco' + 'CA' + 'USA'
     geocode_result = gmaps.geocode(location)
     latitude = geocode_result[0]['geometry']['location']['lat']
     longitude = geocode_result[0]['geometry']['location']['lng']
+
+    # image upload 
+    file = request.files['image']
+    if file.filename == '':
+        flash('No file selected for uploading')
+        return redirect('/add_art')
+    elif file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     art = Artwork(title = title,
                   artist = artist,
@@ -64,7 +85,10 @@ def add_art():
                   source='user',
                   medium = medium,
                   art_desc = art_desc,
-                  hint = hint)
+                  hint = hint,
+                  img_filename=filename,
+                  img_url=os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
 
     db.session.add(art)
     db.session.commit()
@@ -97,6 +121,9 @@ def login_user():
 
 
 ################################################################################
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 if __name__ == "__main__":
     # needs to be true for the debug toolbar 
