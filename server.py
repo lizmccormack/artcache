@@ -15,7 +15,8 @@ import os
 import json
 import googlemaps
 
-# flask-upload 
+
+# flask-upload constants  
 UPLOAD_FOLDER = 'static/image_uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -24,6 +25,9 @@ gmaps = googlemaps.Client(os.environ['GOOGLE_MAPS'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 # requires a secret key to use Flask session and debug toolbar 
 app.secret_key ='12345'
@@ -110,14 +114,6 @@ def register_user():
 def login_user():
     """User login."""
     return render_template("login.html")
-
-
-
-
-
-
-
-
 
 
 ################################################################################
