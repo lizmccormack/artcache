@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from geoalchemy2 import Geometry        # imports geoalchemy2 for geoJSON fields 
 from geoalchemy2.shape import from_shape, to_shape 
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # connection to the postgresql database through Flask-SQLAlchemy 
 db = SQLAlchemy()
@@ -42,7 +43,24 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(50), nullable=False)     
     username = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+
+    # # flash-login methods 
+    def is_active(self):
+        """Returns True, all users are active."""
+        return True 
+
+    def is_authenticated(self):
+        """Returns True if the user is authenticated."""
+        return self.authenticated
+   
+    def get_id(self): 
+        """Identifies the user."""
+        return self.email
+
+    def check_password(self, password):
+        """Check if the argument password matches user password."""
+        return check_password_hash(self.password, password)
 
     def __repr__(self):
         """Create a readable data object for users objects."""
