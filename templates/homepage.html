@@ -1,20 +1,188 @@
 <!DOCTYPE html>
 <html>
 <head>
- 
+  <meta charset='utf-8' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet'/>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <style>
+    body { 
+      margin:0; 
+      padding:0; 
+    }
+
+    .navbar-offset {
+      top: 0;
+    }
+
+    #map { 
+      position:absolute; 
+      top:50px;
+      bottom:0; 
+      width:100%; 
+    }
+
+    .marker {
+      background-image: url('mapbox-icon.png');
+      background-size: cover;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+      max-width: 200px;
+    }
+
+   .mapboxgl-popup-content {
+     text-align: center;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+</style>
 </head>    
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-offset">
+    <a class="navbar-brand" href="">Artcache</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Map<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/add_art">Add Art</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   
   <h1>Map</h1>
   <div id='map'></div>
 
 
 <script>
+  //mapboxgl.accessToken = 
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [-122.4194, 37.7749],
+    zoom: 11
+    });
+
+  map.on('load', function () {
+
+    map.addSource('artworks', {
+      type: 'geojson',
+      data: '/artworks.geojson'
+    });
+    
+    map.addLayer({
+      id: 'art-heat',
+      type: 'heatmap',
+      source: 'artworks',
+      maxzoom: 15,
+      paint: {
+        'heatmap-intensity': {
+          stops: [
+          [11, 1],
+          [15, 3]
+        ]
+      },
+      'heatmap-color': [
+      'interpolate',
+        ['linear'],
+        ['heatmap-density'],
+          0, 'rgba(236,222,239,0)',
+          0.2, 'rgb(208,209,230)',
+          0.4, 'rgb(166,189,219)',
+          0.6, 'rgb(103,169,207)',
+          0.8, 'rgb(28,144,153)'
+        ],
+      'heatmap-radius': {
+          stops: [
+          [11, 15],
+          [15, 20]
+        ]
+      },
+      'heatmap-opacity': {
+        default: 1,
+        stops: [
+          [14, 1],
+          [15, 0]
+          ]
+          },
+        }
+      }, 'waterway-label');
+
+    map.addLayer({
+      id: 'art-point',
+      type: 'circle',
+      source: 'artworks',
+      minzoom: 14,
+      paint: {
+        'circle-radius': {
+          property: 'source',
+          type: 'exponential',
+          stops: [
+            [{ zoom: 15, value: 1 }, 5],
+            [{ zoom: 15, value: 62 }, 10],
+            [{ zoom: 22, value: 1 }, 20],
+            [{ zoom: 22, value: 62 }, 50],
+          ]
+        },
+          'circle-color': {
+            property: 'source',
+            type: 'exponential',
+            stops: [
+              [0, 'rgba(236,222,239,0)'],
+              [10, 'rgb(236,222,239)'],
+              [20, 'rgb(208,209,230)'],
+              [30, 'rgb(166,189,219)'],
+              [40, 'rgb(103,169,207)'],
+              [50, 'rgb(28,144,153)'],
+              [60, 'rgb(1,108,89)']
+            ]
+          },
+          'circle-stroke-color': 'white',
+          'circle-stroke-width': 1,
+          'circle-opacity': {
+            stops: [
+              [14, 0],
+              [15, 1]
+            ]
+          }
+        }
+        }, 'waterway-label');
+
+  });
+
+  // map.on('click', 'art-point', function (evt) {
+
+  //   new mapboxgl.Popup()
+  //     .setLngLat(evt.features[0].geometry.coordinates)
+  //     .setHTML('<b>Source:</b>' + evt.features[0].properties.source)
+
+  // });
+
   
 </script>
-
-
 </body>
 
   <footer>Public Art</footer>

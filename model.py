@@ -62,6 +62,16 @@ class User(db.Model):
         """Check if the argument password matches user password."""
         return check_password_hash(self.password, password)
 
+    def validate_email(self, email): 
+        user = User.query.filter_by(email=email).first()
+        if user is not None: 
+            raise ValidationError('Please use a different email address')
+
+    def validate_username(self, username):
+        user = User.quer.filter_by(username=username).first()
+        if user is not None:
+            raise ValidationError('Please use a differnt username')
+
     def __repr__(self):
         """Create a readable data object for users objects."""
         return f'<User user_id:{self.user_id} email: {self.email}>'

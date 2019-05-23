@@ -2,7 +2,7 @@ from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, session, url_for, flash) 
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_uploads import UploadSet, IMAGES, configure_uploads
-from flask_login import LoginManager, login_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -17,6 +17,7 @@ import os
 import json
 import googlemaps
 from datetime import datetime
+from flask import jsonify
 
 
 # flask-upload constants  
@@ -29,8 +30,9 @@ gmaps = googlemaps.Client(os.environ['GOOGLE_MAPS'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-login_manager = LoginManager()
+login_manager = LoginManager() #creates
 login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 # requires a secret key to use Flask session and debug toolbar 
 app.secret_key ='12345'
@@ -45,22 +47,38 @@ def load_user(email):
     return User.query.filter_by(email = email).first()
 
 
-################################################################################
-
 @app.route('/')
 def get_homepage():
     """Homepage route."""
 
-    #artworks = db.session.query(Artwork).all()
-
     return render_template("homepage.html")
 
 
-@app.route('/art/{id}')
-def get_art_info():
-    """Show Art Information"""
-    
-    return render_template("art_info.html")
+@app.route('/profile')
+@login_required
+def get_profile():
+    """Profile Page."""
+
+    return render_template("profile.html", name=current_user.username, id=current_user.user_id)
+
+
+@app.route('/artworks.geojson')
+def get_artworks_json():
+    """Return JSON object of all artworks in the database."""
+
+    artworks = db.session.query(Artwork).all()
+
+    body_list = []
+    for artwork in artworks: 
+        artwork_geojson = {"type":"Feature","properties":{"source":artwork.source},"geometry":{"type":"Point","coordinates":[artwork.longitude,artwork.latitude]}}
+        body_list.append(artwork_geojson)
+
+    geojson_result ={
+        "type":"FeatureCollection",
+        "features": body_list
+        }
+
+    return jsonify(geojson_result)
 
 
 @app.route('/add_art', methods=['GET', 'POST'])
@@ -162,11 +180,6 @@ def register_user_process():
     # if method is get, show register form 
     return render_template('register.html')
 
-# test cases 
-# - user already registered, goes to login route w/ flash message saying already registered 
-# - user registers for the first time, goes to login route w/ flash message saying thanks for registering 
-
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -179,29 +192,27 @@ def login():
 
         user = db.session.query(User).filter_by(email = email).first()
 
-        if user.check_password(password):
-            user.is_authenticated = True 
-            login_user(user)
+        if not user or not user.check_password(password):
+            
+            flash('Please check your login deails!')
+            return redirect('/login')
 
-            return redirect('/')
-
-        flash('username/password not found')
-        return redirect('/register')
+        user.is_authenticated = True 
+        login_user(user)
+        return redirect('/')
 
     return render_template("login.html")
 
-# test cases 
-# - user in userdb, login and go to homepage 
-# - user not in db because go back to login 
+
+@app.route('/logout')
+def logout():
+    """User logout."""
+
+    logout_user()
+    return redirect('/')
 
 
-
-
-
-
-################################################################################
 # Helper Functions 
-
 
 def allowed_file(filename):
     """Check for allowed filetypes in image upload."""
