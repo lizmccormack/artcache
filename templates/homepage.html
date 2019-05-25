@@ -1,52 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+  
   <meta charset='utf-8' />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet'/>
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <style>
-    body { 
-      margin:0; 
-      padding:0; 
-    }
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/
+  js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/static/styles.css"/>
 
-    .navbar-offset {
-      top: 0;
-    }
-
-    #map { 
-      position:absolute; 
-      top:50px;
-      bottom:0; 
-      width:100%; 
-    }
-
-    .marker {
-      background-image: url('mapbox-icon.png');
-      background-size: cover;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .mapboxgl-popup {
-      max-width: 200px;
-    }
-
-   .mapboxgl-popup-content {
-     text-align: center;
-      font-family: 'Open Sans', sans-serif;
-    }
-
-</style>
 </head>    
 
 <body>
+
   <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-offset">
     <a class="navbar-brand" href="">Artcache</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +26,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Map<span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/">Heat Map<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Find<span class="sr-only">(current)</span></a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
@@ -64,7 +37,7 @@
           <a class="nav-link" href="/add_art">Add Art</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" id="login-click" href="/login">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/logout">Logout</a>
@@ -81,22 +54,25 @@
 
 
 <script>
+  "use-strict"
+
   mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40NHFkZGpzdTZ2amwifQ.vkULiOOFr4KqS7o2_enuyA'
 
   var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v10',
+    style: 'mapbox://styles/mapbox/light-v10',
     center: [-122.4194, 37.7749],
     zoom: 11
     });
 
   map.on('load', function () {
-
+    // add a geojson point source for artworks 
     map.addSource('artworks', {
       type: 'geojson',
       data: '/artworks.geojson'
     });
     
+    // add layer for heat map 
     map.addLayer({
       id: 'art-heat',
       type: 'heatmap',
@@ -113,11 +89,11 @@
       'interpolate',
         ['linear'],
         ['heatmap-density'],
-          0, 'rgba(236,222,239,0)',
-          0.2, 'rgb(208,209,230)',
-          0.4, 'rgb(166,189,219)',
-          0.6, 'rgb(103,169,207)',
-          0.8, 'rgb(28,144,153)'
+          0, "rgba(33,102,172,0)",
+          0.2, "rgb(103,169,207)",
+          0.4, "rgb(209,229,240)",
+          0.6, "rgb(253,219,199)",
+          0.8, "rgb(239,138,98)"
         ],
       'heatmap-radius': {
           stops: [
@@ -177,13 +153,36 @@
 
   });
 
-  map.on('click', 'art-point', function (evt) {
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+   });
 
-    new mapboxgl.Popup()
-      .setLngLat(evt.features[0].geometry.coordinates)
-      .setHTML('<b>Source:</b>' + evt.features[0].properties.source)
+  map.on('mouseenter', 'art-point', function (evt) {
+
+    map.getCanvas().style.cursor = 'pointer';
+
+    var coordinates = evt.features[0].geometry.coordinates;
+    var source = evt.features[0].properties.source;
+
+    // while (Math.abs(evt.lnglat.lng - coordinates[0]) > 180) {
+    //   coordinates[0] += evt.lngLat.lng > coordinates[0] ? 360 : -360;
+    // }
+
+    popup.setLngLat(coordinates)
+      .setHTML(source)
+      .addTo(map);
 
   });
+
+  map.addControl(new mapboxgl.NavigationControl());
+
+  //psudo code 
+  // when the user clicks find in the nav boar 
+  //div map with change to a map with just circles that are different colors depending on the source 
+
+  
+</script>
 
   
 </script>
