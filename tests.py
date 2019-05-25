@@ -1,9 +1,10 @@
-from unittest import TestCase
+import unittest
 from server import app 
 import googlemaps
 import os
 
-class RouteTests(TestCase):
+
+class TestFlaskRoutesNoLogIn(unittest.TestCase):
 
     def setUp(self):
         """Set up elements before every test."""
@@ -12,40 +13,53 @@ class RouteTests(TestCase):
 
 
     def test_homepage(self):
-        """non-database test for home route"""
+        """non-database test for home route."""
         results = self.Client.get("/")
         self.assertEqual(results.status_code, 200)
         self.assertIn(b'<h1>Map</h1>', results.data)
 
 
+    def test_register(self):
+        """non-database test for register route."""
+        results = self.Client.get("/register")
+        self.assertEqual(results.status_code, 200)
+        self.assertIn(b'<h1>Register!</h1>', results.data)
+
+
+    def test_login(self):
+        """non-database test for register route."""
+        results = self.Client.get("/login")
+        self.assertEqual(results.status_code, 200)
+        self.assertIn(b'<h1>Login</h1>', results.data)
+
+
+class TestFlaskRouteLogIn(unittest.TestCase):
+
+    def setUp(self):
+
+        app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        self.client = app.test_client()
+
+        with self.client as c: 
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
+
     def test_add_art(self):
-        """non-database test for add_art route"""
-        results = self.Client.get("/add_art")
+        """non-database test for add_art route."""
+        results = self.client.get("/add_art")
         self.assertEqual(results.status_code, 200)
         self.assertIn(b'<h1>Add Art Site</h1>', results.data)
 
 
-    def test_register(self):
-        pass
-
-
-    def test_login(self):
-        pass
-
-
-    def test_post_add_art(self):
-        results = self.Client.post('/add_art',
-                                   data={
-                                   "title": "test title",
-                                   "artist": "test artist", 
-                                   "artist_desc": "test artist description", 
-                                   "street_address": "683 Sutter Street", 
-                                   "source": "test",
-                                   "medium": "paint", 
-                                   "art_desc": "test art description", 
-                                   "hint":"test hint"})
-
+    def test_profile(self):
+        """non-database test for profile route."""
+        results = self.client.get('/profile')
         self.assertEqual(results.status_code, 200)
+
+
+  
 
 # test cases 
 # - user already registered, goes to login route w/ flash message saying already registered 
@@ -55,19 +69,8 @@ class RouteTests(TestCase):
 # - user in userdb, login and go to homepage 
 # - user not in db because go back to login 
 
-# class DatabaseTests(TestCase): 
-
-#     def setUp(self):
-#         """Set up elements before every test."""
-#         self.Client = app.test_client()
-#         app.config['TESTING'] = True
 
 
-#         connect_to_db(app, "postgresql:///testdb")
-
-#         db.create_all()
-
-#         example_data()
-
-
-
+if __name__ == '__main__':
+    # runs tests if called like a script 
+    unittest.main()

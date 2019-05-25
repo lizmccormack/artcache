@@ -59,7 +59,14 @@ def get_homepage():
 def get_profile():
     """Profile Page."""
 
-    return render_template("profile.html", name=current_user.username, id=current_user.user_id)
+    # user_adds = db.session.query(Add).filter_by(Add.user_id = current_user.user_id)
+    # user_logs = db.session.query(Log).filter_by(Log.user_id = current_user.user_id)
+
+    return render_template("profile.html", 
+                           name=current_user.username, 
+                           id=current_user.user_id)
+                           # user_adds=user_adds,
+                           # user_logs=user_logs)
 
 
 @app.route('/artworks.geojson')
@@ -102,6 +109,7 @@ def add_art():
         geocode_result = gmaps.geocode(location)
         latitude = geocode_result[0]['geometry']['location']['lat']
         longitude = geocode_result[0]['geometry']['location']['lng']
+        #neighborhood = geocode_result[0]['address_components'][1]['long_name']
 
         # image upload 
         file = request.files['image']
@@ -132,16 +140,33 @@ def add_art():
 
 
         # add to the add table 
-        add_art = Add(user_id=current_user.user_id, 
-                      art_id=art.art_id, 
-                      date_time_added=datetime.now())
+        add = Add(user_id=current_user.user_id, 
+                  art_id=art.art_id)
 
-        db.session.add(art_add)
+        db.session.add(add)
         db.session.commit()
 
         return redirect('/')
 
     return render_template('add_art.html')
+
+
+@app.route('/art/<art_id>', methods=['GET', 'POST'])
+@login_required
+def log_art(art_id):
+    """Log art found by user."""
+
+    
+
+    user_id = current_user.user_id
+    art_id = art_id
+    comment = request.forms["comment"]
+
+    file = request.files['image']
+    if file.filname == '': 
+        flash('No file selected for uploading')
+        return redirect('/art/<art_id>')
+
 
 
 

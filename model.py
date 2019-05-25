@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from geoalchemy2 import Geometry        # imports geoalchemy2 for geoJSON fields 
 from geoalchemy2.shape import from_shape, to_shape 
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 # connection to the postgresql database through Flask-SQLAlchemy 
 db = SQLAlchemy()
@@ -23,6 +24,7 @@ class Artwork(db.Model):
     location = db.Column(Geometry('POINT'))                
     latitude =db.Column(db.String(50))
     longitude = db.Column(db.String(50))
+    #neighborhood = db.Column(db.String(50))
     source = db.Column(db.String(255), nullable=False)                      
     medium = db.Column(db.String(250))
     art_desc = db.Column(db.String(200))
@@ -63,11 +65,15 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
     def validate_email(self, email): 
+        """Check if email is in users table."""
+        
         user = User.query.filter_by(email=email).first()
         if user is not None: 
             raise ValidationError('Please use a different email address')
 
     def validate_username(self, username):
+        """Check if username is in users table."""
+
         user = User.quer.filter_by(username=username).first()
         if user is not None:
             raise ValidationError('Please use a differnt username')
@@ -84,7 +90,7 @@ class Add(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
     art_id = db.Column(db.Integer, db.ForeignKey('artworks.art_id'), primary_key=True)
-    date_time_added = db.Column(db.DateTime, nullable=False)
+    date_time_added = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # relationship 
     user = db.relationship('User', backref='adds')
@@ -102,7 +108,7 @@ class Log(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
     art_id = db.Column(db.Integer, db.ForeignKey('artworks.art_id'), primary_key=True)
-    date_time_logged = db.Column(db.DateTime, nullable=False)
+    date_time_logged = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     comment = db.Column(db.String(150))
     img = db.Column(db.String(50), nullable=False)                          
 

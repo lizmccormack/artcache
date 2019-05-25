@@ -67,6 +67,9 @@
           <a class="nav-link" href="/login">Login</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/register">Register</a>
         </li>
       </ul>
@@ -78,7 +81,8 @@
 
 
 <script>
-  //mapboxgl.accessToken = 
+  mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40NHFkZGpzdTZ2amwifQ.vkULiOOFr4KqS7o2_enuyA'
+
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
@@ -173,13 +177,13 @@
 
   });
 
-  // map.on('click', 'art-point', function (evt) {
+  map.on('click', 'art-point', function (evt) {
 
-  //   new mapboxgl.Popup()
-  //     .setLngLat(evt.features[0].geometry.coordinates)
-  //     .setHTML('<b>Source:</b>' + evt.features[0].properties.source)
+    new mapboxgl.Popup()
+      .setLngLat(evt.features[0].geometry.coordinates)
+      .setHTML('<b>Source:</b>' + evt.features[0].properties.source)
 
-  // });
+  });
 
   
 </script>
