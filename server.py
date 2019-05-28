@@ -29,6 +29,7 @@ gmaps = googlemaps.Client(os.environ['GOOGLE_MAPS'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+db.init_app(app)
 
 login_manager = LoginManager() #creates
 login_manager.init_app(app)

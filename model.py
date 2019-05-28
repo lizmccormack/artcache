@@ -138,6 +138,38 @@ class Neighborhood(db.Model):
         return f'<Neighborhood neighborhood_id:{self.neighborhood_id} name:{self.name}>'
 
 
+def example_data():
+    """Create sample data for artcache database."""
+
+    User.query.delete()
+    Artwork.query.delete()
+
+    test_user_1 = User(email='', username='', password='')
+    test_artwork_1 = Artwork()
+
+    test_user_2 = User(email='', username='', password='')
+    test_artwork_2 = Artwork()
+
+    test_user_3 = User(email='', username='', password='')
+    test_artwork_3 = Artwork()
+
+    # user 2 logs art 1 
+    test_log_1 =
+
+    # user 3 logs art 2 
+    lest_log_2 = 
+
+    # db.session.add_all([test_user_1, 
+    #                     test_artwork_1, 
+    #                     test_user_2,
+    #                     test_artwork_2, 
+    #                     test_user_3, 
+    #                     test_artwork_3,
+    #                     test_log_1,
+    #                     test_log_2])
+    # db.session.commit()
+
+
 ################################################################################
 # Helper functions 
 
