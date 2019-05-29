@@ -152,13 +152,21 @@ def add_art():
     return render_template('add_art.html')
 
 
-@app.route('/art/<art_id>', methods=['GET', 'POST'])
+# @app.route('/info/<art_id')
+# def info_art(art_id):
+#     """show information about art."""
+
+#     art = db.session.query(Artwork).filter(Artwork.art_id = art_id).one()
+
+#     # return response with all the feilds 
+
+
+
+
+@app.route('/log/<art_id>', methods=['GET', 'POST'])
 @login_required
 def log_art(art_id):
-    """Log art found by user."""
-
-    
-
+    """Log art found by user.""" 
     user_id = current_user.user_id
     art_id = art_id
     comment = request.forms["comment"]

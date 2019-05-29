@@ -112,13 +112,12 @@ function renderMap() {
 
       var coordinates = evt.features[0].geometry.coordinates;
       var source = evt.features[0].properties.source;
-
-      // while (Math.abs(evt.lnglat.lng - coordinates[0]) > 180) {
-      //   coordinates[0] += evt.lngLat.lng > coordinates[0] ? 360 : -360;
-      // }
+      var str = "Info";
+      var link = str.link(`/info/${properties.art_id}`);
 
       popup.setLngLat(coordinates)
         .setHTML(source)
+        .setHTML(link)
         .addTo(map);
 
     });

@@ -1,3 +1,9 @@
+body { 
+      margin: 0; 
+      padding: 0; 
+      background-color: blue;
+}
+
 #map { 
   position: absolute; 
   bottom: 0; 
@@ -8,12 +14,6 @@
   max-width: 400px;
   font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
-
-body { 
-      margin: 0; 
-      padding: 0; 
-      background-color: blue;
-    }
 
 h1 {
     font-family: 'Montserrat', sans-serif;
