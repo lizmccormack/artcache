@@ -8,8 +8,8 @@ function renderMap() {
   var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
-  center: [-122.4194, 37.7749],
-  zoom: 11
+  center: [-122.4300, 37.7600],
+  zoom: 12
   });
 
   map.on('load', function () {
@@ -35,11 +35,10 @@ function renderMap() {
       map.getCanvas().style.cursor = 'pointer';
 
       var coordinates = evt.features[0].geometry.coordinates;
-      var source = evt.features[0].properties.source;
+      var str = "Log";
+      var source = (evt.features[0].properties.source, str.link(`/art/${evt.features[0].properties.art_id}`));
 
-      // while (Math.abs(evt.lnglat.lng - coordinates[0]) > 180) {
-      //   coordinates[0] += evt.lngLat.lng > coordinates[0] ? 360 : -360;
-      // }
+      // var link = str.link(`/log/${evt.features[0].properties.art_id}`);
 
       popup.setLngLat(coordinates)
         .setHTML(source)
@@ -49,7 +48,7 @@ function renderMap() {
 
     map.addControl(new mapboxgl.NavigationControl());
 
-}
+})}
 
 
 $('#pointmap').on('click', renderMap);

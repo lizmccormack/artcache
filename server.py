@@ -78,7 +78,7 @@ def get_artworks_json():
 
     body_list = []
     for artwork in artworks: 
-        artwork_geojson = {"type":"Feature","properties":{"source":artwork.source},"geometry":{"type":"Point","coordinates":[artwork.longitude,artwork.latitude]}}
+        artwork_geojson = {"type":"Feature","properties":{"title": artwork.title, "artist": artwork.artist, "source":artwork.source, "art_id": artwork.art_id, "hint": artwork.hint},"geometry":{"type":"Point","coordinates":[artwork.longitude,artwork.latitude]}}
         body_list.append(artwork_geojson)
 
     geojson_result ={
@@ -152,29 +152,29 @@ def add_art():
     return render_template('add_art.html')
 
 
-# @app.route('/info/<art_id')
-# def info_art(art_id):
-#     """show information about art."""
+@app.route('/art/<art_id>', methods=['GET', 'POST'])
+def info_art(art_id):
+    """show information about art."""
 
-#     art = db.session.query(Artwork).filter(Artwork.art_id = art_id).one()
+    art = db.session.query(Artwork).filter(Artwork.art_id == art_id).first()
 
-#     # return response with all the feilds 
-
-
+    return render_template('info_art.html', art=art)
 
 
-@app.route('/log/<art_id>', methods=['GET', 'POST'])
-@login_required
-def log_art(art_id):
-    """Log art found by user.""" 
-    user_id = current_user.user_id
-    art_id = art_id
-    comment = request.forms["comment"]
 
-    file = request.files['image']
-    if file.filname == '': 
-        flash('No file selected for uploading')
-        return redirect('/art/<art_id>')
+
+# @app.route('/log/<art_id>', methods=['GET', 'POST'])
+# @login_required
+# def log_art(art_id):
+#     """Log art found by user.""" 
+#     user_id = current_user.user_id
+#     art_id = art_id
+#     comment = request.form["comment"]
+
+#     file = request.files['image']
+#     if file.filname == '': 
+#         flash('No file selected for uploading')
+#         return redirect('/art/<art_id>')
 
 
 
