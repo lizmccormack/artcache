@@ -151,30 +151,17 @@ def add_art():
 
     return render_template('add_art.html')
 
-
+# DO THIS IN AJAX/JQUERY if possible 
 @app.route('/art/<art_id>', methods=['GET', 'POST'])
 def info_art(art_id):
-    """show information about art."""
+    """show information about art.
+
+    use this route for both the display of art 
+    """
 
     art = db.session.query(Artwork).filter(Artwork.art_id == art_id).first()
 
     return render_template('info_art.html', art=art)
-
-
-
-
-# @app.route('/log/<art_id>', methods=['GET', 'POST'])
-# @login_required
-# def log_art(art_id):
-#     """Log art found by user.""" 
-#     user_id = current_user.user_id
-#     art_id = art_id
-#     comment = request.form["comment"]
-
-#     file = request.files['image']
-#     if file.filname == '': 
-#         flash('No file selected for uploading')
-#         return redirect('/art/<art_id>')
 
 
 

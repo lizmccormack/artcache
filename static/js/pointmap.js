@@ -22,7 +22,19 @@ function renderMap() {
     map.addLayer({
         id: 'art-point',
         type: 'circle',
-        source: 'artworks'
+        source: 'artworks',
+        paint: {
+          'circle-radius': 5,
+          'circle-color': {
+            property: 'source',
+            type: 'categorical',
+            stops: [
+              ['civic', '#fbb03b'],
+              ['user', '#214BCC'],
+              ['public_oneper', '#e55e5e']
+            ]
+          }
+        }
     });
 
     var popup = new mapboxgl.Popup({
