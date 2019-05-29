@@ -13,21 +13,21 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
 
-    def test_get_homepage(self):
-        """non-database test for home route."""
+    def test_get_homepage_200(self):
+        """GET home route."""
         results = self.Client.get("/")
         self.assertEqual(results.status_code, 200)
         self.assertIn(b'<h1>Map</h1>', results.data)
 
 
-    def test_get_register(self):
-        """non-database test for register route."""
+    def test_get_register_200(self):
+        """GET register route."""
         results = self.Client.get("/register")
         self.assertEqual(results.status_code, 200)
         self.assertIn(b'<h1>Register!</h1>', results.data)
 
-    def test_post_login(self):
-        """non-database test for POST register form."""
+    def test_post_register_200(self):
+        """POST register form."""
         results = self.Client.post("/register",
                                    data = {"email": "test@test123.com",
                                            "username": "test user",
@@ -37,56 +37,90 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
 
 
 
-    def test_get_login(self):
-        """non-database test for login route."""
+    def test_get_login_200(self):
+        """GET login route."""
         results = self.Client.get("/login")
         self.assertEqual(results.status_code, 200)
         self.assertIn(b'<h1>Login</h1>', results.data)
 
-    def test_post_login(self):
-        """non-database test for POST login form."""
+
+
+class TestFlaskRouteLogIn(unittest.TestCase):
+
+    def setUp(self):
+        """Set up elements before every test."""
+        self.Client = app.test_client()
+        app.config['TESTING'] = True
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+
+
+    def test_post_login_200(self):
+        """POST login form."""
         results = self.Client.post("/login",
                                     data = {"email": "test@test123.com",
                                             "password": "test"},
                                     follow_redirects=True)
         self.assertEqual(results.status_code, 200)
 
+    def test_get_add_art_200(self):
+        """GET add_art route."""
+        results = self.client.get("/add_art")
+        self.assertEqual(results.status_code, 200)
+        self.assertIn(b'<h1>Add Art Site</h1>', results.data)
 
-# class TestFlaskRouteLogIn(unittest.TestCase):
+    def test_post_add_art_200(self):
+        """POST add_art form."""
+        pass
 
-#     def setUp(self):
+    def test_post_add_art_invalid_400(self):
+        """POST add_art invalid form."""
+        pass
 
-#         app.config['TESTING'] = True
-#         app.config['SECRET_KEY'] = 'key'
-#         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#         self.client = app.test_client()
-
-#         with self.client as c: 
-#             with c.session_transaction() as sess:
-#                 sess['user_id'] = 1
-
-#     def test_add_art(self):
-#         """non-database test for add_art route."""
-#         results = self.client.get("/add_art")
-#         self.assertEqual(results.status_code, 200)
-#         self.assertIn(b'<h1>Add Art Site</h1>', results.data)
-
-
-#     def test_profile(self):
-#         """non-database test for profile route."""
-#         results = self.client.get('/profile')
-#         self.assertEqual(results.status_code, 200)
+    def test_get_profile_200(self):
+        """non-database test for profile route."""
+        results = self.client.get('/profile')
+        self.assertEqual(results.status_code, 200)
 
 
-  
+    def test_logout_200(self):
+        """log user out"""
+        pass 
 
-# test cases 
-# - user already registered, goes to login route w/ flash message saying already registered 
-# - user registers for the first time, goes to login route w/ flash message saying thanks for registering 
 
-# test cases 
-# - user in userdb, login and go to homepage 
-# - user not in db because go back to login 
+
+# TEST PLAN 
+# Testflaskroutesnologin: 
+
+# test_get_homepage_200
+# test_get_register_200
+# test_post_register_200 
+# rest_post_register_invalid_400
+# test_get_login_200
+# test_post_login_200
+# test_post_login_invalid_400
+
+# Testflaskrouteslogin:
+
+# test_post_login_200
+# test_logout
+
+# test_get_add_art_200
+# test_post_add_art_200
+# test_post_add_art_invalid_400
+
+# test_get_profile_200
+
+
+# TEST EDGE CASES 
+# - user already registered, goes to register, 400 
+# - user not register tries to login, 400 
+# - user email address/username already registered, 400 
+# - user login not in database, 400 
+
+# - artwork already add (how will i validate for this)
+# - artwork does not have required fields 
+        # location, hint, or image 
+# - 
 
 
 
