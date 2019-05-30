@@ -7,8 +7,6 @@ import datetime
 # connection to the postgresql database through Flask-SQLAlchemy 
 db = SQLAlchemy()
 
-
-################################################################################
 # Model definitions 
 
 class Artwork(db.Model):
@@ -139,43 +137,33 @@ class Neighborhood(db.Model):
 
 
 # def example_data():
-#     """Create sample data for artcache database."""
+#     """Create some sample data."""
 
+#     # In case this is run more than once, empty out existing data
+#     Add.query.delete()
+#     Log.quer.detele()
+#     Artworks.query.delete()
 #     User.query.delete()
-#     Artwork.query.delete()
 
-#     test_user_1 = User(email='', username='', password='')
-#     test_artwork_1 = Artwork()
+#     # Add sample employees and departments
+#     paiting = Department(dept_code='fin', dept='Finance', phone='555-1000')
+#     sculture = Department(dept_code='legal', dept='Legal', phone='555-2222')
+#     graffiti = Department(dept_code='mktg', dept='Marketing', phone='555-9999')
 
-#     test_user_2 = User(email='', username='', password='')
-#     test_artwork_2 = Artwork()
+#     leo = Employee(name='Leonard', dept=dl)
+#     liz = Employee(name='Liz', dept=dl)
+  
 
-#     test_user_3 = User(email='', username='', password='')
-#     test_artwork_3 = Artwork()
-
-#     # user 2 logs art 1 
-#     test_log_1 =
-
-#     # user 3 logs art 2 
-#     lest_log_2 = 
-
-    # db.session.add_all([test_user_1, 
-    #                     test_artwork_1, 
-    #                     test_user_2,
-    #                     test_artwork_2, 
-    #                     test_user_3, 
-    #                     test_artwork_3,
-    #                     test_log_1,
-    #                     test_log_2])
-    # db.session.commit()
+#     db.session.add_all([painting, sculture, graffiti, leo, liz])
+#     db.session.commit()
 
 
 ################################################################################
 # Helper functions 
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri="postgresql:///artcache"):
     """Connect the database to flask app"""
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///artcache'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)

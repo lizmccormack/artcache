@@ -60,14 +60,14 @@ def get_homepage():
 def get_profile():
     """Profile Page."""
 
-    # user_adds = db.session.query(Add).filter_by(Add.user_id = current_user.user_id)
-    # user_logs = db.session.query(Log).filter_by(Log.user_id = current_user.user_id)
+    user_adds = db.session.query(Add).filter_by(Add.user_id == current_user.user_id).all()
+    user_logs = db.session.query(Log).filter_by(Log.user_id == current_user.user_id).all()
 
     return render_template("profile.html", 
                            name=current_user.username, 
-                           id=current_user.user_id)
-                           # user_adds=user_adds,
-                           # user_logs=user_logs)
+                           id=current_user.user_id,
+                           user_adds=user_adds,
+                           user_logs=user_logs)
 
 
 @app.route('/artworks.geojson')
@@ -215,7 +215,7 @@ def login():
 
         if not user or not user.check_password(password):
             
-            flash('Please check your login deails!')
+            flash('Please check your login details!')
             return redirect('/login')
 
         user.is_authenticated = True 

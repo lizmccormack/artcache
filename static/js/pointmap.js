@@ -38,7 +38,7 @@ function renderMap() {
     });
 
     var popup = new mapboxgl.Popup({
-      closeButton: false,
+      closeButton: true,
       closeOnClick: false
      });
 
