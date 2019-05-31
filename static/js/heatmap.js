@@ -94,20 +94,14 @@ map.on('load', function () {
      var art_id = evt.features[0].properties.art_id; 
      console.log(art_id)
 
-     $('#mySidebar').css("width", "25%");
+     $('#Sidebar').css("width", "25%");
      console.log("MADE IT HERE")
-     $('#map').css("marginLeft", "0");
-     console.log("MADE IT HERE")
-
-
   });
 
   $('#closebtn').on('click', function (evt) {
-     $('#mySidebar').css("width", "0");
+     $('#Sidebar').css("width", "0");
      console.log("MADE IT HERE")
-     $('#map').css("marginLeft", "0");
-     console.log("MADE IT HERE")
-  })
+  });
 
   // var popup = new mapboxgl.Popup({
   //   closeButton: false,
