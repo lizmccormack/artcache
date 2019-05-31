@@ -41,83 +41,105 @@ map.on('load', function () {
           0.4, "rgb(209,229,240)",
           0.6, "rgb(253,219,199)",
           0.8, "rgb(239,138,98)"
+        ], 
+      "heatmap-radius": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        0, 2,
+        9, 20
         ],
-      'heatmap-radius': {
-          stops: [
-          [11, 15],
-          [15, 20]
-        ]
-      },
       'heatmap-opacity': {
         default: 1,
         stops: [
-          [14, 1],
-          [15, 0]
+          [11, 1],
+          [14, 0]
           ]
           },
         }
       }, 'waterway-label');
-
+    
     map.addLayer({
-      id: 'art-point',
-      type: 'circle',
-      source: 'artworks',
-      minzoom: 14,
-      paint: {
-        'circle-radius': {
-          property: 'source',
-          type: 'exponential',
-          stops: [
-            [{ zoom: 15, value: 1 }, 5],
-            [{ zoom: 15, value: 62 }, 10],
-            [{ zoom: 22, value: 1 }, 20],
-            [{ zoom: 22, value: 62 }, 50],
-          ]
-        },
+        id: 'art-point',
+        type: 'circle',
+        source: 'artworks',
+        paint: {
+          'circle-radius': 5,
           'circle-color': {
             property: 'source',
-            type: 'exponential',
+            type: 'categorical',
             stops: [
-              [0, 'rgba(236,222,239,0)'],
-              [10, 'rgb(236,222,239)'],
-              [20, 'rgb(208,209,230)'],
-              [30, 'rgb(166,189,219)'],
-              [40, 'rgb(103,169,207)'],
-              [50, 'rgb(28,144,153)'],
-              [60, 'rgb(1,108,89)']
+              ['civic', '#fbb03b'],
+              ['user', '#214BCC'],
+              ['public_oneper', '#e55e5e']
             ]
           },
-          'circle-stroke-color': 'white',
-          'circle-stroke-width': 1,
           'circle-opacity': {
             stops: [
-              [14, 0],
+              [11, 0],
               [15, 1]
             ]
           }
         }
-        }, 'waterway-label');
+    }, 'waterway-label');
+
     }});
 
-  var popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
-   });
+  map.on('click', 'art-point', function (evt) {
+     
+     map.getCanvas().style.cursor = 'pointer';
 
-  map.on('mouseenter', 'art-point', function (evt) {
+     var coordinates = evt.features[0].geometry.coordinates;
+     console.log(coordinates)
+     var art_id = evt.features[0].properties.art_id; 
+     console.log(art_id)
 
-    map.getCanvas().style.cursor = 'pointer';
+     $('#mySidebar').css("width", "25%");
+     console.log("MADE IT HERE")
+     $('#map').css("marginLeft", "0");
+     console.log("MADE IT HERE")
 
-    var coordinates = evt.features[0].geometry.coordinates;
-    var source = evt.features[0].properties.source;
-    var str = "Info";
-    var link = str.link(`/art/${evt.features[0].properties.art_id}`);
-
-    popup.setLngLat(coordinates)
-      .setHTML(source)
-      .setHTML(link)
-      .addTo(map);
 
   });
+
+  $('#closebtn').on('click', function (evt) {
+     $('#mySidebar').css("width", "0");
+     console.log("MADE IT HERE")
+     $('#map').css("marginLeft", "0");
+     console.log("MADE IT HERE")
+  })
+
+  // var popup = new mapboxgl.Popup({
+  //   closeButton: false,
+  //   closeOnClick: true
+  //  });
+
+  // map.on('mouseenter', 'art-point', function (evt) {
+
+  //   map.getCanvas().style.cursor = 'pointer';
+
+  //   var coordinates = evt.features[0].geometry.coordinates;
+  //   // var source = evt.features[0].properties.source;
+  //   var str = "Info";
+  //   // var link = str.link(`/art/${evt.features[0].properties.art_id}`);
+
+  //   str.on('click', function (evt) {
+  //     $("#mySidebar").style.width = "250px";
+  //     $("#map").style.marginLeft = "250px";
+  //   });
+
+  //   function closeNav() {
+  //     $("#mySidebar").style.width = "0";
+  //     $("#map").style.marginLeft= "0";
+  //   }
+
+
+  //   popup.setLngLat(coordinates)
+  //     // .setHTML(source)
+  //     .setHTML(str)
+  //     .addTo(map);
+
+
+  // });
 
   map.addControl(new mapboxgl.NavigationControl());

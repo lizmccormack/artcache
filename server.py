@@ -54,20 +54,35 @@ def get_homepage():
 
     return render_template("homepage.html")
 
-
-@app.route('/profile')
+# TODO make json and handle on the frontend 
+@app.route('/user.json')
 @login_required
 def get_profile():
     """Profile Page."""
 
-    user_adds = db.session.query(Add).filter_by(Add.user_id == current_user.user_id).all()
-    user_logs = db.session.query(Log).filter_by(Log.user_id == current_user.user_id).all()
+    #TODO make into one query 
+    user.info = db.session.query(User).filter(User.user_id == current_user.user_id).one()
+    user_adds = db.session.query(Add).filter(Add.user_id == current_user.user_id).all()
+    user_logs = db.session.query(Log).filter(Log.user_id == current_user.user_id).all()
 
     return render_template("profile.html", 
                            name=current_user.username, 
                            id=current_user.user_id,
                            user_adds=user_adds,
+                
                            user_logs=user_logs)
+
+# TODO IN AJAX/JQUERY if possible 
+@app.route('/art.json', methods=['GET', 'POST'])
+def info_art():
+    """show information about art.
+
+    use this route for both the display of art 
+    """
+
+    art = db.session.query(Artwork).filter(Artwork.art_id == art_id).first()
+
+    return render_template('info_art.html', art=art)
 
 
 @app.route('/artworks.geojson')
@@ -105,6 +120,7 @@ def add_art():
         art_desc = request.form['medium']
         hint = request.form['hint']
         
+        #TODO put into helper functions 
         # geocoding
         location = street_address + ',' + 'San Francisco' + 'CA' + 'USA'
         geocode_result = gmaps.geocode(location)
@@ -150,20 +166,6 @@ def add_art():
         return redirect('/')
 
     return render_template('add_art.html')
-
-# DO THIS IN AJAX/JQUERY if possible 
-@app.route('/art/<art_id>', methods=['GET', 'POST'])
-def info_art(art_id):
-    """show information about art.
-
-    use this route for both the display of art 
-    """
-
-    art = db.session.query(Artwork).filter(Artwork.art_id == art_id).first()
-
-    return render_template('info_art.html', art=art)
-
-
 
 
 @app.route('/register', methods=['GET', 'POST'])
