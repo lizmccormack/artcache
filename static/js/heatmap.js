@@ -5,6 +5,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40N
 
 
 var map = new mapboxgl.Map({
+  // create a map variable 
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
   center: [-122.4194, 37.7749],
@@ -13,14 +14,16 @@ var map = new mapboxgl.Map({
 
 map.on('load', function () {
   if (map.loaded()) {
-    // add a geojson point source for artworks 
+
     map.addSource('artworks', {
+      // add a geojson point source for artworks 
       type: 'geojson',
-      data: '/artworks.geojson'
+      data: '/artworks.json'
     });
     
-    // add layer for heat map 
+    
     map.addLayer({
+      // add layer for heat map 
       id: 'art-heat',
       type: 'heatmap',
       source: 'artworks',
@@ -60,6 +63,7 @@ map.on('load', function () {
       }, 'waterway-label');
     
     map.addLayer({
+      // add point layer to map 
         id: 'art-point',
         type: 'circle',
         source: 'artworks',
@@ -85,55 +89,65 @@ map.on('load', function () {
 
     }});
 
+  // event to activate sidebar on click 
   map.on('click', 'art-point', function (evt) {
      
      map.getCanvas().style.cursor = 'pointer';
 
      var coordinates = evt.features[0].geometry.coordinates;
-     console.log(coordinates)
      var art_id = evt.features[0].properties.art_id; 
-     console.log(art_id)
 
      $('#Sidebar').css("width", "25%");
-     console.log("MADE IT HERE")
   });
 
+  // popup variable 
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+   });
+
+  // event to show popup on mouse hover 
+  map.on('mouseenter', 'art-point', function (evt) {
+
+    map.getCanvas().style.cursor = 'pointer';
+
+    var coordinates = evt.features[0].geometry.coordinates;
+    var source = evt.features[0].properties.source;
+
+    popup.setLngLat(coordinates)
+      .setHTML(source)
+      .addTo(map);
+
+  });
+
+  // handle closing sidebar and popup on click TODO: why is tooltip not closing
   $('#closebtn').on('click', function (evt) {
      $('#Sidebar').css("width", "0");
-     console.log("MADE IT HERE")
+     popup.closeOnClick("true") 
   });
 
-  // var popup = new mapboxgl.Popup({
-  //   closeButton: false,
-  //   closeOnClick: true
-  //  });
+  // show the art hint in the sidebar 
+  function showArtInfo(response) {
+    console.dir(response);
+    console.log('This is in: `response`:');
+    console.log(response);
 
-  // map.on('mouseenter', 'art-point', function (evt) {
+    $('#hint').html(response.hint);
+    $('#title').html(response.title);
+    $('#artist').html(response.artist);
+  }
 
-  //   map.getCanvas().style.cursor = 'pointer';
+  function handleInfoEvent(evt) {
+    evt.preventDefault();
 
-  //   var coordinates = evt.features[0].geometry.coordinates;
-  //   // var source = evt.features[0].properties.source;
-  //   var str = "Info";
-  //   // var link = str.link(`/art/${evt.features[0].properties.art_id}`);
+    console.log('get art info')
 
-  //   str.on('click', function (evt) {
-  //     $("#mySidebar").style.width = "250px";
-  //     $("#map").style.marginLeft = "250px";
-  //   });
+    const artId = evt.features[0].properties.art_id
+    console.log(artId)
+    $.get('/art/' + artId, showArtInfo);
+    console.log('HELLLOOOOOO')
+  }
 
-  //   function closeNav() {
-  //     $("#mySidebar").style.width = "0";
-  //     $("#map").style.marginLeft= "0";
-  //   }
-
-
-  //   popup.setLngLat(coordinates)
-  //     // .setHTML(source)
-  //     .setHTML(str)
-  //     .addTo(map);
-
-
-  // });
+  map.on('click', 'art-point', handleInfoEvent);
 
   map.addControl(new mapboxgl.NavigationControl());

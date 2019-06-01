@@ -84,17 +84,17 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
                                     follow_redirects = True)
         self.assertEqual(results.status_code, 200)
 
-    # def test_post_register_invalid_400(self):
-    #     """POST an invalid registration form.
+    def test_post_register_invalid_400(self):
+        """POST an invalid registration form.
         
-    #     user already exists in users table. 
-    #     """
-    #     results = self.Client.post("/register",
-    #                                data = {"email": "test@test123.com",
-    #                                        "username": "test user",
-    #                                        "password": "test"},
-    #                                 follow_redirects = True)
-    #     self.assertEqual(results.status_code, 400)
+        user already exists in users table. 
+        """
+        results = self.Client.post("/register",
+                                   data = {"email": "test@test123.com",
+                                           "username": "test user",
+                                           "password": "test"},
+                                    follow_redirects = False)
+        self.assertEqual(results.status_code, 400)
 
     def test_get_login_200(self):
         """GET login route."""

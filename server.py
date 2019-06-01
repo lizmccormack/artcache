@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, session, url_for, flash) 
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_uploads import UploadSet, IMAGES, configure_uploads
+#from flask_uploads import UploadSet, IMAGES, configure_uploads
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import func 
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction
-from geoalchemy2.shape import from_shape, to_shape 
+#from geoalchemy2.shape import from_shape, to_shape 
 from shapely.geometry import Point
 
 from model import Artwork, User, Add, Log, Neighborhood, connect_to_db, db 
@@ -59,6 +59,9 @@ def get_homepage():
 @login_required
 def get_profile():
     """Profile Page."""
+    # get user id 
+    # make one big query that return the user info, adds and logs 
+    # return all info in json 
 
     #TODO make into one query 
     user.info = db.session.query(User).filter(User.user_id == current_user.user_id).one()
@@ -69,23 +72,30 @@ def get_profile():
                            name=current_user.username, 
                            id=current_user.user_id,
                            user_adds=user_adds,
-                
                            user_logs=user_logs)
 
 # TODO IN AJAX/JQUERY if possible 
-@app.route('/art.json', methods=['GET', 'POST'])
-def info_art():
+@app.route('/art/<art_id>', methods=['GET'])
+def info_art(art_id):
     """show information about art.
-
-    use this route for both the display of art 
     """
+    # request the id 
+    # use the id to look up art info 
+    # return art info as json 
 
+    # artId = request.args.get('artId')
+    # print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    # print(artId)
     art = db.session.query(Artwork).filter(Artwork.art_id == art_id).first()
+    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    print(art)
 
-    return render_template('info_art.html', art=art)
+    return jsonify(title=art.title,
+                   artist=art.artist,
+                   hint=art.hint)
 
 
-@app.route('/artworks.geojson')
+@app.route('/artworks.json')
 def get_artworks_json():
     """Return JSON object of all artworks in the database."""
 
@@ -197,7 +207,7 @@ def register_user_process():
             return redirect('/login')
 
 
-        flash('You are already registered! ')
+        flash('You are already registered!')
         return redirect('/login')
 
     # if method is get, show register form 
