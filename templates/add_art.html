@@ -10,7 +10,28 @@
   Title:<input type="text", name="title"></input><br>  
   Artist:<input type="text", name="artist"></input><br>
   Artist Description: <input type="text", name="artist_desc"></input><br>
-  Street Address:<input type="text" name="address"></input><br><br>
+  Address:<input type="text" name="address" id="autocomplete" placeholder="Enter Address" onFocus="geolocate()"></input><br><br>
+  <table id="address">
+    <tr>
+      <td class="label">Street address</td>
+      <td class="slimField"><input class="field" id="street_number" disabled="true"/></td>
+      <td class="wideField" colspan="2"><input class="field" id="route" disabled="true"/></td>
+    </tr>
+    <tr>
+      <td class="label">City</td>
+      <td class="wideField" colspan="3"><input class="field" id="locality" disabled="true"/></td>
+    </tr>
+    <tr>
+      <td class="label">State</td>
+      <td class="slimField"><input class="field" id="administrative_area_level_1" disabled="true"/></td>
+      <td class="label">Zip code</td>
+      <td class="wideField"><input class="field" id="postal_code" disabled="true"/></td>
+    </tr>
+    <tr>
+      <td class="label">Country</td>
+      <td class="wideField" colspan="3"><input class="field" id="country" disabled="true"/></td>
+      </tr>
+  </table><br><br>
   Medium:<input type="text", name="medium"></input><br>
   Art Description:<input type="text" name="art_desc"></input><br>
   Hint:<input type="text" name="hint"></input><br>
@@ -19,15 +40,59 @@
   
 </form>
 
-<script type="text/javascript">
-    'use-strict'
-    // refactor with jquery 
-    var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+<script>
+'user-strict'
 
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place = autocomplete.getPlace();
-        console.log(place.address_components);
-    })
+var placeSearch, autocomplete; 
+
+var componenetForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name'
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  autocomplete = new google.maps.places.Autocomplete(
+    (document.getElementById('autocomplete')), {types: ['geocode']});
+  autocomplete.setFields(['address_component']);
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+  var place = autocomplete.getPlace();
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false; 
+  }
+
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[address_type]) {
+       var val = place.address_components[i][componentForm[addressType]];
+            document.getElementById(addressType).value = val; 
+        }
+    }
+}
+
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle(
+          {center: geolocation, radius: position.coords.accuracy});
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+    
+    
 
     
 </script>
