@@ -123,14 +123,10 @@ map.on('load', function () {
   // handle closing sidebar and popup on click TODO: why is tooltip not closing
   $('#closebtn').on('click', function (evt) {
      $('#Sidebar').css("width", "0");
-     popup.closeOnClick("true") 
   });
 
   // show the art hint in the sidebar 
   function showArtInfo(response) {
-    console.dir(response);
-    console.log('This is in: `response`:');
-    console.log(response);
 
     $('#hint').html(response.hint);
     $('#title').html(response.title);
@@ -140,38 +136,38 @@ map.on('load', function () {
   function handleInfoEvent(evt) {
     evt.preventDefault();
 
-    console.log('get art info')
-
     const artId = evt.features[0].properties.art_id
-    console.log(artId)
     $.get('/art/' + artId, showArtInfo);
-    console.log('HELLLOOOOOO')
   }
 
   map.on('click', 'art-point', handleInfoEvent);
 
   // go to log page from side bar 
-  function showLogPage(response) {
-    console.dir(response);
-    console.log('This is in: `response`:');
-    console.log(response);
-
+  function showLogPage() {
+    console.log('GOT HERE')
+    $('#log-form').append('<form action="/log/<art_id>" id="log-form" methods="POST"><input type="file" name="image"></input><br><input type="text" name="comment"></input><br><input type="submit" value="submit"></form>');
+    $('#info').hide();
+    $('#log').hide();
   }
 
-  // function handleLogArt(evt) {
+  $('#log').on('click', showLogPage);
+
+  // function submitArtLog(evt) {
   //   evt.preventDefualt();
 
   //   const artId = evt.features[0].properties.art_id
   //   console.log(artId)
 
   //   const formData = {
-  //     image: $('#image').val()
+  //     image: $('#image').val(),
   //     comment: $('#comment').val()
   //   }
 
   //   console.log('GET /info for log');
 
-  //   $.get(/log + )
+  //   $.get('/log/' + artId, formData)
   // }
-  map.addControl(new mapboxgl.NavigationControl());
+
+  const nav = new mapboxgl.NavigationControl();
+  map.addControl(nav, 'bottom-right');
 

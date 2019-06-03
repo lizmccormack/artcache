@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import func 
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction
-#from geoalchemy2.shape import from_shape, to_shape 
+from geoalchemy2.shape import from_shape, to_shape 
 from shapely.geometry import Point
 
 from model import Artwork, User, Add, Log, Neighborhood, connect_to_db, db 
@@ -83,15 +83,32 @@ def info_art(art_id):
                    artist=art.artist,
                    hint=art.hint)
 
-@app.route('/log/<art_id>', methods=['GET', 'POST'])
+@app.route('/log/<art_id>', methods=['POST'])
 def log_art(art_id):
     """log page for art"""
-    art = db.session.query(Artwork).filter(Artwork.art_id == art_id).one()
-    # user = db.session.query(User).filter(User.user_id == current_user.user_id).all()
 
-    return jsonify(title=art.title,
-                   artist=art.artist,
-                   hint=art.hint)
+    # image upload 
+    image = request.files.get('image')
+    if file.filename == '':
+        flash('No file selected for uploading')
+        return redirect('/add_art')
+    elif file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+
+    comment = request.form.get("comment")
+
+    time.sleep(2)
+
+    print("NEW ORDER!!!!!! ")
+
+    log = Log(art_id=art_id,
+              user_id = current_user.user_id,
+              comment=comment,
+              img=filepath) 
+
+    return "Your site had been logged"
 
 
 
@@ -103,7 +120,12 @@ def get_artworks_json():
 
     body_list = []
     for artwork in artworks: 
-        artwork_geojson = {"type":"Feature","properties":{"title": artwork.title, "artist": artwork.artist, "source":artwork.source, "art_id": artwork.art_id, "hint": artwork.hint},"geometry":{"type":"Point","coordinates":[artwork.longitude,artwork.latitude]}}
+        artwork_geojson = {"type":"Feature",
+                           "properties":{"title": artwork.title, 
+                                         "artist": artwork.artist, 
+                                        "source":artwork.source, 
+                                        "art_id": artwork.art_id, 
+                                        "hint": artwork.hint},"geometry":{"type":"Point","coordinates":[artwork.longitude,artwork.latitude]}}
         body_list.append(artwork_geojson)
 
     geojson_result ={
@@ -125,16 +147,15 @@ def add_art():
         title = request.form['title']
         artist = request.form['artist']
         artist_desc = request.form['artist_desc']
-        # street_address = request.form['street']
+        address = request.form['address']
         medium = request.form['medium']
         art_desc = request.form['medium']
         hint = request.form['hint']
         
         #TODO put into helper functions 
-        # geocoding
-        # geocode_result = gmaps.geocode(street_address)
-        # latitude = geocode_result[0]['geometry']['location']['lat']
-        # longitude = geocode_result[0]['geometry']['location']['lng']
+        geocode_result = gmaps.geocode(address)
+        latitude = geocode_result[0]['geometry']['location']['lat']
+        longitude = geocode_result[0]['geometry']['location']['lng']
         #neighborhood = geocode_result[0]['address_components'][1]['long_name']
 
         # image upload 
@@ -144,7 +165,7 @@ def add_art():
             return redirect('/add_art')
         elif file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            filepath = file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         # create art instance 
         art = Artwork(title = title,
@@ -158,7 +179,7 @@ def add_art():
                       art_desc = art_desc,
                       hint = hint,
                       img_filename=filename,
-                      img_url=os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                      img_url=filepath)
 
         # add art to database 
         db.session.add(art)
@@ -253,7 +274,7 @@ def allowed_file(filename):
 
 if __name__ == "__main__":
     # needs to be true for the debug tool bar 
-    app.debug = False
+    app.debug = True
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 

@@ -10,7 +10,11 @@
   Title:<input type="text", name="title"></input><br>  
   Artist:<input type="text", name="artist"></input><br>
   Artist Description: <input type="text", name="artist_desc"></input><br>
-  Address:<input type="text" name="address" id="autocomplete" placeholder="Enter Address" onFocus="geolocate()"></input><br><br>
+  Address:<input id="autocomplete" name="address"
+             placeholder="Enter your address"
+             onFocus="geolocate()"
+             type="text"></input><br><br>
+
   <table id="address">
     <tr>
       <td class="label">Street address</td>
@@ -32,6 +36,7 @@
       <td class="wideField" colspan="3"><input class="field" id="country" disabled="true"/></td>
       </tr>
   </table><br><br>
+
   Medium:<input type="text", name="medium"></input><br>
   Art Description:<input type="text" name="art_desc"></input><br>
   Hint:<input type="text" name="hint"></input><br>
@@ -39,30 +44,38 @@
   <input type="submit" value="add art">
   
 </form>
-
 <script>
 'user-strict'
 
 var placeSearch, autocomplete; 
 
-var componenetForm = {
+var componentForm = {
   street_number: 'short_name',
   route: 'long_name',
   locality: 'long_name',
   administrative_area_level_1: 'short_name',
-  country: 'long_name'
+  country: 'long_name',
   postal_code: 'short_name'
 };
 
 function initAutocomplete() {
+  // Create the autocomplete object, restricting the search predictions to
+  // geographical location types.
   autocomplete = new google.maps.places.Autocomplete(
-    (document.getElementById('autocomplete')), {types: ['geocode']});
+      document.getElementById('autocomplete'), {types: ['geocode']});
+
+  // Avoid paying for data that you don't need by restricting the set of
+  // place fields that are returned to just the address components.
   autocomplete.setFields(['address_component']);
+
+  // When the user selects an address from the drop-down, populate the
+  // address fields in the form.
   autocomplete.addListener('place_changed', fillInAddress);
 }
 
 function fillInAddress() {
   var place = autocomplete.getPlace();
+  console.log(place)
 
   for (var component in componentForm) {
     document.getElementById(component).value = '';
@@ -71,7 +84,7 @@ function fillInAddress() {
 
   for (var i = 0; i < place.address_components.length; i++) {
     var addressType = place.address_components[i].types[0];
-    if (componentForm[address_type]) {
+    if (componentForm[addressType]) {
        var val = place.address_components[i][componentForm[addressType]];
             document.getElementById(addressType).value = val; 
         }
@@ -85,6 +98,7 @@ function geolocate() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
+      console.log(geolocation)
       var circle = new google.maps.Circle(
           {center: geolocation, radius: position.coords.accuracy});
       autocomplete.setBounds(circle.getBounds());
@@ -92,9 +106,7 @@ function geolocate() {
   }
 }
     
-    
-
-    
+  
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs2JPPNK7A2nk-Tk0Gcxm9YRy9yYKjysc&libraries=places&callback=initAutocomplete"async defer></script>
 
