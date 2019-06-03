@@ -150,4 +150,28 @@ map.on('load', function () {
 
   map.on('click', 'art-point', handleInfoEvent);
 
+  // go to log page from side bar 
+  function showLogPage(response) {
+    console.dir(response);
+    console.log('This is in: `response`:');
+    console.log(response);
+
+  }
+
+  // function handleLogArt(evt) {
+  //   evt.preventDefualt();
+
+  //   const artId = evt.features[0].properties.art_id
+  //   console.log(artId)
+
+  //   const formData = {
+  //     image: $('#image').val()
+  //     comment: $('#comment').val()
+  //   }
+
+  //   console.log('GET /info for log');
+
+  //   $.get(/log + )
+  // }
   map.addControl(new mapboxgl.NavigationControl());
+

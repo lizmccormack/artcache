@@ -93,8 +93,8 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
                                    data = {"email": "test@test123.com",
                                            "username": "test user",
                                            "password": "test"},
-                                    follow_redirects = False)
-        self.assertEqual(results.status_code, 400)
+                                    follow_redirects = True)
+        self.assertIn(b'<h1>Login</h1>', results.data)
 
     def test_get_login_200(self):
         """GET login route."""

@@ -4,6 +4,25 @@
 
 {% block content %}
 
-<h1> Welcome {{ name }} {{ id }}! </h1>
+<div class="profile">
+  <h1 id="greeting"></h1>
+  <div class="art-adds">
+  <h2>Art Adds</h2>
+    <ul id="user-adds"></ul>
+  </div>
+  <div class="art-logs">
+  <h2>Art Logs</h2>
+    <ul id="user-logs"></ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+    "use-strict"
+    console.log("are you working")
+    $.get('/profile.json', (response) => {
+        $('#greeting').html(response.name);
+    })
+
+</script>
 
 {% endblock %}

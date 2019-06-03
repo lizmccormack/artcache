@@ -24,6 +24,7 @@ h1 {
     font-family: 'Montserrat', sans-serif;
     margin-left: auto;
     margin-right: auto;
+    color: #111;
 }
 
 .sidebar {
@@ -40,18 +41,19 @@ h1 {
   padding-top: 60px;
 }
 
+.sidebar h1 {
+  color: #CAD2D3;
+}
+
 .sidebar a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #CAD2D3;
   display: block;
   transition: 0.3s;
 }
 
-.sidebar a:hover {
-  color: #f1f1f1;
-}
 
 .sidebar .closebtn {
   position: absolute;
@@ -59,6 +61,10 @@ h1 {
   right: 0;
   font-size: 36px;
   margin-left: 50px;
+}
+
+h4#hint {
+    color: #CAD2D3;
 }
 
 

@@ -35,7 +35,7 @@ login_manager = LoginManager() #creates
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# requires a secret key to use Flask session and debug toolbar 
+# requires a secret key to use Flask session and debug tool bar 
 app.secret_key ='12345'
 
 # makes sure jinja fails loudly with an error 
@@ -54,45 +54,45 @@ def get_homepage():
 
     return render_template("homepage.html")
 
-# TODO make json and handle on the frontend 
-@app.route('/user.json')
+
+@app.route('/profile')
 @login_required
 def get_profile():
+    """Profile route."""
+    return render_template("profile.html")
+
+@app.route('/profile.json')
+def get_profile_info():
     """Profile Page."""
-    # get user id 
-    # make one big query that return the user info, adds and logs 
-    # return all info in json 
-
     #TODO make into one query 
-    user.info = db.session.query(User).filter(User.user_id == current_user.user_id).one()
-    user_adds = db.session.query(Add).filter(Add.user_id == current_user.user_id).all()
-    user_logs = db.session.query(Log).filter(Log.user_id == current_user.user_id).all()
+    user_info = db.session.query(User).filter(User.user_id == current_user.user_id).first()
+    # user_adds = db.session.query(Add).filter(Add.user_id == current_user.user_id).all()
+    # user_logs = db.session.query(Log).filter(Log.user_id == current_user.user_id).all()
 
-    return render_template("profile.html", 
-                           name=current_user.username, 
-                           id=current_user.user_id,
-                           user_adds=user_adds,
-                           user_logs=user_logs)
+    return jsonify(name=current_user.username, 
+                   id=current_user.user_id)
 
 # TODO IN AJAX/JQUERY if possible 
 @app.route('/art/<art_id>', methods=['GET'])
 def info_art(art_id):
-    """show information about art.
-    """
-    # request the id 
-    # use the id to look up art info 
-    # return art info as json 
+    """Show information about art."""
 
-    # artId = request.args.get('artId')
-    # print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    # print(artId)
-    art = db.session.query(Artwork).filter(Artwork.art_id == art_id).first()
-    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    print(art)
+    art = db.session.query(Artwork).filter(Artwork.art_id == art_id).one()
 
     return jsonify(title=art.title,
                    artist=art.artist,
                    hint=art.hint)
+
+@app.route('/log/<art_id>', methods=['GET', 'POST'])
+def log_art(art_id):
+    """log page for art"""
+    art = db.session.query(Artwork).filter(Artwork.art_id == art_id).one()
+    # user = db.session.query(User).filter(User.user_id == current_user.user_id).all()
+
+    return jsonify(title=art.title,
+                   artist=art.artist,
+                   hint=art.hint)
+
 
 
 @app.route('/artworks.json')
@@ -125,17 +125,16 @@ def add_art():
         title = request.form['title']
         artist = request.form['artist']
         artist_desc = request.form['artist_desc']
-        street_address = request.form['street']
+        # street_address = request.form['street']
         medium = request.form['medium']
         art_desc = request.form['medium']
         hint = request.form['hint']
         
         #TODO put into helper functions 
         # geocoding
-        location = street_address + ',' + 'San Francisco' + 'CA' + 'USA'
-        geocode_result = gmaps.geocode(location)
-        latitude = geocode_result[0]['geometry']['location']['lat']
-        longitude = geocode_result[0]['geometry']['location']['lng']
+        # geocode_result = gmaps.geocode(street_address)
+        # latitude = geocode_result[0]['geometry']['location']['lat']
+        # longitude = geocode_result[0]['geometry']['location']['lng']
         #neighborhood = geocode_result[0]['address_components'][1]['long_name']
 
         # image upload 
@@ -248,13 +247,13 @@ def logout():
 # Helper Functions 
 
 def allowed_file(filename):
-    """Check for allowed filetypes in image upload."""
+    """Check for allowed file types in image upload."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 if __name__ == "__main__":
-    # needs to be true for the debug toolbar 
-    app.debug = True
+    # needs to be true for the debug tool bar 
+    app.debug = False
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 

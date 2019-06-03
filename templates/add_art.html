@@ -10,7 +10,7 @@
   Title:<input type="text", name="title"></input><br>  
   Artist:<input type="text", name="artist"></input><br>
   Artist Description: <input type="text", name="artist_desc"></input><br>
-  Street Address:<input type="text", name="street"></input><br>
+  Street Address:<input type="text" name="address"></input><br><br>
   Medium:<input type="text", name="medium"></input><br>
   Art Description:<input type="text" name="art_desc"></input><br>
   Hint:<input type="text" name="hint"></input><br>
@@ -18,6 +18,20 @@
   <input type="submit" value="add art">
   
 </form>
+
+<script type="text/javascript">
+    'use-strict'
+    // refactor with jquery 
+    var autocomplete = new google.maps.places.Autocomplete($("#address")[0], {});
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        var place = autocomplete.getPlace();
+        console.log(place.address_components);
+    })
+
+    
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs2JPPNK7A2nk-Tk0Gcxm9YRy9yYKjysc&libraries=places&callback=initAutocomplete"async defer></script>
 
 
 {% endblock %}
