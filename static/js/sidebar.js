@@ -24,7 +24,7 @@ map.on('click', 'art-point', handleInfoEvent);
 // show log form in sidebar  
 function showLogForm() {
 
-  $('#log-info > div').replaceWith('<div><form action="/log/<art_id>" id="log-form" methods="POST"><input type="file" name="image"></input><br><input type="text" name="comment"></input><br><input type="submit" value="submit"></form></div>');
+  $('#log-info > div').replaceWith('<div><form action="/log/<art_id>" id="log-form" methods="POST"><input type="file" id="image" name="image"></input><br><input type="text" id="comment" name="comment"></input><br><input type="submit" id="log-submit" value="submit"></form></div>');
 }
 
 $('#log').on('click', showLogForm);
@@ -38,9 +38,13 @@ function showInfoPage() {
 $('#info').on('click', showInfoPage);
 
 // submit log to user profile 
+function sendAlert(alertMsg) {
+  alert(alertMsg);
+}
+
 function submitArtLog(evt) {
   evt.preventDefualt();
-
+  console.log("YOU GOT TO THE EVENT PREVENT DEFAULT")
   const artId = evt.features[0].properties.art_id
   console.log(artId)
 
@@ -51,5 +55,7 @@ function submitArtLog(evt) {
 
   console.log('POST /info for log');
 
-  $.post('/log/' + artId, formData, callbackfunction)
+  $.post('/log/' + artId, formData, sendAlert)
 }
+
+$('#log-submit').on('submit', submitArtLog);

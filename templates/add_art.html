@@ -13,35 +13,34 @@
   Address:<input id="autocomplete" name="address"
              placeholder="Enter your address"
              onFocus="geolocate()"
-             type="text"></input><br><br>
-
-  <table id="address">
-    <tr>
-      <td class="label">Street address</td>
-      <td class="slimField"><input class="field" id="street_number" disabled="true"/></td>
-      <td class="wideField" colspan="2"><input class="field" id="route" disabled="true"/></td>
-    </tr>
-    <tr>
-      <td class="label">City</td>
-      <td class="wideField" colspan="3"><input class="field" id="locality" disabled="true"/></td>
-    </tr>
-    <tr>
-      <td class="label">State</td>
-      <td class="slimField"><input class="field" id="administrative_area_level_1" disabled="true"/></td>
-      <td class="label">Zip code</td>
-      <td class="wideField"><input class="field" id="postal_code" disabled="true"/></td>
-    </tr>
-    <tr>
-      <td class="label">Country</td>
-      <td class="wideField" colspan="3"><input class="field" id="country" disabled="true"/></td>
-      </tr>
-  </table><br><br>
-
+             type="text"></input><br>
   Medium:<input type="text", name="medium"></input><br>
   Art Description:<input type="text" name="art_desc"></input><br>
   Hint:<input type="text" name="hint"></input><br>
   Image:<input type="file" name="image"></input><br>
   <input type="submit" value="add art">
+
+    <table id="address">
+    <tr>
+      <!-- <td class="label">Street address</td> -->
+      <td class="slimField"><input type="hidden" class="field" id="street_number" disabled="true"/></td>
+      <td class="wideField" colspan="2"><input type="hidden" class="field" id="route" disabled="true"/></td>
+    </tr>
+    <tr>
+      <!-- <td class="label">City</td> -->
+      <td class="wideField" colspan="3"><input type="hidden" class="field" id="locality" disabled="true"/></td>
+    </tr>
+    <tr>
+      <!-- <td class="label">State</td> -->
+      <td class="slimField"><input type="hidden" class="field" id="administrative_area_level_1" disabled="true"/></td>
+      <!-- <td class="label">Zip code</td> -->
+      <td class="wideField"><input type="hidden" class="field" id="postal_code" disabled="true"/></td>
+    </tr>
+    <tr>
+      <!-- <td class="label">Country</td> -->
+      <td class="wideField" colspan="3"><input type="hidden" class="field" id="country" disabled="true"/></td>
+      </tr>
+  </table><br><br>
   
 </form>
 

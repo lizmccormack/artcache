@@ -112,10 +112,11 @@ map.on('mouseenter', 'art-point', function (evt) {
   map.getCanvas().style.cursor = 'pointer';
 
   var coordinates = evt.features[0].geometry.coordinates;
-  var source = evt.features[0].properties.source;
+  var title = evt.features[0].properties.title;
+  var hint = evt.features[0].properties.hint;
 
   popup.setLngLat(coordinates)
-    .setHTML(source)
+    .setHTML('<h7><strong>' + title + '</strong></h7><br><div>Hint: ' + hint + '</div>')
     .addTo(map);
 
 });

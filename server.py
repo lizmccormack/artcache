@@ -72,7 +72,7 @@ def get_profile_info():
     return jsonify(name=current_user.username, 
                    id=current_user.user_id)
 
-# TODO IN AJAX/JQUERY if possible 
+
 @app.route('/art/<art_id>', methods=['GET'])
 def info_art(art_id):
     """Show information about art."""
@@ -101,7 +101,7 @@ def log_art(art_id):
 
     time.sleep(2)
 
-    print("NEW ORDER!!!!!! ")
+    print("NEW ORDER!!!!!!")
 
     log = Log(art_id=art_id,
               user_id = current_user.user_id,

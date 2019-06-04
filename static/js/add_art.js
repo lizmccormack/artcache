@@ -12,17 +12,14 @@ var componentForm = {
 };
 
 function initAutocomplete() {
-  // Create the autocomplete object, restricting the search predictions to
-  // geographical location types.
+  // set the autocomplete object and only allow locations with geocode 
   autocomplete = new google.maps.places.Autocomplete(
       document.getElementById('autocomplete'), {types: ['geocode']});
 
-  // Avoid paying for data that you don't need by restricting the set of
-  // place fields that are returned to just the address components.
+  // restrics return data to address_component
   autocomplete.setFields(['address_component']);
 
-  // When the user selects an address from the drop-down, populate the
-  // address fields in the form.
+  // populate address fields when the user selects from the dropdown 
   autocomplete.addListener('place_changed', fillInAddress);
 }
 
