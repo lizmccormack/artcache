@@ -100,79 +100,26 @@ map.on('load', function () {
      $('#Sidebar').css("width", "25%");
   });
 
-  // popup variable 
-  var popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
-   });
+// popup variable 
+var popup = new mapboxgl.Popup({
+  closeButton: false,
+  closeOnClick: false
+});
 
-  // event to show popup on mouse hover 
-  map.on('mouseenter', 'art-point', function (evt) {
+// event to show popup on mouse hover 
+map.on('mouseenter', 'art-point', function (evt) {
 
-    map.getCanvas().style.cursor = 'pointer';
+  map.getCanvas().style.cursor = 'pointer';
 
-    var coordinates = evt.features[0].geometry.coordinates;
-    var source = evt.features[0].properties.source;
+  var coordinates = evt.features[0].geometry.coordinates;
+  var source = evt.features[0].properties.source;
 
-    popup.setLngLat(coordinates)
-      .setHTML(source)
-      .addTo(map);
+  popup.setLngLat(coordinates)
+    .setHTML(source)
+    .addTo(map);
 
-  });
+});
 
-  // handle closing sidebar and popup on click TODO: why is tooltip not closing
-  $('#closebtn').on('click', function (evt) {
-     $('#Sidebar').css("width", "0");
-  });
-
-  // show the art hint in the sidebar 
-  function showArtInfo(response) {
-
-    $('#hint').html(response.hint);
-    $('#title').html(response.title);
-    $('#artist').html(response.artist);
-  }
-
-  function handleInfoEvent(evt) {
-    evt.preventDefault();
-
-    const artId = evt.features[0].properties.art_id
-    $.get('/art/' + artId, showArtInfo);
-  }
-
-  map.on('click', 'art-point', handleInfoEvent);
-
-  // go to log page from side bar 
-  function showLogForm() {
-    
-    $('#log-info').append('<form action="/log/<art_id>" id="log-form" methods="POST"><input type="file" name="image"></input><br><input type="text" name="comment"></input><br><input type="submit" value="submit"></form>');
-  }
-
-  $('#log').on('click', showLogForm);
-
-  function showInfoPage() {
-    console.log('HELLOOOOOOOOOOOO');
-    $('#log-info').replaceWith('<ul><p>PHOTO COMMENT</p></ul>');
-  }
-
-  $('#info').on('click', showInfoPage);
-
-  // function submitArtLog(evt) {
-  //   evt.preventDefualt();
-
-  //   const artId = evt.features[0].properties.art_id
-  //   console.log(artId)
-
-  //   const formData = {
-  //     image: $('#image').val(),
-  //     comment: $('#comment').val()
-  //   }
-
-  //   console.log('GET /info for log');
-
-  //   $.get('/log/' + artId, formData)
-  // }
-
-  const nav = new mapboxgl.NavigationControl();
-  map.addControl(nav, 'bottom-right');
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'bottom-right');
 
