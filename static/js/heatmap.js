@@ -143,14 +143,19 @@ map.on('load', function () {
   map.on('click', 'art-point', handleInfoEvent);
 
   // go to log page from side bar 
-  function showLogPage() {
-    console.log('GOT HERE')
-    $('#log-form').append('<form action="/log/<art_id>" id="log-form" methods="POST"><input type="file" name="image"></input><br><input type="text" name="comment"></input><br><input type="submit" value="submit"></form>');
-    $('#info').hide();
-    $('#log').hide();
+  function showLogForm() {
+    
+    $('#log-info').append('<form action="/log/<art_id>" id="log-form" methods="POST"><input type="file" name="image"></input><br><input type="text" name="comment"></input><br><input type="submit" value="submit"></form>');
   }
 
-  $('#log').on('click', showLogPage);
+  $('#log').on('click', showLogForm);
+
+  function showInfoPage() {
+    console.log('HELLOOOOOOOOOOOO');
+    $('#log-info').replaceWith('<ul><p>PHOTO COMMENT</p></ul>');
+  }
+
+  $('#info').on('click', showInfoPage);
 
   // function submitArtLog(evt) {
   //   evt.preventDefualt();
