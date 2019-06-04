@@ -66,11 +66,14 @@ def get_profile_info():
     """Profile Page."""
     #TODO make into one query 
     user_info = db.session.query(User).filter(User.user_id == current_user.user_id).first()
-    # user_adds = db.session.query(Add).filter(Add.user_id == current_user.user_id).all()
-    # user_logs = db.session.query(Log).filter(Log.user_id == current_user.user_id).all()
+    user_adds = db.session.query(Add).filter(Add.user_id == current_user.user_id).all()
+    user_logs = db.session.query(Log).filter(Log.user_id == current_user.user_id).all()
 
     return jsonify(name=current_user.username, 
-                   id=current_user.user_id)
+                   id=current_user.user_id,
+                   adds=jsonify(user_adds),
+                   logs=jsonify(user_logs)
+                   )
 
 
 @app.route('/art/<art_id>', methods=['GET'])
@@ -81,22 +84,14 @@ def info_art(art_id):
 
     return jsonify(title=art.title,
                    artist=art.artist,
-                   hint=art.hint)
+                   hint=art.hint, 
+                   img = art.img_url)
 
 @app.route('/log/<art_id>', methods=['POST'])
 def log_art(art_id):
     """log page for art"""
 
-    # image upload 
-    image = request.files.get('image')
-    if file.filename == '':
-        flash('No file selected for uploading')
-        return redirect('/add_art')
-    elif file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        filepath = file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-
+    file = request.files.get('image')
     comment = request.form.get("comment")
 
     time.sleep(2)
@@ -106,7 +101,7 @@ def log_art(art_id):
     log = Log(art_id=art_id,
               user_id = current_user.user_id,
               comment=comment,
-              img=filepath) 
+              img=handle_img_upload(file)) 
 
     return "Your site had been logged"
 
@@ -151,21 +146,10 @@ def add_art():
         medium = request.form['medium']
         art_desc = request.form['medium']
         hint = request.form['hint']
-        
-        #TODO put into helper functions 
-        geocode_result = gmaps.geocode(address)
-        latitude = geocode_result[0]['geometry']['location']['lat']
-        longitude = geocode_result[0]['geometry']['location']['lng']
+        latitude = geocode(address)[0]['geometry']['location']['lat']
+        longitude = geocode(address)[0]['geometry']['location']['lng']
         #neighborhood = geocode_result[0]['address_components'][1]['long_name']
-
-        # image upload 
         file = request.files['image']
-        if file.filename == '':
-            flash('No file selected for uploading')
-            return redirect('/add_art')
-        elif file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         # create art instance 
         art = Artwork(title = title,
@@ -178,8 +162,8 @@ def add_art():
                       medium = medium,
                       art_desc = art_desc,
                       hint = hint,
-                      img_filename=filename,
-                      img_url=filepath)
+                      # img_filename=filename,
+                      img_url=handle_img_upload(file))
 
         # add art to database 
         db.session.add(art)
@@ -269,7 +253,24 @@ def logout():
 
 def allowed_file(filename):
     """Check for allowed file types in image upload."""
+
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def geocode(location):
+    """geocode an address into lat/lng."""
+
+    return gmaps.geocode(location)
+
+def handle_img_upload(file):
+    """check for image and create filepath to store in db."""
+
+    if file.filename == '':
+        flash('No file selected for uploading')
+        return redirect('/add_art')
+    elif file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        return file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
 
 
 if __name__ == "__main__":
