@@ -31,7 +31,7 @@ $('#log').on('click', showLogForm);
 
 // show info page in sidebar 
 function showInfoPage() {
-  console.log('HELLOOOOOOOOOOOO');
+  
   $('#log-info > div').replaceWith('<div><ul><p>PHOTO COMMENT</p></ul></div>');
 }
 
