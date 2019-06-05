@@ -3,7 +3,7 @@ from model import Artwork, Neighborhood, connect_to_db, db
 from server import app
 
 from sqlalchemy import func 
-from geoalchemy2.shape import from_shape
+from geoalchemy2.shape import from_shape, to_shape
 from shapely.geometry import Point
 
 
@@ -26,6 +26,7 @@ def load_oneper():
             location = from_shape(Point(float(item["the_geom"]["latitude"]), float(item["the_geom"]["longitude"])))
             latitude=item["the_geom"]["latitude"]
             longitude=item["the_geom"]["longitude"]
+            # neighborhood_id=map_neighborhood(longitude, latitude)
             medium = item["medium"]
             art_desc = item["name"] + item["location"]
             hint = item["accessibil"]
@@ -41,6 +42,7 @@ def load_oneper():
                       location = location,
                       latitude = latitude,
                       longitude = longitude,
+                      # neighborhood_id=neighborhood_id,
                       source = 'public_oneper', 
                       medium = medium,
                       art_desc = art_desc,
@@ -55,6 +57,23 @@ def load_oneper():
 
 
 ################################################################################
+
+# def shapeify_polygons():
+#     list_polygon_geoms = db.session.query(Neighborhood.neighborhood_geom).all()
+
+#     list_polygon_shapeify = []
+#     for item in list_polygon_geoms:
+#         item = to_shape(neighborhood_geom)
+#         list_polygon_shapeify.append(item)
+
+#     return list_polygon_shapeify
+
+# def map_neighborhood(lng, lat):
+#     point = Point(float(lng), float(lat))
+#     polygons = shapeify_polygons()
+#     for polygon in polygons: 
+#         if polygon.contains(point) == True:
+#             return neighborhood_id
 
 def set_val_art_id():
     """Set value for the next art_id"""

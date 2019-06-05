@@ -65,16 +65,10 @@ def get_profile():
 @app.route('/profile.json')
 def get_profile_info():
     """Profile Page."""
-    #TODO make into one query 
-    user_info = db.session.query(User).filter(User.user_id == current_user.user_id).first()
-    user_adds = db.session.query(Add).filter(Add.user_id == current_user.user_id).all()
-    user_logs = db.session.query(Log).filter(Log.user_id == current_user.user_id).all()
+    user = db.session.query(User).filter(User.user_id == current_user.user_id).first()
 
-    return jsonify(name=current_user.username, 
-                   id=current_user.user_id,
-                   adds=jsonify(user_adds),
-                   logs=jsonify(user_logs)
-                   )
+    return jsonify(username=user.username,
+                   user_id=user.user_id)
 
 
 @app.route('/art/<art_id>', methods=['GET'])
@@ -287,7 +281,6 @@ def handle_img_upload(file):
     elif file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         return file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
 
 
 if __name__ == "__main__":

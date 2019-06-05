@@ -26,6 +26,7 @@ def load_civic():
             #location = from_shape(Point(float(item["point"].get("latitude",0)), float(item["point"].get("longitude",0)))),
             latitude = item.get("latitude", 0)
             longitude = item.get("longitude",0)
+            # neighborhood_id=map_neighborhood(longitude, latitude)
             medium = item["medium"]
             art_desc = item["facility"] + item["current_location"]
             hint = item["location_description"]
@@ -39,6 +40,7 @@ def load_civic():
                       #location = from_shape(Point(float(item["point"].get("latitude",0)), float(item["point"].get("longitude",0)))),
                       latitude = latitude,
                       longitude = longitude,
+                      # neighborhood_id=neighborhood_id,
                       source = 'civic',
                       medium = medium,
                       art_desc = art_desc,
@@ -52,6 +54,23 @@ def load_civic():
 
 
 ################################################################################
+
+# def shapeify_polygons():
+#     list_polygon_geoms = db.session.query(Neighborhood.neighborhood_geom).all()
+
+#     list_polygon_shapeify = []
+#     for item in list_polygon_geoms:
+#         item = to_shape(neighborhood_geom)
+#         list_polygon_shapeify.append(item)
+
+#     return list_polygon_shapeify
+
+# def map_neighborhood(lng, lat):
+#     point = Point(float(lng), float(lat))
+#     polygons = shapeify_polygons()
+#     for polygon in polygons: 
+#         if polygon.contains(point) == True:
+#             return neighborhood_id
 
 def set_val_art_id():
     """Set value for the next art_id"""

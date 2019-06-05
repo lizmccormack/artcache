@@ -22,7 +22,7 @@ class Artwork(db.Model):
     location = db.Column(Geometry('POINT'))                
     latitude =db.Column(db.String(50))
     longitude = db.Column(db.String(50))
-    #neighborhood = db.Column(db.String(50))
+    # neighborhood = db.Column(db.Integer)
     source = db.Column(db.String(255), nullable=False)                      
     medium = db.Column(db.String(250))
     art_desc = db.Column(db.String(200))
