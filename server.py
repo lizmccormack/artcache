@@ -18,6 +18,7 @@ import json
 import googlemaps
 from datetime import datetime
 from flask import jsonify
+import time
 
 
 # flask-upload constants  
@@ -90,9 +91,22 @@ def info_art(art_id):
 @app.route('/log/<art_id>', methods=['POST'])
 def log_art(art_id):
     """log page for art"""
+    # print(dir(request))
+    # print(request)
+    # print('\n\n\n\n\n\n\n\n\n\n')
+    # print('this is request form', request.form)
+    # print('this is request form dir', dir(request.form))
+    # print('this is request form getlist', request.form.getlist)
+    # print('\n\n\n\n\n\n\n\n\n\n')
+    # print('this is request files', request.files)
+    # print('this is request files dir', dir(request.files))
+    # print('this is request files', request.files)
+    # print('\n\n\n\n\n\n\n\n\n\n')
+    # print('\n\n\n\n\n\n\n\n\n\n')
+    # print('this is request get data', request.get_data)
 
-    file = request.files.get('image')
-    comment = request.form.get("comment")
+    file = request.files['image']
+    comment = request.form["comment"]
 
     time.sleep(2)
 
@@ -102,6 +116,9 @@ def log_art(art_id):
               user_id = current_user.user_id,
               comment=comment,
               img=handle_img_upload(file)) 
+    
+    db.session.add(log)
+    db.session.commit()
 
     return "Your site had been logged"
 

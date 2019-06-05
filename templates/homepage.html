@@ -18,7 +18,13 @@
     <button id='info'>Info</button>
     <!-- add form for log on click of log button -->
     <div id="log-info">
-      <div></div>
+      <div>
+        <form method="post" enctype="multipart/form-data" id="log-form" style="display:none;">
+          <input type="file" id="image" name="image"></input><br>
+          <input type="text" id="comment" name="comment"></input><br>
+          <input type="submit" value="submit"></form>
+        </form>
+      </div>
     </div>
 
   </div>

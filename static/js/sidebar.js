@@ -23,8 +23,7 @@ map.on('click', 'art-point', handleInfoEvent);
 
 // show log form in sidebar  
 function showLogForm() {
-
-  $('#log-info > div').replaceWith('<div><form action="/log/<art_id>" id="log-form" methods="POST"><input type="file" id="image" name="image"></input><br><input type="text" id="comment" name="comment"></input><br><input type="submit" id="log-submit" value="submit"></form></div>');
+  $('#log-form').css("display", "block");
 }
 
 $('#log').on('click', showLogForm);
@@ -43,19 +42,30 @@ function sendAlert(alertMsg) {
 }
 
 function submitArtLog(evt) {
-  evt.preventDefualt();
+  evt.preventDefault();
   console.log("YOU GOT TO THE EVENT PREVENT DEFAULT")
-  const artId = evt.features[0].properties.art_id
+  const artId = 1000
   console.log(artId)
 
-  const formData = {
-    image: $('#image').val(),
-    comment: $('#comment').val()
+  const formData = new FormData($('#log-form'));
+  formData.append('image', $('input[type=file]')[0].files[0]);
+  formData.append('comment', $('#comment').val())
+
+
+const opts = {
+  async: false,
+  type: "POST",
+  url: '/log/' + artId,
+  data: formData,
+  processData: false,
+  contentType: false,
+  success: sendAlert
 }
 
+  console.log(formData);
   console.log('POST /info for log');
 
-  $.post('/log/' + artId, formData, sendAlert)
+  $.ajax(opts);
 }
 
-$('#log-submit').on('submit', submitArtLog);
+$('#log-form').on('submit', submitArtLog);
