@@ -10,6 +10,7 @@ function showArtInfo(response) {
   $('#hint').html(response.hint);
   $('#title').html(response.title);
   $('#artist').html(response.artist);
+  $('#art-id').html(response.art_id);
 }
 
 function handleInfoEvent(evt) {
@@ -36,21 +37,32 @@ $('#log').on('click', showLogForm);
 
 // show info page in sidebar 
 function showInfoPage() {
-  
-  $('#log-info > div').replaceWith('<div><ul><p>PHOTO COMMENT</p></ul></div>');
+  var x = $('#user-logs');
+  var displaysetting = x[0].style.display;
+  if (x[0].style.display === "block") {
+    x[0].style.display = "none";
+  } else {
+    x[0].style.display = "block";
+  }
 }
 
 $('#info').on('click', showInfoPage);
 
 // submit log to user profile 
 function sendAlert(alertMsg) {
+
   alert(alertMsg);
+  // clears form on submit 
+  $('#log-form').children('input[type="text"]').val('');
+  $('#log-form').children('input[type="file"]').val('');
 }
 
 function submitArtLog(evt) {
+
   evt.preventDefault();
+
   console.log("YOU GOT TO THE EVENT PREVENT DEFAULT")
-  const artId = 1000
+  const artId = $('#art-id').text()
   console.log(artId)
 
   const formData = new FormData($('#log-form'));

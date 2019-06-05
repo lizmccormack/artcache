@@ -19,6 +19,7 @@ import googlemaps
 from datetime import datetime
 from flask import jsonify
 import time
+import boto3 
 
 
 # flask-upload constants  
@@ -41,6 +42,10 @@ app.secret_key ='12345'
 
 # makes sure jinja fails loudly with an error 
 app.jinja_env.undefined = StrictUndefined
+
+# set up s3 client 
+s3_resource= boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'], region_name='us-west-2')
+bucket_name = 'artcache'
 
 
 @login_manager.user_loader
@@ -80,26 +85,15 @@ def info_art(art_id):
     return jsonify(title=art.title,
                    artist=art.artist,
                    hint=art.hint, 
+                   art_id=art_id,
                    img = art.img_url)
 
 @app.route('/log/<art_id>', methods=['POST'])
 def log_art(art_id):
     """log page for art"""
-    # print(dir(request))
-    # print(request)
-    # print('\n\n\n\n\n\n\n\n\n\n')
-    # print('this is request form', request.form)
-    # print('this is request form dir', dir(request.form))
-    # print('this is request form getlist', request.form.getlist)
-    # print('\n\n\n\n\n\n\n\n\n\n')
-    # print('this is request files', request.files)
-    # print('this is request files dir', dir(request.files))
-    # print('this is request files', request.files)
-    # print('\n\n\n\n\n\n\n\n\n\n')
-    # print('\n\n\n\n\n\n\n\n\n\n')
-    # print('this is request get data', request.get_data)
 
     file = request.files['image']
+    img_filename=handle_img_upload(file)
     comment = request.form["comment"]
 
     time.sleep(2)
@@ -109,10 +103,12 @@ def log_art(art_id):
     log = Log(art_id=art_id,
               user_id = current_user.user_id,
               comment=comment,
-              img=handle_img_upload(file)) 
+              img=img_filename) 
     
     db.session.add(log)
     db.session.commit()
+
+    s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body='/tml/' + img_filename)
 
     return "Your site had been logged"
 
@@ -161,6 +157,7 @@ def add_art():
         longitude = geocode(address)[0]['geometry']['location']['lng']
         #neighborhood = geocode_result[0]['address_components'][1]['long_name']
         file = request.files['image']
+        img_filename=handle_img_upload(file)
 
         # create art instance 
         art = Artwork(title = title,
@@ -173,8 +170,8 @@ def add_art():
                       medium = medium,
                       art_desc = art_desc,
                       hint = hint,
-                      # img_filename=filename,
-                      img_url=handle_img_upload(file))
+                      img_filename=img_filename)
+                      # img_url=handle_img_upload(file))
 
         # add art to database 
         db.session.add(art)
@@ -187,6 +184,8 @@ def add_art():
 
         db.session.add(add)
         db.session.commit()
+
+        s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body='/tml/' + img_filename)
 
         return redirect('/')
 
@@ -280,7 +279,8 @@ def handle_img_upload(file):
         return redirect('/add_art')
     elif file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        return file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return filename 
+        # return file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 
 if __name__ == "__main__":
