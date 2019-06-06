@@ -1,7 +1,6 @@
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, session, url_for, flash) 
 from flask_debugtoolbar import DebugToolbarExtension
-#from flask_uploads import UploadSet, IMAGES, configure_uploads
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,7 +19,8 @@ from datetime import datetime
 from flask import jsonify
 import time
 import boto3 
-
+from PIL import Image 
+import io
 
 # flask-upload constants  
 UPLOAD_FOLDER = 'static/image_uploads'
@@ -65,9 +65,8 @@ def get_homepage():
 @login_required
 def get_profile():
     """Profile route."""
-    user = db.session.query(User).filter(User.user_id == current_user.user_id).first()
-
-    return render_template("profile.html", user=user)
+    
+    return render_template("profile.html")
 
 @app.route('/logs.json')
 def get_profile_logs():
@@ -97,8 +96,8 @@ def get_profile_adds():
     add_list = []
     for add in user.adds: 
         add_json = {
-            "title": add.title,
-            "hint": add.hint,
+            "title": add.artwork.title,
+            "hint": add.artwork.hint,
             "image": presigned_url(add.artwork.img_filename),
         }
         add_list.append(add_json)
@@ -127,7 +126,13 @@ def log_art(art_id):
     """log page for art"""
 
     file = request.files['image']
-    img_filename=handle_img_upload(file)
+    image = Image.open(file)
+    image.thumbnail([200, 200],Image.ANTIALIAS)
+    in_mem_file = io.BytesIO()
+    image.save(in_mem_file, format='JPEG')
+    image_resize = in_mem_file.getvalue()
+
+    img_filename = handle_img_upload(file)
     comment = request.form["comment"]
 
     time.sleep(2)
@@ -142,7 +147,7 @@ def log_art(art_id):
     db.session.add(log)
     db.session.commit()
 
-    s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body='/tml/' + img_filename)
+    s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body=image_resize)
 
     return "Your site had been logged"
 
@@ -191,7 +196,14 @@ def add_art():
         longitude = geocode(address)[0]['geometry']['location']['lng']
         #neighborhood = geocode_result[0]['address_components'][1]['long_name']
         file = request.files['image']
-        img_filename=handle_img_upload(file)
+        image = Image.open(file)
+        image.thumbnail((300, 300),Image.ANTIALIAS)
+        print (image)
+        print (image.size)
+        # new_height = 300
+        # image = io.BufferedReader(file)
+        # image.resize((new_width, new_height), Image.ANTIALIAS)
+        # img_filename=handle_img_upload(file)
 
         # create art instance 
         art = Artwork(title = title,
@@ -219,7 +231,7 @@ def add_art():
         db.session.add(add)
         db.session.commit()
 
-        s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body='/tml/' + img_filename)
+        s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body=file)
 
         return redirect('/')
 
@@ -317,11 +329,19 @@ def handle_img_upload(file):
         # return file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 def presigned_url(key, bucket=bucket_name, expiration=3600,): 
-        url = s3_resource.generate_presigned_url('get_object',
+    url = s3_resource.generate_presigned_url('get_object',
                                                 Params={'Bucket': bucket,
                                                         'Key': key},
                                                 ExpiresIn=expiration)
-        return url
+    return url
+
+# def process_image(image):
+#     new_width = 200
+#     new_height = 300
+#     byte_image = ioBytesIO(image)
+#     small_image = byte_image.open()
+#     small_image.thu((new_width, new_height), Image.ANTIALIAS)
+#     return small_image
 
 
 if __name__ == "__main__":
@@ -336,3 +356,6 @@ if __name__ == "__main__":
     DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')
+
+
+

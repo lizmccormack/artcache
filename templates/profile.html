@@ -10,19 +10,12 @@
 
   <div class="art-adds">
   <h2>Art Adds</h2>
-    <ul id="user-adds"></ul>
+    <div id="add"></div>
   </div>
 
   <div class="art-logs">
   <h2>Art Logs</h2>
-    <ul id="user-logs">
-        {% for log in user.logs %}
-        <div>
-          <img {{ url }}>
-          <span>comment:{{ log.comment }}</span>
-        </div>
-        {% endfor %}
-    </ul>
+    <div id=log></div>
   </div>
 
 </div>
