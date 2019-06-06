@@ -44,6 +44,14 @@ function showInfoPage() {
   } else {
     x[0].style.display = "block";
   }
+
+  $.get('/logs.json', (response) => {
+    let myArray = response.logs 
+    for (let i = 0; i < myArray.length; i++) {
+        const log = myArray[i];
+        $('#log-info').html('<div><img src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
+    }
+})
 }
 
 $('#info').on('click', showInfoPage);
@@ -61,9 +69,7 @@ function submitArtLog(evt) {
 
   evt.preventDefault();
 
-  console.log("YOU GOT TO THE EVENT PREVENT DEFAULT")
   const artId = $('#art-id').text()
-  console.log(artId)
 
   const formData = new FormData($('#log-form'));
   formData.append('image', $('input[type=file]')[0].files[0]);

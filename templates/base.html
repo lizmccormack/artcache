@@ -70,9 +70,11 @@
    <script type="text/javascript">
      {% if current_user.is_authenticated == false %}
         $('#add-site').hide();
-        $('#user-profile').hide()
-        $('#login-logout').attr("href" , "/login")
-        $('#login-logout').html("Login")
+        $('#user-profile').hide();
+        $('#login-logout').attr("href" , "/login");
+        $('#login-logout').html("Login");
+        $('#log-btn').hide();
+        $('#info-btn').hide();
      {% endif %}
    </script>
 

@@ -197,13 +197,11 @@ def add_art():
         #neighborhood = geocode_result[0]['address_components'][1]['long_name']
         file = request.files['image']
         image = Image.open(file)
-        image.thumbnail((300, 300),Image.ANTIALIAS)
-        print (image)
-        print (image.size)
-        # new_height = 300
-        # image = io.BufferedReader(file)
-        # image.resize((new_width, new_height), Image.ANTIALIAS)
-        # img_filename=handle_img_upload(file)
+        image.thumbnail([200, 200],Image.ANTIALIAS)
+        in_mem_file = io.BytesIO()
+        image.save(in_mem_file, format='JPEG')
+        image_resize = in_mem_file.getvalue()
+        img_filename = handle_img_upload(file)
 
         # create art instance 
         art = Artwork(title = title,
@@ -231,7 +229,7 @@ def add_art():
         db.session.add(add)
         db.session.commit()
 
-        s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body=file)
+        s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body=image_resize)
 
         return redirect('/')
 
