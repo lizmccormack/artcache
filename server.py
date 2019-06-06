@@ -65,15 +65,49 @@ def get_homepage():
 @login_required
 def get_profile():
     """Profile route."""
-    return render_template("profile.html")
-
-@app.route('/profile.json')
-def get_profile_info():
-    """Profile Page."""
     user = db.session.query(User).filter(User.user_id == current_user.user_id).first()
 
-    return jsonify(username=user.username,
-                   user_id=user.user_id)
+    return render_template("profile.html", user=user)
+
+@app.route('/logs.json')
+def get_profile_logs():
+    """User logs json for profile page"""
+
+    user = db.session.query(User).filter(User.user_id == current_user.user_id).first()
+
+    log_list = []
+    for log in user.logs: 
+        log_json = {
+            "image": presigned_url(log.img),
+            "comment": log.comment
+        }
+        log_list.append(log_json)
+
+    user_log = {"username": current_user.username,
+                "logs": log_list}
+
+    return jsonify(user_log)
+
+@app.route('/adds.json')
+def get_profile_adds(): 
+    """User adds json for profile page."""
+    
+    user = db.session.query(User).filter(User.user_id == current_user.user_id).first()
+
+    add_list = []
+    for add in user.adds: 
+        add_json = {
+            "title": add.title,
+            "hint": add.hint,
+            "image": presigned_url(add.artwork.img_filename),
+        }
+        add_list.append(add_json)
+
+    user_add = {"username": current_user.username,
+                "logs": add_list}
+
+    return jsonify(user_add)
+
 
 
 @app.route('/art/<art_id>', methods=['GET'])
@@ -282,10 +316,17 @@ def handle_img_upload(file):
         return filename 
         # return file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+def presigned_url(key, bucket=bucket_name, expiration=3600,): 
+        url = s3_resource.generate_presigned_url('get_object',
+                                                Params={'Bucket': bucket,
+                                                        'Key': key},
+                                                ExpiresIn=expiration)
+        return url
+
 
 if __name__ == "__main__":
     # needs to be true for the debug tool bar 
-    app.debug = True
+    app.debug = False
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 

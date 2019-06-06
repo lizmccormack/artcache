@@ -50,7 +50,7 @@
   <div class="flash_messages">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <ul class=flashes>
+        <ul class="alert alert-warning">
         {% for message in messages %}
           <p>{{ message }}</p>
         {% endfor %}

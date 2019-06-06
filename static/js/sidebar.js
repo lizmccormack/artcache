@@ -24,8 +24,8 @@ map.on('click', 'art-point', handleInfoEvent);
 
 // show log form in sidebar  
 function showLogForm() {
-  var x = $('#log-form');
-  var displaysetting = x[0].style.display;
+  const x = $('#log-form');
+  const displaySetting = x[0].style.display;
   if (x[0].style.display === "block") {
     x[0].style.display = "none";
   } else {

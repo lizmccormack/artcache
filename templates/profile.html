@@ -15,7 +15,14 @@
 
   <div class="art-logs">
   <h2>Art Logs</h2>
-    <ul id="user-logs"></ul>
+    <ul id="user-logs">
+        {% for log in user.logs %}
+        <div>
+          <img {{ url }}>
+          <span>comment:{{ log.comment }}</span>
+        </div>
+        {% endfor %}
+    </ul>
   </div>
 
 </div>

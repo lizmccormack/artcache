@@ -27,7 +27,7 @@ map.on('load', function () {
       id: 'art-heat',
       type: 'heatmap',
       source: 'artworks',
-      maxzoom: 15,
+      maxzoom: 12,
       paint: {
         'heatmap-intensity': {
           stops: [
@@ -39,24 +39,24 @@ map.on('load', function () {
       'interpolate',
         ['linear'],
         ['heatmap-density'],
-          0, "rgba(33,102,172,0)",
-          0.2, "rgb(103,169,207)",
-          0.4, "rgb(209,229,240)",
-          0.6, "rgb(253,219,199)",
-          0.8, "rgb(239,138,98)"
+          0, "rgba(0,0,255,0)",
+          0.2, "#ffffb2",
+          0.4, "#feb24c",
+          0.6, "#fd8d3c",
+          0.8, "#f88112"
         ], 
       "heatmap-radius": [
         "interpolate",
         ["linear"],
         ["zoom"],
         0, 2,
-        9, 20
+        12, 20
         ],
       'heatmap-opacity': {
         default: 1,
         stops: [
           [11, 1],
-          [14, 0]
+          [12, 0]
           ]
           },
         }
@@ -67,6 +67,7 @@ map.on('load', function () {
         id: 'art-point',
         type: 'circle',
         source: 'artworks',
+        minzoom: 12,
         paint: {
           'circle-radius': 5,
           'circle-color': {
@@ -81,7 +82,7 @@ map.on('load', function () {
           'circle-opacity': {
             stops: [
               [11, 0],
-              [15, 1]
+              [12, 1]
             ]
           }
         }
@@ -102,7 +103,7 @@ map.on('load', function () {
 
 // popup variable 
 var popup = new mapboxgl.Popup({
-  closeButton: false,
+  closeButton: true,
   closeOnClick: false
 });
 
@@ -120,6 +121,16 @@ map.on('mouseenter', 'art-point', function (evt) {
     .addTo(map);
 
 });
+
+const legend = $('#art-legend');
+const legendDisplaySettings = legend[0].style.displaysettings
+map.on('zoom', function() {
+  if (map.getZoom() > 12) {
+    legend[0].style.display = 'block';
+  } else {
+    legend[0].style.display = 'none';
+  }
+}); 
 
 const nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'bottom-right');
