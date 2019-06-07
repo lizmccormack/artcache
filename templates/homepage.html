@@ -42,12 +42,15 @@
 
   </div>
 
+
   <script src="/static/js/heatmap.js"></script>
   <script src="/static/js/sidebar.js"></script>
+
   <script type="text/javascript">
     {% if current_user.is_authenticated == false %}
         $('#Sidebar > #log').hide();
         $('#Sidebar > #info').hide();
+        $('#Sidebar > #art-tour').hide();
      {% endif %}
   </script>
 

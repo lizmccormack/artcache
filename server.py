@@ -60,6 +60,12 @@ def get_homepage():
 
     return render_template("homepage.html")
 
+@app.route('/art_tour')
+def get_tour():
+    """tour of SF."""
+
+    return render_template("tour.html")
+
 
 @app.route('/profile')
 @login_required

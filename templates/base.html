@@ -7,6 +7,7 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet'/>
+  
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
   <!-- bootstrap -->
@@ -34,6 +35,9 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" id='art-tour' href="/art_tour" disabled><i class="fas fa-walking"></i></i><span class="sr-only">Tour</span></a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" id='add-site' href="/add_art" disabled><i class="far fa-plus-square"></i><span class="sr-only">Add Art Site</span></a>
         </li>
@@ -73,8 +77,6 @@
         $('#user-profile').hide();
         $('#login-logout').attr("href" , "/login");
         $('#login-logout').html("Login");
-        $('#Sidebar > #log').hide();
-        $('#Sidebar > #info').hide();
      {% endif %}
    </script>
 

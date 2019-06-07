@@ -19,6 +19,13 @@ body {
   z-index: -1;
 }
 
+#map-tour { 
+  position:absolute; 
+  top:0; 
+  bottom:0; 
+  width: 100%; 
+}
+
 .art-legend {
   background-color: #CAD2D3;
   border-radius: 3px;
@@ -57,8 +64,13 @@ h1 {
   left: 0;
   background-color: #111;
   overflow-x: hidden;
+  overflow-y: scroll;
   transition: 0.5s;
   padding-top: 60px;
+}
+
+#features {
+  background-color: #CAD2D3;
 }
 
 .sidebar > h2, .sidebar > p, .sidebar > h4 {
