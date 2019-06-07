@@ -22,7 +22,6 @@ class Artwork(db.Model):
     location = db.Column(Geometry('POINT'))                
     latitude =db.Column(db.String(50))
     longitude = db.Column(db.String(50))
-    # neighborhood = db.Column(db.Integer)
     source = db.Column(db.String(255), nullable=False)                      
     medium = db.Column(db.String(250))
     art_desc = db.Column(db.String(200))
@@ -145,17 +144,26 @@ class Neighborhood(db.Model):
 #     Artworks.query.delete()
 #     User.query.delete()
 
-#     # Add sample employees and departments
-#     paiting = Department(dept_code='fin', dept='Finance', phone='555-1000')
-#     sculture = Department(dept_code='legal', dept='Legal', phone='555-2222')
-#     graffiti = Department(dept_code='mktg', dept='Marketing', phone='555-9999')
+#     leo = User(name='Leonard', dept=dl)
+#     larry = User(name='Liz', dept=dl)
 
-#     leo = Employee(name='Leonard', dept=dl)
-#     liz = Employee(name='Liz', dept=dl)
-  
-
-#     db.session.add_all([painting, sculture, graffiti, leo, liz])
+#     db.session.add_all([leo, liz])
 #     db.session.commit()
+
+        
+#     # Add sample employees and departments
+#     # leo adds paiting and sculpture; larry add graffiti 
+#     painting = Artwork(dept_code='fin', dept='Finance', phone='555-1000')
+#     sculpture = Artwork(dept_code='legal', dept='Legal', phone='555-2222')
+#     graffiti = Artwork(dept_code='mktg', dept='Marketing', phone='555-9999')
+
+#     # leo logs graffiti; larry logs painting and sculpture
+#     log_graffiti = Log()
+#     log_sculpture = Log()
+#     log_painting = Log() 
+
+#      db.session.add_all([painting, sculpture, graffiti, log_graffiti, log_sculpture, log_painting])
+#      db.session.commit()
 
 
 ################################################################################

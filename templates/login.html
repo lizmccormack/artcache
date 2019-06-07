@@ -5,10 +5,26 @@
 
 <h1>Login</h1>
 <form action="/login" method="POST">
-    Email: <input type="text" name="email" placeholder="Email"></input><br>
-    Password: <input type="password" name="password" placeholder="Password"></input><br>
-    <input type="submit" name="login"><br>
-    not registered? click <a href='/register'>here</a>
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="height:100vh">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" autocomplete="off">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="email" placeholder="email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" placeholder="password">
+                            </div>
+                            <input type="submit" name="login"><br><br>
+                            not registered? click <a href='/register'>here</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 

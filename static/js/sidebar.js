@@ -49,7 +49,7 @@ function showInfoPage() {
     let myArray = response.logs 
     for (let i = 0; i < myArray.length; i++) {
         const log = myArray[i];
-        $('#log-info').html('<div><img src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
+        $('#log-info').append('<div><img src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
     }
 })
 }

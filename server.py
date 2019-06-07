@@ -107,6 +107,13 @@ def get_profile_adds():
 
     return jsonify(user_add)
 
+# @app.route('/art_logs.json')
+# def get_art_logs(art_id):
+
+#     art_log = db.session.query(Log).fitler(Log.art_id = art_id).all()
+
+
+
 
 
 @app.route('/art/<art_id>', methods=['GET'])
@@ -126,12 +133,7 @@ def log_art(art_id):
     """log page for art"""
 
     file = request.files['image']
-    image = Image.open(file)
-    image.thumbnail([200, 200],Image.ANTIALIAS)
-    in_mem_file = io.BytesIO()
-    image.save(in_mem_file, format='JPEG')
-    image_resize = in_mem_file.getvalue()
-
+    image_resize = process_image(file)
     img_filename = handle_img_upload(file)
     comment = request.form["comment"]
 
@@ -176,6 +178,14 @@ def get_artworks_json():
 
     return jsonify(geojson_result)
 
+# @app.route('/neighborhoods.json')
+# def get_neighborhoods_json():
+#     """Return JSON object of all neighborhoods in database."""
+
+#     neighborhoods = db.session.query(ST_AsGeoJSON(neighborhood_geom)).all()
+
+
+
 
 @app.route('/add_art', methods=['GET', 'POST'])
 @login_required
@@ -194,14 +204,8 @@ def add_art():
         hint = request.form['hint']
         latitude = geocode(address)[0]['geometry']['location']['lat']
         longitude = geocode(address)[0]['geometry']['location']['lng']
-        #neighborhood = geocode_result[0]['address_components'][1]['long_name']
         file = request.files['image']
-        image = Image.open(file)
-        image.thumbnail([200, 200],Image.ANTIALIAS)
-        in_mem_file = io.BytesIO()
-        image.save(in_mem_file, format='JPEG')
-        image_resize = in_mem_file.getvalue()
-        img_filename = handle_img_upload(file)
+        image_resize = process_image(file)
 
         # create art instance 
         art = Artwork(title = title,
@@ -215,7 +219,6 @@ def add_art():
                       art_desc = art_desc,
                       hint = hint,
                       img_filename=img_filename)
-                      # img_url=handle_img_upload(file))
 
         # add art to database 
         db.session.add(art)
@@ -324,22 +327,25 @@ def handle_img_upload(file):
     elif file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         return filename 
-        # return file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-def presigned_url(key, bucket=bucket_name, expiration=3600,): 
+
+def presigned_url(key, bucket=bucket_name, expiration=3600): 
+    """Generate a presigned url for s3."""
     url = s3_resource.generate_presigned_url('get_object',
                                                 Params={'Bucket': bucket,
                                                         'Key': key},
                                                 ExpiresIn=expiration)
     return url
 
-# def process_image(image):
-#     new_width = 200
-#     new_height = 300
-#     byte_image = ioBytesIO(image)
-#     small_image = byte_image.open()
-#     small_image.thu((new_width, new_height), Image.ANTIALIAS)
-#     return small_image
+def process_image(file):
+    """resize images to thumbnails."""
+
+    image = Image.open(file)
+    image.thumbnail([200, 200],Image.ANTIALIAS)
+    in_mem_file = io.BytesIO()
+    image.save(in_mem_file, format='JPEG')
+    image_resize = in_mem_file.getvalue()
+    return image_resize
 
 
 if __name__ == "__main__":

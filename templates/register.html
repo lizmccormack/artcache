@@ -6,10 +6,33 @@
 
 <h1>Register!</h1>
 <form action="/register" method="POST">
-  Email: <input type="text" name="email"></input><br>
+        <div class="container">
+        <div class="row justify-content-center align-items-center" style="height:100vh">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" autocomplete="off">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="email" placeholder="email">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="username" placeholder="username">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" placeholder="password">
+                            </div>
+                            <input type="submit" name="register"><br><br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--   Email: <input type="text" name="email"></input><br>
   Username: <input type="text" name="username"></input><br>
   Password: <input type="password" name="password"></input><br>
-  <input type="submit" name="register">
+  <input type="submit" name="register"> -->
 </form>
 
 {% endblock %}
