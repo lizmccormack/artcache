@@ -1,8 +1,8 @@
 "use-strict"
 
-
 mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40NHFkZGpzdTZ2amwifQ.vkULiOOFr4KqS7o2_enuyA'
 
+// create map variable
 var map_tour = new mapboxgl.Map({
   container: 'map-tour',
   style: 'mapbox://styles/mapbox/light-v10',
@@ -13,86 +13,74 @@ var map_tour = new mapboxgl.Map({
 
 });
 
+// sidebar with information and pictures 
 $('#features').css("width", "25%");
 
 
-var chapters = {
+// create variables for the different sites 
+const sites = {
   'site1': {
     bearing: 27,
-    center: [-122.4666711, 37.7703537],
+    center: [-122.419490, 37.763060],
     zoom: 15.5,
     pitch: 20
   },
   'site2': {
     duration: 6000,
-    center: [-122.419491, 37.74406],
+    center: [-122.422620, 37.761420],
     bearing: 150,
     zoom: 15,
     pitch: 0
   },
   'site3': {
     bearing: 90,
-    center: [-122.421886, 37.764766],
+    center: [-122.473640, 37.756120],
     zoom: 13,
     speed: 0.6,
     pitch: 40
   },
   'site4': {
     bearing: 90,
-    center: [-122.4331353 , 37.8021249],
+    center: [-122.510178, 37.769485],
     zoom: 12.3
   },
   'site5': {
     bearing: 45,
-    center: [-122.42028, 37.764154],
+    center: [-122.492630, 37.785170],
     zoom: 15.3,
     pitch: 20,
     speed: 0.5
-  },
-  'site6': {
-    bearing: 180,
-    center: [-122.422523, 37.77818],
-    zoom: 12.3
-  },
-  'site7': {
-    bearing: 90,
-    center: [-122.38366, 37.62207],
-    zoom: 17.3,
-    pitch: 40
-  },
-  'site8': {
-    bearing: 90,
-    center: [-122.38366, 37.62207],
-    zoom: 14.3,
-    pitch: 20
   }
 };
 
+// set active site when scrolling through side bar 
 $('#features').on('scroll', function() {
 
-  var chapterNames = Object.keys(chapters);
-  console.log(chapters)
-    for (var i = 0; i < chapterNames.length; i++) {
-      var chapterName = chapterNames[i];
-      if (isElementOnScreen(chapterName)) {
-      setActiveChapter(chapterName);
+  const siteNames = Object.keys(sites);
+  console.log(sites)
+    for (var i = 0; i < siteNames.length; i++) {
+      const siteName = siteNames[i];
+      if (isElementOnScreen(siteName)) {
+      setActiveSite(siteName);
     break;
     }
   }
 });
- 
-var activeChapterName = 'site1';
-function setActiveChapter(chapterName) {
-  if (chapterName === activeChapterName) return;
 
-  map_tour.flyTo(chapters[chapterName]);
+// set active site and change location based on active site  
+var activeSiteName = 'site1';
+function setActiveSite(siteName) {
+  if (siteName === activeSiteName) return;
 
-  document.getElementById(chapterName).setAttribute('class', 'active');
-  document.getElementById(activeChapterName).setAttribute('class', '');
+  map_tour.flyTo(sites[siteName]);
 
-  activeChapterName = chapterName;
+  document.getElementById(siteName).setAttribute('class', 'active');
+  document.getElementById(activeSiteName).setAttribute('class', '');
+
+  activeSiteName = siteName;
 }
  
+//set window box to item on screen  
 function isElementOnScreen(id) {
     var element = document.getElementById(id);
     var bounds = element.getBoundingClientRect();

@@ -113,13 +113,24 @@ def get_profile_adds():
 
     return jsonify(user_add)
 
-# @app.route('/art_logs.json')
-# def get_art_logs(art_id):
+@app.route('/art_logs/<art_id>')
+def get_art_logs(art_id):
+    """Art specific logs for sidebar."""
 
-#     art_log = db.session.query(Log).fitler(Log.art_id = art_id).all()
+    logs = db.session.query(Log).filter(Log.art_id == art_id).all()
 
+    log_list = []
+    for log in logs: 
+        log_json = {
+            "image": presigned_url(log.img),
+            "comment": log.comment
+        }
+        log_list.append(log_json)
 
+    art_log = {"username": current_user.username,
+               "logs": log_list}
 
+    return jsonify(art_log)
 
 
 @app.route('/art/<art_id>', methods=['GET'])
@@ -212,6 +223,7 @@ def add_art():
         longitude = geocode(address)[0]['geometry']['location']['lng']
         file = request.files['image']
         image_resize = process_image(file)
+        img_filename = handle_img_upload(file)
 
         # create art instance 
         art = Artwork(title = title,

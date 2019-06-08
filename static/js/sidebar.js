@@ -1,10 +1,11 @@
 "use-strict"
 
+// logic to close sidebar when click clse button 
 $('#closebtn').on('click', function (evt) {
   $('#Sidebar').css("width", "0");
 });
 
-// show the art hint in the sidebar 
+// show the art title, artist, and hint in the sidebar 
 function showArtInfo(response) {
 
   $('#hint').html(response.hint);
@@ -45,14 +46,16 @@ function showInfoPage() {
     x[0].style.display = "block";
   }
 
-  $.get('/logs.json', (response) => {
+  const artId = $('#art-id').text()
+
+  $.get('/art_logs/' + artId, (response) => {
     let myArray = response.logs 
     for (let i = 0; i < myArray.length; i++) {
         const log = myArray[i];
-        $('#log-info').append('<div><img src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
-    }
-})
-}
+        $('#log-info').append('<div><img id="art-log-img" src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
+        }
+    })
+  }
 
 $('#info').on('click', showInfoPage);
 

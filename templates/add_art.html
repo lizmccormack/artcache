@@ -5,21 +5,21 @@
 {% block content %}
 
 <form action="/add_art" enctype="multipart/form-data" method="POST"> 
-  <div class="container">
-  <div class="row justify-contend-center align-items-center" style="height:50vh">
-    <div class="col-4">
+   <!-- <div class="container">
+     <div class="row justify-content-center align-items-center"style="height:50vh">
+        <div class="col-4">
                 <h1>Add Site</h1>
                 <div class="card">
                     <div class="card-body">
                         <form action="" autocomplete="off">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="title" placeholder="title">
+                                <input type="text" class="form-control" name="title" placeholder="title" required>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="artist" placeholder="artist">
                             </div>
                             <div class="form-group">
-                                <input id="autocomplete" name="address" placeholder="site address" onFocus="geolocate()" type="text"></input>
+                                <input id="autocomplete" name="address" placeholder="site address" onFocus="geolocate()" type="text" required></input>
                             </div>
                             <div class="form-group">
                                 <input type="text", name="medium" placeholder="medium"></input>
@@ -28,10 +28,10 @@
                                 <input type="text" name="art_desc" placeholder="art description"></input>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="hint" placeholder="hint"></input>
+                                <input type="text" name="hint" placeholder="hint" required></input>
                             </div>
                             <div class="form-group">
-                                <input type="file" id ="image-upload" name="image"></input>
+                                <input type="file" id ="image-upload" name="image" required></input>
                             </div>
                             <input type="submit" value="add art"><br><br>
                         </form>
@@ -39,8 +39,8 @@
                 </div>
             </div>
         </div>
-    </div>
-<!-- 
+    </div> -->
+
   Title:<input type="text", name="title"></input><br>  
   Artist:<input type="text", name="artist"></input><br>
   Artist Description: <input type="text", name="artist_desc"></input><br>
@@ -52,7 +52,7 @@
   Art Description:<input type="text" name="art_desc"></input><br>
   Hint:<input type="text" name="hint"></input><br>
   Image:<input type="file" id ="image-upload" name="image"></input><br>
-  <input type="submit" value="add art"> -->
+  <input type="submit" value="add art">
 
     <table id="address">
     <tr>

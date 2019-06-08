@@ -10,6 +10,10 @@ body {
   background-color: #CAD2D3;
 }
 
+.icon-label > p {
+  font: 1px;
+}
+
 #map  { 
   position:absolute; 
   flex: 1;
@@ -73,6 +77,15 @@ h1 {
   background-color: #CAD2D3;
 }
 
+section.active {
+  opacity: 1;
+}
+
+section:last-child {
+  border-bottom: none;
+  margin-bottom: 500px;
+}
+
 .sidebar > h2, .sidebar > p, .sidebar > h4 {
   color: #CAD2D3;
 }
@@ -85,8 +98,6 @@ h1 {
   font-size: 36px;
   margin-left: 50px;
 }
-
-
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
