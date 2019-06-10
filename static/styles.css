@@ -1,6 +1,18 @@
+/* homepage/all pages  */
+
 .navbar {
   display: flex;
   z-index: 1;
+  background-color: #FFFFFF;
+}
+
+.navbar a {
+  color: #696969;
+}
+
+#site-info {
+  color: #696969;
+  cursor: pointer;
 }
 
 
@@ -10,9 +22,7 @@ body {
   background-color: #CAD2D3;
 }
 
-.icon-label > p {
-  font: 1px;
-}
+/* maps */
 
 #map  { 
   position:absolute; 
@@ -23,6 +33,7 @@ body {
   z-index: -1;
 }
 
+
 #map-tour { 
   position:absolute; 
   top:0; 
@@ -30,8 +41,11 @@ body {
   width: 100%; 
 }
 
+
+/* legend */
+
 .art-legend {
-  background-color: #CAD2D3;
+  background-color: #f7f7f7;
   border-radius: 3px;
   top: 70px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.10);
@@ -58,6 +72,7 @@ h1 {
   color: #111;
 }
 
+/* sidebars */
 .sidebar {
   position: absolute;
   flex: 2;
@@ -90,13 +105,51 @@ section:last-child {
   color: #CAD2D3;
 }
 
+/* The Modal (background) */
 
-.sidebar .closebtn {
-  position: absolute;
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
   top: 0;
-  right: 0;
-  font-size: 36px;
-  margin-left: 50px;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#sidebar-close-btn.close:hover,
+.close:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

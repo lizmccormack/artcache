@@ -16,7 +16,7 @@
 
   <div id="Sidebar" class="sidebar">
     <!-- header info always stays -->
-    <button id="closebtn"><i class="fas fa-times"></i></button>
+    <button id="closebtn" class="close">&times;</button>
     <h2 id="title"></h2>
     <h4 id="artist"></h4>
     <p id="hint"></p><p id="art-id" hidden></p>
@@ -39,12 +39,34 @@
         </ul>
       </div>
     </div>
-
   </div>
+
+  <div id="info-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span id='close-btn' class="close">&times;</span>
+        <p> Discover, log, and share public art in San Francisco. 
+
+            Tour: See collection of San Francisco Art landmarks 
+            Add-art: add a new artwork 
+            Profile: view your added art and logs art
+
+            data sources
+
+            1% public art program: 
+            Civic art: 
+            User added: 
+
+            Get started .... 
+        </p>    
+        <button type="button">register</button>
+        <button type="login">login</button>
+    </div>
+</div> 
 
 
   <script src="/static/js/heatmap.js"></script>
   <script src="/static/js/sidebar.js"></script>
+  <script src="/static/js/modals.js"></script>
 
   <script type="text/javascript">
     {% if current_user.is_authenticated == false %}

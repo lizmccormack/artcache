@@ -1,7 +1,7 @@
 "use-strict"
 
 // logic to close sidebar when click clse button 
-$('#closebtn').on('click', function (evt) {
+$('#sidebar-close-btn').on('click', function (evt) {
   $('#Sidebar').css("width", "0");
 });
 
