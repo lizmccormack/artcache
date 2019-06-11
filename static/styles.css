@@ -10,6 +10,10 @@
   color: #696969;
 }
 
+.navbar span .nav-label {
+  font-size: 0.2em;
+}
+
 #site-info {
   color: #696969;
   cursor: pointer;
@@ -54,11 +58,11 @@ body {
 /* legend & pop-ups */
 
 .art-legend {
-  background-color: #f7f7f7;
+  background-color: #FFFFFF;
   border-radius: 3px;
   top: 70px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font: 12px/20px 
   padding: 10px;
   position: absolute;
   right: 10px;
@@ -69,14 +73,17 @@ body {
   border-radius: 50%;
   display: inline-block;
   height: 10px;
-  margin-right: 5px;
+  margin: 5% 5% 5% 5%;
   width: 10px;
 }
 
 #zoom-in-prompt {
   right: 50%;
+  text-align: center;
+  width: 200px;
 } p {
-
+  margin: 5% 5% 5% 5%;
+  font-family: 'Montserrat Bold', sans-serif;
 }
 
 h1 {
