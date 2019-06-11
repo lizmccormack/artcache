@@ -4,42 +4,42 @@
 
 {% block content %}
 
-<form action="/add_art" enctype="multipart/form-data" method="POST"> 
-   <!-- <div class="container">
-     <div class="row justify-content-center align-items-center"style="height:50vh">
-        <div class="col-4">
-                <h1>Add Site</h1>
-                <div class="card">
-                    <div class="card-body">
-                        <form action="" autocomplete="off">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="title" placeholder="title" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="artist" placeholder="artist">
-                            </div>
-                            <div class="form-group">
-                                <input id="autocomplete" name="address" placeholder="site address" onFocus="geolocate()" type="text" required></input>
-                            </div>
-                            <div class="form-group">
-                                <input type="text", name="medium" placeholder="medium"></input>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="art_desc" placeholder="art description"></input>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="hint" placeholder="hint" required></input>
-                            </div>
-                            <div class="form-group">
-                                <input type="file" id ="image-upload" name="image" required></input>
-                            </div>
-                            <input type="submit" value="add art"><br><br>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+<!-- <form action="/add_art" id="add-art-form" enctype="multipart/form-data" method="POST"> 
+ <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Title">
+      <small id="title-help" class="form-text text-muted">Provide title or create your own descriptive title</small>
+  </div> -->
+  <!-- <div class="form-group">
+      <label for="artist">Artist</label>
+      <input type="text" class="form-control" id="artist" placeholder="Artist">
+  </div>
+  <div class="form-group">
+      <label for="artist-desc">Artist Description</label>
+      <input type="text" class="form-control" id="artist-desc" placeholder="Artist Description">
+  </div>
+  <div class="form-group">
+      <label for="address">Address</label>
+      <input id="autocomplete" class="form-control" name="address"
+             placeholder="Enter your address"
+             onFocus="geolocate()"
+             type="text"></input>
+  </div>
+  <div class="form-group">
+      <label for="medium">Medium</label>
+      <input type="text" class="form-control" id="medium" placeholder="Medium">
+  </div>
+  <div class="form-group">
+      <label for="art-desc">Art Description</label>
+      <input type="text" class="form-control" id="art-desc" placeholder="Art Description">
+  </div>
+  <div class="form-group">
+      <label for="hint">Hint</label>
+      <input type="text" class="form-control" id="hint" placeholder="Hint">
+  </div>
+  Image:<input type="file" id ="image-upload" name="image"></input><br>
+  <input type="submit" value="add art"> -->
+
 
   Title:<input type="text", name="title"></input><br>  
   Artist:<input type="text", name="artist"></input><br>

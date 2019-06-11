@@ -7,6 +7,11 @@
 
   <div id="map"></div>
 
+  <div id='zoom-in-prompt' class='art-legend' style="display:block;">
+    <p> zoom in for artworks </p>
+  </div>
+
+
   <div id='art-legend' class='art-legend' style="display:none;">
     <h4> Art Sites </h4>
     <div><span style='background-color: #fbb03b'></span>Civic Art</div>
@@ -16,7 +21,7 @@
 
   <div id="Sidebar" class="sidebar">
     <!-- header info always stays -->
-    <button id="closebtn" class="close">&times;</button>
+    <button id="sidebar-close-btn" class="close">&times;</button><br>
     <h2 id="title"></h2>
     <h4 id="artist"></h4>
     <p id="hint"></p><p id="art-id" hidden></p>
@@ -27,15 +32,20 @@
     <div id="log-info">
       <div>
         <form method="post" enctype="multipart/form-data" id="log-form" style="display:none;">
-          <input type="file" id="image" name="image"></input><br>
-          <input type="text" id="comment" name="comment"></input><br>
+          <div class="form-group" id="comment-form-group">
+            <label for="comment">Comment</label>
+            <input type="text" class="form-control" id="comment" name="comment"></input><br>
+          </div>
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" id="image" name="image"></input><br>
+          </div>
           <input type="submit" value="submit"></form>
         </form>
       </div>
       <div>
         <ul id="user-logs" style="display:none;">
-          <div id="#log">
-          </div>
+          <div id="#log"></div>
         </ul>
       </div>
     </div>

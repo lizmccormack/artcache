@@ -72,10 +72,18 @@ var activeSiteName = 'site1';
 function setActiveSite(siteName) {
   if (siteName === activeSiteName) return;
 
+  var el = document.createElement('div');
+  el.className = 'marker';
+
+  new mapboxgl.Marker(el)
+    .setLngLat(sites[siteName]["center"])
+    .addTo(map_tour);
+
   map_tour.flyTo(sites[siteName]);
 
   document.getElementById(siteName).setAttribute('class', 'active');
   document.getElementById(activeSiteName).setAttribute('class', '');
+
 
   activeSiteName = siteName;
 }
