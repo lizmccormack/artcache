@@ -4,54 +4,19 @@
 
 {% block content %}
 
-<!-- <form action="/add_art" id="add-art-form" enctype="multipart/form-data" method="POST"> 
- <div class="form-group">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Title">
-      <small id="title-help" class="form-text text-muted">Provide title or create your own descriptive title</small>
-  </div> -->
-  <!-- <div class="form-group">
-      <label for="artist">Artist</label>
-      <input type="text" class="form-control" id="artist" placeholder="Artist">
-  </div>
-  <div class="form-group">
-      <label for="artist-desc">Artist Description</label>
-      <input type="text" class="form-control" id="artist-desc" placeholder="Artist Description">
-  </div>
-  <div class="form-group">
-      <label for="address">Address</label>
-      <input id="autocomplete" class="form-control" name="address"
-             placeholder="Enter your address"
-             onFocus="geolocate()"
-             type="text"></input>
-  </div>
-  <div class="form-group">
-      <label for="medium">Medium</label>
-      <input type="text" class="form-control" id="medium" placeholder="Medium">
-  </div>
-  <div class="form-group">
-      <label for="art-desc">Art Description</label>
-      <input type="text" class="form-control" id="art-desc" placeholder="Art Description">
-  </div>
-  <div class="form-group">
-      <label for="hint">Hint</label>
-      <input type="text" class="form-control" id="hint" placeholder="Hint">
-  </div>
-  Image:<input type="file" id ="image-upload" name="image"></input><br>
-  <input type="submit" value="add art"> -->
-
-
-  Title:<input type="text", name="title"></input><br>  
-  Artist:<input type="text", name="artist"></input><br>
-  Artist Description: <input type="text", name="artist_desc"></input><br>
-  Address:<input id="autocomplete" name="address"
-             placeholder="Enter your address"
+<div class="add-art-form">
+  <form action="/add_art" id="add-art-form" enctype="multipart/form-data" method="POST"> 
+  Title<br><input class="add-input" type="text" name="title" placeholder="title"></input><br>  
+  Artist<br><input class="add-input" type="text", name="artist" placeholder="artist"></input><br>
+  Artist Description<br><input class="add-input" type="text", name="artist_desc" placeholder="artist description"></input><br>
+  Address<br><input class="add-input" id="autocomplete" name="address"
+             placeholder="artwork address"
              onFocus="geolocate()"
              type="text"></input><br>
-  Medium:<input type="text", name="medium"></input><br>
-  Art Description:<input type="text" name="art_desc"></input><br>
-  Hint:<input type="text" name="hint"></input><br>
-  Image:<input type="file" id ="image-upload" name="image"></input><br>
+  Medium<br><input class="add-input" type="text" name="medium" placeholder="medium"></input><br>
+  Art Description<br><input class="add-input" type="text" name="art_desc" placeholder="art description"></input><br>
+  Hint<br><input class="add-input" type="text" name="hint" placeholder="hint"></input><br>
+  Image<br><input class="add-input" type="file" id ="image-upload" name="image"></input><br>
   <input type="submit" value="add art">
 
     <table id="address">
@@ -75,8 +40,9 @@
       <td class="wideField" colspan="3"><input type="hidden" class="field" id="country" disabled="true"/></td>
       </tr>
   </table><br><br>
-  
-</form>
+
+  </form>
+</div>
 
 <script src="/static/js/add_art.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs2JPPNK7A2nk-Tk0Gcxm9YRy9yYKjysc&libraries=places&callback=initAutocomplete"async defer></script>

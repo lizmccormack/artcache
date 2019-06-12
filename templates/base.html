@@ -26,33 +26,40 @@
 
 <body>
 <!--   navbar  -->
-  <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-offset"role="navigation">
+
+<div class="wrapper"> 
+  <div class="nav-wrapper">
+  <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Artcache</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="/">artcache</a>
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" id='site-info' tooltip="tour" disabled><i class="fas fa-info-circle"></i><br><span class="nav-label">info</span><span class="sr-only">Tour</span></a>
+          <a class="nav-link" id='site-info' tooltip="tour" disabled><i class="fas fa-info-circle"></i><br><span class="nav-label"></span><span class="sr-only">info</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id='art-tour' href="/art_tour" disabled><i class="fas fa-walking"></i></i><br><span class="nav-label">tour</span><span class="sr-only">Tour</span></a>
+          <a class="nav-link" id='art-tour' href="/art_tour" disabled><i class="fas fa-walking"></i></i><br><span class="nav-label"></span><span class="sr-only">Tour</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id='add-site' href="/add_art" disabled><i class="far fa-plus-square"></i><span class="nav-label">add art</span><span class="sr-only">Add Art Site</span></a>
+          <a class="nav-link" id='add-site' href="/add_art" disabled><i class="far fa-plus-square"></i><span class="nav-label"></span><span class="sr-only">Add Art Site</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id='user-profile' href="/profile" disabled><i class="far fa-user"></i><span class="nav-label">profile</span><span class="sr-only">Profile</span></a>
+          <a class="nav-link" id='user-profile' href="/profile" disabled><i class="far fa-user"></i><span class="nav-label"></span><span class="sr-only">Profile</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" id="login-logout" href="/logout">Logout<span class="sr-only">(current)</span></a>
+        <li class="nav-item" id="logout-link">
+          <a class="nav-link" id="login-logout" href="/logout">log out<span class="sr-only">(current)</span></a>
         </li>
       </ul>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navExpandContent4">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </div>
   </nav>
+
 
   <div class="flash_messages">
     {% with messages = get_flashed_messages() %}
@@ -65,21 +72,23 @@
       {% endif %}
     {% endwith %}
   </div>
+  </div>
 
-  <div class="body">
+  <div class="main-content">
     {% block content %}
 
     BODY GOES HERE 
 
     {% endblock %}
    </div>
+  </div>
 
    <script type="text/javascript">
      {% if current_user.is_authenticated == false %}
         $('#add-site').hide();
         $('#user-profile').hide();
         $('#login-logout').attr("href" , "/login");
-        $('#login-logout').html("Login");
+        $('#login-logout').html("log in");
      {% endif %}
    </script>
 

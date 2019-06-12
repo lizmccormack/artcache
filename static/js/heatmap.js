@@ -134,15 +134,6 @@ map.on('zoom', function() {
   }
 }); 
 
-const zoomInfo = $('#zoom-in-prompt');
-map.on('zoom', function() {
-  if (map.getZoom() < 12) {
-    zoomInfo[0].style.display = 'block';
-  } else {
-    zoomInfo[0].style.display = 'none';
-  }
-}); 
-
 
 const nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'bottom-right');

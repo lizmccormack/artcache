@@ -2,7 +2,6 @@
 
 .navbar {
   display: flex;
-  z-index: 1;
   background-color: #FFFFFF;
 }
 
@@ -10,8 +9,18 @@
   color: #696969;
 }
 
-.navbar span .nav-label {
-  font-size: 0.2em;
+.nav-label {
+  font-size: 10px;
+}
+
+.nav-item {
+  padding: 0px 10px 10px 0px;
+} 
+
+#logout-link {
+  width: 85px;
+} #logout-link > a {
+  font-size: 1em;
 }
 
 #site-info {
@@ -27,6 +36,11 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+.main-content {
+  position: relative;
+  height: 93vh;
+}
+
 /* maps */
 
 #map  { 
@@ -34,8 +48,7 @@ body {
   flex: 1;
   top:0;
   bottom:0; 
-  width:100%; 
-  z-index: -1;
+  width:100%;
 }
 
 
@@ -60,13 +73,15 @@ body {
 .art-legend {
   background-color: #FFFFFF;
   border-radius: 3px;
-  top: 70px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-  font: 12px/20px 
+  top: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.10);
+  font: 10px;
   padding: 10px;
   position: absolute;
   right: 10px;
   z-index: 1;
+} h4 {
+  font: 12px;
 }
 
 .art-legend div span {
@@ -75,15 +90,6 @@ body {
   height: 10px;
   margin: 5% 5% 5% 5%;
   width: 10px;
-}
-
-#zoom-in-prompt {
-  right: 50%;
-  text-align: center;
-  width: 200px;
-} p {
-  margin: 5% 5% 5% 5%;
-  font-family: 'Montserrat Bold', sans-serif;
 }
 
 h1 {
@@ -95,22 +101,22 @@ h1 {
 
 /* sidebars */
 .sidebar {
-  position: absolute;
+  position: relative;
   flex: 2;
   height: 100%;
   width: 0;
-  z-index: 0;
-  top: 50px;
-  left: 0;
-  background-color: #111;
+  top: 2px;
+  left: 2px;
+  background-color: #CAD2D3;
   overflow-x: hidden;
   overflow-y: scroll;
   transition: 0.5s;
-  padding-top: 60px;
-}
+} 
 
 #features {
   background-color: #CAD2D3;
+} #site2-img {
+  width: 28em;
 }
 
 section.active {
@@ -123,8 +129,12 @@ section:last-child {
 }
 
 .sidebar > h2, .sidebar > p, .sidebar > h4 {
-  color: #CAD2D3;
-}
+  color: #111;
+} .sidebar > h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic;
+  font-size: 20px;
+} 
 
 /* The Modal (background) */
 
@@ -161,7 +171,7 @@ section:last-child {
 
 #sidebar-close-btn  {
   color: #aaa;
-  float: right;
+  float: left;
   font-size: 28px;
   font-weight: bold;
 }
@@ -182,21 +192,33 @@ section:last-child {
 
 /*forms*/
 
-.form-group {
-  width: 50%;
+.login-form {
+  width:192px;
+  position: absolute;
+  top: 40%;
+  left:50%;
 }
+
+.register-form {
+  width:195px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+}
+
 
 .add-art-form {
-  right:10px;
-  top: 10px;
+  position: absolute;
+  width: 50%;
+  left:5%;
+  top: 5%;
 }
 
-.form-group#comment-form-group {
-  width: 100%;
-}
-
-#log-form > label #log-form > input {
-  color: #FFFFFF;
+.profile {
+  position: absolute;
+  width: 50%;
+  left: 5%;
+  top: 5%;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

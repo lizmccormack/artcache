@@ -195,14 +195,6 @@ def get_artworks_json():
 
     return jsonify(geojson_result)
 
-# @app.route('/neighborhoods.json')
-# def get_neighborhoods_json():
-#     """Return JSON object of all neighborhoods in database."""
-
-#     neighborhoods = db.session.query(ST_AsGeoJSON(neighborhood_geom)).all()
-
-
-
 
 @app.route('/add_art', methods=['GET', 'POST'])
 @login_required
@@ -217,7 +209,7 @@ def add_art():
         artist_desc = request.form['artist_desc']
         address = request.form['address']
         medium = request.form['medium']
-        art_desc = request.form['medium']
+        art_desc = request.form['art_desc']
         hint = request.form['hint']
         latitude = geocode(address)[0]['geometry']['location']['lat']
         longitude = geocode(address)[0]['geometry']['location']['lng']

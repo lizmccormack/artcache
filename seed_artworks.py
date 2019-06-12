@@ -5,6 +5,7 @@ from server import app
 from sqlalchemy import func 
 from geoalchemy2.shape import from_shape, to_shape
 from shapely.geometry import Point
+import re
 
 
 
@@ -20,13 +21,12 @@ def load_oneper():
         
         try: 
             art_title = item["title"].split(" by ")
-            title = art_title[0]                       #to do: remove the '\' on either side of title
+            title = art_title[0].replace("'","").replace('"', '')         
             artist = art_title[1]
             artist_desc = item["artistlink"]
             location = from_shape(Point(float(item["the_geom"]["latitude"]), float(item["the_geom"]["longitude"])))
             latitude=item["the_geom"]["latitude"]
             longitude=item["the_geom"]["longitude"]
-            # neighborhood_id=map_neighborhood(longitude, latitude)
             medium = item["medium"]
             art_desc = item["name"] + item["location"]
             hint = item["accessibil"]
@@ -42,7 +42,6 @@ def load_oneper():
                       location = location,
                       latitude = latitude,
                       longitude = longitude,
-                      # neighborhood_id=neighborhood_id,
                       source = 'public_oneper', 
                       medium = medium,
                       art_desc = art_desc,
