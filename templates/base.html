@@ -90,6 +90,11 @@
         $('#login-logout').attr("href" , "/login");
         $('#login-logout').html("log in");
      {% endif %}
+
+     setTimeout(function() {
+      $('.flash_messages').fadeOut('fast');
+     }, 30000);
+
    </script>
 
 </body>

@@ -68,7 +68,16 @@ $('#features').on('scroll', function() {
 });
 
 // set active site and change location based on active site  
-var activeSiteName = 'site1';
+let activeSiteName = 'site1';
+
+map_tour.on('load', function () {
+  var el = document.createElement('div');
+  el.className = 'marker';
+  new mapboxgl.Marker(el)
+    .setLngLat(sites['site1']["center"])
+    .addTo(map_tour);
+  });
+
 function setActiveSite(siteName) {
   if (siteName === activeSiteName) return;
 
