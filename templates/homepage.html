@@ -17,47 +17,66 @@
   <div id="Sidebar" class="sidebar">
     <!-- header info always stays -->
     <button id="sidebar-close-btn" class="close">&times;</button><br><br>
-    <h2 id="title"></h2>
-    <h4 id="artist"></h4>
-    hint:<p id="hint"></p><p id="art-id" hidden></p>
-    <!-- button -->
-    <button id="log">Log</button> 
-    <button id="info">Info</button>
-    <!-- add form for log on click of log button -->
-    <div id="log-info">
+    <div id=art-info>
+      <h2 id="title"></h2>
+      <h4 id="artist"></h4>
+      hint:<p id="hint"></p><p id="art-id" hidden></p>
+    </div>
+    <hr style="border: 4px black;" />
+    
+    <!-- log artwork form -->
+    <div id="log-form">
       <div>
-        <form method="post" enctype="multipart/form-data" id="log-form" style="display:none;">
+        <h5>Log Artwork</h5>
+        <form method="post" enctype="multipart/form-data" id="log-form" style="display:block;">
           Comment<br>
           <input type="text" id="comment" name="comment"></input><br>
           Image<br>
-          <input type="file" id="image" name="image"></input><br>
+          <input type="file" id="image" name="image"></input><br><br>
           <input type="submit" value="log"></form>
         </form>
       </div>
-      <div>
-        <ul id="user-logs" style="display:none;">
-          <div id="#log"></div>
-        </ul>
-      </div>
-  </div>
+    </div>
 
+    <!-- user logs for site -->
+    <div id="show-logs">
+    <button type="button" id="info">show logs</button> 
+      <div>
+        <ul id="user-logs" style="display:none;"></ul>
+      </div>
+    </div>
+
+  <!-- info modal   -->
   <div id="info-modal" class="modal" style="display:none;">
     <div class="modal-content">
         <span id='close-btn' class="close">&times;</span>
-        <p> Discover, log, and share public art in San Francisco. 
+        <section> 
+          <h4>Discover, log, and share public art in San Francisco!</h4>
+            <div id="site-parts">
+              <section>
+                Map View: zoom in on map to see individual art sites, click them to see the title, artist and a clue to find them 
+              </section>
 
-            Tour: See collection of San Francisco Art landmarks 
-            Add-art: add a new artwork 
-            Profile: view your added art and logs art
+              <section>
+                Tour: See a tour of art in different San Francisco Neighborhoods. 
+              </section>
+            
+              <section>
+                Add-art: add a new artwork to the map for others to find
+              </section> 
 
-            data sources
+              <section>
+                 Profile: view your added art and logged art
+              </section> 
+           </div>
 
-            1% public art program: 
-            Civic art: 
-            User added: 
+           <div id="data-sources">
+            <h5>data sources<h5>
 
-            Get started .... 
-        </p>    
+              1% public art program: 
+              Civic art: 
+          </div>
+        </section>    
         <button type="button" href="/register">register</button><br> 
         <button type="login" href="/login">login</button>
     </div>
@@ -70,8 +89,8 @@
 
   <script type="text/javascript">
     {% if current_user.is_authenticated == false %}
-        $('#Sidebar > #log').hide();
-        $('#Sidebar > #info').hide();
+        $('#Sidebar > #log-form').hide();
+        $('#Sidebar > #show-logs').hide();
         $('#Sidebar > #art-tour').hide();
      {% endif %}
   </script>

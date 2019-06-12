@@ -4,12 +4,12 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40NHFkZGpzdTZ2amwifQ.vkULiOOFr4KqS7o2_enuyA'
 
 
-var map = new mapboxgl.Map({
+let map = new mapboxgl.Map({
   // create a map variable 
   container: 'map',
-  style: 'mapbox://styles/mapbox/light-v10',
-  center: [-122.4194, 37.7749],
-  zoom: 11,
+  style: 'mapbox://styles/lizmccormack/cjwtkxume7k901cpadxxgdlm1/draft',
+  center: [-122.4450, 37.7600],
+  zoom: 11.5,
   // bearing: 27,
   // pitch: 45
   });
@@ -33,8 +33,8 @@ map.on('load', function () {
       paint: {
         'heatmap-intensity': {
           stops: [
-          [11, 1],
-          [15, 3]
+          [10, 1],
+          [12, 3]
         ]
       },
       'heatmap-color': [
@@ -45,7 +45,7 @@ map.on('load', function () {
           0.2, "#ffffb2",
           0.4, "#feb24c",
           0.6, "#fd8d3c",
-          0.8, "#f88112"
+          0.8, "#e41b1e"
         ], 
       "heatmap-radius": [
         "interpolate",
@@ -62,7 +62,7 @@ map.on('load', function () {
           ]
           },
         }
-      }, 'waterway-label');
+      });
     
     map.addLayer({
       // add point layer to map 
@@ -71,14 +71,14 @@ map.on('load', function () {
         source: 'artworks',
         minzoom: 12,
         paint: {
-          'circle-radius': 5,
+          'circle-radius': 4,
           'circle-color': {
             property: 'source',
             type: 'categorical',
             stops: [
-              ['civic', '#fbb03b'],
-              ['user', '#214BCC'],
-              ['public_oneper', '#e55e5e']
+              ['civic', '#FF3C00'],
+              ['user', '#3e7ec1'],
+              ['public_oneper', '#fbda42']
             ]
           },
           'circle-opacity': {
@@ -88,7 +88,7 @@ map.on('load', function () {
             ]
           }
         }
-    }, 'waterway-label');
+    });
 
     }});
 
@@ -97,14 +97,14 @@ map.on('load', function () {
      
      map.getCanvas().style.cursor = 'pointer';
 
-     var coordinates = evt.features[0].geometry.coordinates;
-     var art_id = evt.features[0].properties.art_id; 
+     let coordinates = evt.features[0].geometry.coordinates;
+     let art_id = evt.features[0].properties.art_id; 
 
      $('#Sidebar').css("width", "25%");
   });
 
 // popup variable 
-var popup = new mapboxgl.Popup({
+let popup = new mapboxgl.Popup({
   closeButton: true,
   closeOnClick: false
 });
@@ -114,9 +114,9 @@ map.on('mouseenter', 'art-point', function (evt) {
 
   map.getCanvas().style.cursor = 'pointer';
 
-  var coordinates = evt.features[0].geometry.coordinates;
-  var title = evt.features[0].properties.title;
-  var hint = evt.features[0].properties.hint;
+  let coordinates = evt.features[0].geometry.coordinates;
+  let title = evt.features[0].properties.title;
+  let hint = evt.features[0].properties.hint;
 
   popup.setLngLat(coordinates)
     .setHTML('<h7><strong>' + title + '</strong></h7><br><div>Hint: ' + hint + '</div>')

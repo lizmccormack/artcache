@@ -5,7 +5,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40N
 // create map variable
 var map_tour = new mapboxgl.Map({
   container: 'map-tour',
-  style: 'mapbox://styles/mapbox/light-v10',
+  style: 'mapbox://styles/lizmccormack/cjwtkxume7k901cpadxxgdlm1/draft',
   center: [-122.4194, 37.7749],
   zoom: 14,
   bearing: 27,

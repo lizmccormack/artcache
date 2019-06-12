@@ -23,19 +23,6 @@ function handleInfoEvent(evt) {
 
 map.on('click', 'art-point', handleInfoEvent);
 
-// show log form in sidebar  
-function showLogForm() {
-  const x = $('#log-form');
-  const displaySetting = x[0].style.display;
-  if (x[0].style.display === "block") {
-    x[0].style.display = "none";
-  } else {
-    x[0].style.display = "block";
-  }
-}
-
-$('#log').on('click', showLogForm);
-
 // show info page in sidebar 
 function showInfoPage() {
   var x = $('#user-logs');
@@ -49,11 +36,18 @@ function showInfoPage() {
   const artId = $('#art-id').text()
 
   $.get('/art_logs/' + artId, (response) => {
+    console.log(response);
     let myArray = response.logs 
-    for (let i = 0; i < myArray.length; i++) {
-        const log = myArray[i];
-        $('#log-info').append('<div><img id="art-log-img" src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
-        }
+    console.log(myArray);
+    if (myArray.length < 1) {
+      $('#user-logs').html('<p>not logged yet</p>')
+      console.log("hellooooo");
+    } else {
+      for (let i = 0; i < myArray.length; i++) {
+          const log = myArray[i];
+          $('#user-logs').html('<div><img id="art-log-img" src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
+          }
+      }
     })
   }
 
