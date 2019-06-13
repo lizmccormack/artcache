@@ -41,11 +41,12 @@ function showInfoPage() {
     console.log(myArray);
     if (myArray.length < 1) {
       $('#user-logs').html('<p>not logged yet</p>')
-      console.log("hellooooo");
     } else {
       for (let i = 0; i < myArray.length; i++) {
           const log = myArray[i];
-          $('#user-logs').html('<div><img id="art-log-img" src=' + log.image + '></img><span id="comment">' + log.comment + '</span><br></div>');
+          let list_logs = []
+          $('#li').append('<div class="grid-contaner"><img class="grid-item" id="art-log-img" src=' + log.image + '></img><span class="grid-item" id="comment">' + log.comment + '</span></div>')
+          $('#user-logs').append(li);
           }
       }
     })
@@ -58,7 +59,7 @@ function sendAlert(alertMsg) {
 
   alert(alertMsg);
   // clears form on submit 
-  $('#log-form').children('input[type="text"]').val('');
+  $('#log-form').children('textarea').val('');
   $('#log-form').children('input[type="file"]').val('');
 }
 

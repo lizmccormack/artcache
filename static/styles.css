@@ -32,7 +32,7 @@
 body { 
   margin: 0; 
   padding: 0;
-  background-color: #CAD2D3;
+  background-color: #7D98AA;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -46,6 +46,29 @@ body {
   width: 50%;
   left: 5%;
   top: 5%;
+}
+
+.profile-info div {
+  display: inline-block;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 2px;
+} #art-log-img {
+  width: 15em;
+}
+
+.grid-item {
+  /*border: 1px solid rgba(0, 0, 0, 0.8);*/
+  padding: 20px;
+  font-size: 12px;
+  text-align: center;
+} 
+
+#user-logs {
+  padding: 0 0 0 0;
 }
 
 /* maps */
@@ -85,18 +108,27 @@ body {
   font: 10px;
   padding: 10px;
   position: absolute;
-  right: 10px;
+  width: 150px;
+  right: 15px;
   z-index: 1;
-} h4 {
-  font: 12px;
+} 
+
+.art-legend > h4 {
+ font-size: 20px;
+ font-style: bold;
 }
 
 .art-legend div span {
   border-radius: 50%;
   display: inline-block;
+  font-size: 12px;
   height: 10px;
   margin: 5% 5% 5% 5%;
   width: 10px;
+} 
+
+.category {
+  font-size: 12px;
 }
 
 h1 {
@@ -126,6 +158,11 @@ h1 {
   position: relative;
   width: 95%;
   left: 2%;
+} #show-logs {
+  position: relative;
+  width: 90%;
+  left: 2%;
+  top: 20px;
 }
 
 #features {
@@ -229,7 +266,7 @@ section:last-child {
   top: 5%;
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email], textarea {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;

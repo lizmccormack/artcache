@@ -5,8 +5,8 @@
 
 <div class="login-form">
   <form action="/login" method="POST">
-    <input type="text"  name="email" placeholder="email"><br>
-    <input type="password" name="password" placeholder="password"><br>
+    <input type="email"  name="email" placeholder="email" maxlength="30" required><br>
+    <input type="password" name="password" placeholder="password" maxlength="30" required><br>
     <input type="submit" value="log in" name="login"><br>
     not registered? click <a href='/register'>here</a>
   </form>

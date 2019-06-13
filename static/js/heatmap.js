@@ -77,8 +77,8 @@ map.on('load', function () {
             type: 'categorical',
             stops: [
               ['civic', '#FF3C00'],
-              ['user', '#3e7ec1'],
-              ['public_oneper', '#fbda42']
+              ['user', '#fbaf08'],
+              ['public_oneper', '#00B383']
             ]
           },
           'circle-opacity': {

@@ -6,19 +6,21 @@
 
 <div class="add-art-form">
   <form action="/add_art" id="add-art-form" enctype="multipart/form-data" method="POST"> 
-  <input class="add-input" type="text" name="title" placeholder="title"></input><br>  
-  <input class="add-input" type="text", name="artist" placeholder="artist"></input><br>
-  <input class="add-input" type="text", name="artist_desc" placeholder="artist description"></input><br>
-  <input class="add-input" id="autocomplete" name="address"
-             placeholder="artwork address"
-             onFocus="geolocate()"
-             type="text"></input><br>
-  <input class="add-input" type="text" name="medium" placeholder="medium"></input><br>
-  <input class="add-input" type="text" name="art_desc" placeholder="art description"></input><br>
-  <input class="add-input" type="text" name="hint" placeholder="hint"></input><br>
-  Image<br><input class="add-input" type="file" id ="image-upload" name="image"></input><br>
-  <input type="submit" value="add art">
+    <input class="add-input" type="text" name="title" placeholder="title"></input><br>  
+    <input class="add-input" type="text", name="artist" placeholder="artist"></input><br>
+    <textarea class="add-input" name="artist_desc" placeholder="artist description"></textarea><br>
+    <input class="add-input" id="autocomplete" name="address"
+               placeholder="artwork address"
+               onFocus="geolocate()"
+               type="text"></input><br>
+    <input class="add-input" type="text" name="medium" placeholder="medium"></input><br>
+    <textarea class="add-input" name="art_desc" placeholder="art description"></textarea><br>
+    <textarea class="add-input" type="text" name="hint" placeholder="hint"></textarea><br>
+    Image<br><input class="add-input" type="file" id ="image-upload" name="image"></input><br><br>
+    <input type="submit" value="add art">
 
+
+    <!-- address table for google places -->
     <table id="address">
     <tr>
       <!-- <td class="label">Street address</td> -->

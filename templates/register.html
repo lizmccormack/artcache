@@ -6,9 +6,9 @@
 
 <div class="register-form">
   <form action="/register" method="POST">
-    <input type="text"  name="email" placeholder="email"><br>
-    <input type="text" name="username" placeholder="username"><br>
-    <input type="password" name="password" placeholder="password"><br>
+    <input type="email"  name="email" placeholder="email" maxlength="30" required><br>
+    <input type="text" name="username" placeholder="username" maxlength="30" required><br>
+    <input type="password" name="password" placeholder="password" maxlength="30" required><br>
     <input type="submit" value="register" name="register"><br><br>
   </form>
 </div>

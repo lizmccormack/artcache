@@ -9,9 +9,9 @@
 
   <div id='art-legend' class='art-legend' style="display:none;">
     <h4> Art Sites </h4>
-    <div><span style='background-color: #fbb03b'></span>Civic Art</div>
-    <div><span style='background-color: #e55e5e'></span>1% Building Art</div>
-    <div><span style='background-color: #214BCC'></span>User Added</div>
+    <div><span style='background-color: #fbb03b'></span class="catgeory">Civic Art</div>
+    <div><span style='background-color: #e55e5e'></span class="category">1% Building Art</div>
+    <div><span style='background-color: #214BCC'></span class="category">User Added</div>
   </div>
 
   <div id="Sidebar" class="sidebar">
@@ -22,15 +22,15 @@
       <h4 id="artist"></h4>
       hint:<p id="hint"></p><p id="art-id" hidden></p>
     </div>
-    <hr style="border: 4px black;" />
+    <hr style="border: 4px; color: black;" />
     
     <!-- log artwork form -->
-    <div id="log-form">
+    <div class="log-form">
       <div>
-        <h5>Log Artwork</h5>
+        <h7>Log Artwork</h7>
         <form method="post" enctype="multipart/form-data" id="log-form" style="display:block;">
           Comment<br>
-          <input type="text" id="comment" name="comment"></input><br>
+          <textarea type="text" id="comment" name="comment"></textarea><br>
           Image<br>
           <input type="file" id="image" name="image"></input><br><br>
           <input type="submit" value="log"></form>
@@ -42,7 +42,8 @@
     <div id="show-logs">
     <button type="button" id="info">show logs</button> 
       <div>
-        <ul id="user-logs" style="display:none;"></ul>
+        <ul id="user-logs" style="display:none;">
+        </ul>
       </div>
     </div>
 
@@ -50,9 +51,7 @@
   <div id="info-modal" class="modal" style="display:none;">
     <div class="modal-content">
         <span id='close-btn' class="close">&times;</span>
-        <section> 
           <h4>Discover, log, and share public art in San Francisco!</h4>
-            <div id="site-parts">
               <section>
                 Map View: zoom in on map to see individual art sites, click them to see the title, artist and a clue to find them 
               </section>
@@ -68,19 +67,17 @@
               <section>
                  Profile: view your added art and logged art
               </section> 
-           </div>
-
-           <div id="data-sources">
-            <h5>data sources<h5>
+          <h5>data sources<h5>
 
               1% public art program: 
               Civic art: 
-          </div>
-        </section>    
+          <section>
+            About me: Hi my name is Liz. The idea for my project came from geocaching (the recreational activity of hunting and finding hidden objects by means of GPS coordinates posted on a website). I like it because you can discover a new place or see somewhere you are used in a new light because you are paying close attention to the details in your surroundings. Seeing artwork around the city is one of my favorite parts of san Francisco. I wanted a way to know more about public art, and also to allow art I’ve found. 
+          </section>  
         <button type="button" href="/register">register</button><br> 
         <button type="login" href="/login">login</button>
-    </div>
-</div> 
+      </div>
+  </div> 
 
 
   <script src="/static/js/heatmap.js"></script>
@@ -89,7 +86,7 @@
 
   <script type="text/javascript">
     {% if current_user.is_authenticated == false %}
-        $('#Sidebar > #log-form').hide();
+        $('#Sidebar > .log-form').hide();
         $('#Sidebar > #show-logs').hide();
         $('#Sidebar > #art-tour').hide();
      {% endif %}
