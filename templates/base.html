@@ -26,7 +26,6 @@
 
 <body>
 <!--   navbar  -->
-
 <div class="wrapper"> 
   <div class="nav-wrapper">
   <nav class="navbar navbar-expand-lg">
@@ -42,7 +41,7 @@
           <a class="nav-link" id='site-info' tooltip="tour" disabled><i class="fas fa-info-circle"></i><br><span class="nav-label"></span><span class="sr-only">info</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id='art-tour' href="/art_tour" disabled><i class="fas fa-walking"></i></i><br><span class="nav-label"></span><span class="sr-only">Tour</span></a>
+          <a class="nav-link" id='art-tour' href="/art_tour" disabled><i class="fas fa-walking"></i><br><span class="nav-label"></span><span class="sr-only">Tour</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id='add-site' href="/add_art" disabled><i class="far fa-plus-square"></i><span class="nav-label"></span><span class="sr-only">Add Art Site</span></a>
@@ -60,13 +59,21 @@
     </div>
   </nav>
 
-
+  <!-- flash messages -->
   <div class="flash_messages">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <ul class="alert alert-warning">
+        <div class="alert alert-warning" role="alert" id="success-alert">
         {% for message in messages %}
-          <p>{{ message }}</p>
+          <strong>{{ message }}</strong>
+        </div>
+        <script type="text/javascript">
+          
+          $('#success-alert').fadeTo(2000, 500).slideUp(500, function() {
+              $('#success-alert').slideUp(500);
+          });
+
+        </script>
         {% endfor %}
         </ul>
       {% endif %}
@@ -74,26 +81,27 @@
   </div>
   </div>
 
+  <!-- body content - includes maps and sidebars -->
   <div class="main-content">
+
     {% block content %}
 
     BODY GOES HERE 
 
     {% endblock %}
+
    </div>
   </div>
 
+  <!-- retrict user view when not logged in -->
    <script type="text/javascript">
+
      {% if current_user.is_authenticated == false %}
         $('#add-site').hide();
         $('#user-profile').hide();
         $('#login-logout').attr("href" , "/login");
         $('#login-logout').html("log in");
      {% endif %}
-
-     setTimeout(function() {
-      $('.flash_messages').fadeOut('fast');
-     }, 30000);
 
    </script>
 

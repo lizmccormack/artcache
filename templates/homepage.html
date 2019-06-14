@@ -9,9 +9,9 @@
 
   <div id='art-legend' class='art-legend' style="display:none;">
     <h4> Art Sites </h4>
-    <div><span style='background-color: #fbb03b'></span class="catgeory">Civic Art</div>
-    <div><span style='background-color: #e55e5e'></span class="category">1% Building Art</div>
-    <div><span style='background-color: #214BCC'></span class="category">User Added</div>
+    <div><span style='background-color: #FF3C00'></span class="catgeory">Civic</div>
+    <div><span style='background-color: #00B383'></span class="category">Public 1%</div>
+    <div><span style='background-color: #fbaf08'></span class="category">User</div>
   </div>
 
   <div id="Sidebar" class="sidebar">
@@ -21,6 +21,7 @@
       <h2 id="title"></h2>
       <h4 id="artist"></h4>
       hint:<p id="hint"></p><p id="art-id" hidden></p>
+      <button type="button" id="show-image">reveal photo</button>
     </div>
     <hr style="border: 4px; color: black;" />
     
@@ -43,7 +44,11 @@
     <button type="button" id="info">show logs</button> 
       <div>
         <ul id="user-logs" style="display:none;">
-        </ul>
+          <!-- <div class="grid-contaner"
+
+            <img class="grid-item" id="art-log-img" src=log.image></img>
+            <span class="grid-item" id="comment"> log.comment </span></div> -->
+        </ul> 
       </div>
     </div>
 
@@ -51,33 +56,45 @@
   <div id="info-modal" class="modal" style="display:none;">
     <div class="modal-content">
         <span id='close-btn' class="close">&times;</span>
-          <h4>Discover, log, and share public art in San Francisco!</h4>
-              <section>
+        <div id="words">
+          <h4>Discover, log, and share public art in San Francisco!</h4><br>
+              <p>
                 Map View: zoom in on map to see individual art sites, click them to see the title, artist and a clue to find them 
-              </section>
-
-              <section>
-                Tour: See a tour of art in different San Francisco Neighborhoods. 
-              </section>
-            
-              <section>
-                Add-art: add a new artwork to the map for others to find
-              </section> 
-
-              <section>
-                 Profile: view your added art and logged art
-              </section> 
-          <h5>data sources<h5>
-
+              </p>
+              <p>
+                <span class="info-icons"><i class="fas fa-walking"></i></span>tour: see a tour of art in different San Francisco Neighborhoods. 
+              </p>
+              <p>
+                <span class="info-icons"><i class="far fa-plus-square"></i></span>add art: add a new artwork to the map for others to find
+              </p> 
+              <p>
+                 <span class="info-icons"><i class="far fa-user"></i></span>Profile: view your added art and logged art
+              </p> 
+          <h5>data sources</h5><br>
+              <p>
               1% public art program: 
+              </p>
+              <p>
               Civic art: 
-          <section>
-            About me: Hi my name is Liz. The idea for my project came from geocaching (the recreational activity of hunting and finding hidden objects by means of GPS coordinates posted on a website). I like it because you can discover a new place or see somewhere you are used in a new light because you are paying close attention to the details in your surroundings. Seeing artwork around the city is one of my favorite parts of san Francisco. I wanted a way to know more about public art, and also to allow art I’ve found. 
-          </section>  
-        <button type="button" href="/register">register</button><br> 
-        <button type="login" href="/login">login</button>
+              <p>
+          <h5>about me<h5> 
+          <p>
+              My name is liz and I made this project as part of the Hackbright Academy Fellowship in June 2019. The idea for my project came from geocaching (dictionary definition: the recreational activity of hunting and finding hidden objects by means of GPS coordinates posted on a website), because while doing this you can discover a new place or explore a familiar one. Seeing artwork around the city is one of my favorite parts of San Francisco. I wanted a way to know more about public art, and also to allow art I’ve found. 
+          </p>  
+        </div>
+        <button type=button class="modal-button">map</button>
+        <button type="button" class="modal-button" href="/register">register</button>
+        <button type="button" class="modal-button" href="/login">login</button>
       </div>
   </div> 
+
+  <div id="image-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+    <span id='close-btn-img' class="close">&times;</span>
+    <img class="modal-content" id="art-img" style="width:100%;max-width:300px">
+  </div>
+  </div>
+  </div>
 
 
   <script src="/static/js/heatmap.js"></script>

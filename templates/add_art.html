@@ -6,17 +6,18 @@
 
 <div class="add-art-form">
   <form action="/add_art" id="add-art-form" enctype="multipart/form-data" method="POST"> 
-    <input class="add-input" type="text" name="title" placeholder="title"></input><br>  
-    <input class="add-input" type="text", name="artist" placeholder="artist"></input><br>
-    <textarea class="add-input" name="artist_desc" placeholder="artist description"></textarea><br>
+    <input class="add-input" type="text" name="title" placeholder="title" maxlength="30"></input><br>  
+    <input class="add-input" type="text", name="artist" placeholder="artist" maxlength="30"></input><br>
+    <textarea class="add-input" name="artist_desc" placeholder="artist description" maxlength="100"></textarea><br>
     <input class="add-input" id="autocomplete" name="address"
                placeholder="artwork address"
                onFocus="geolocate()"
                type="text"></input><br>
-    <input class="add-input" type="text" name="medium" placeholder="medium"></input><br>
-    <textarea class="add-input" name="art_desc" placeholder="art description"></textarea><br>
-    <textarea class="add-input" type="text" name="hint" placeholder="hint"></textarea><br>
-    Image<br><input class="add-input" type="file" id ="image-upload" name="image"></input><br><br>
+    <input class="add-input" type="text" name="medium" placeholder="medium" maxlength="30"></input><br>
+    <textarea class="add-input" name="art_desc" placeholder="art description" maxlength="100"></textarea><br>
+    <textarea class="add-input" type="text" name="hint" placeholder="hint" maxlength="50"></textarea><br>
+    Image<br>
+    <input class="add-input" type="file" id ="image-upload" name="image"></input><br><br>
     <input type="submit" value="add art">
 
 

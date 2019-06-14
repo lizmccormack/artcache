@@ -139,11 +139,17 @@ def info_art(art_id):
 
     art = db.session.query(Artwork).filter(Artwork.art_id == art_id).one()
 
+    if art.img_filename is not None: 
+        img = presigned_url(art.img_filename)
+    else: 
+        img = None 
+
     return jsonify(title=art.title,
                    artist=art.artist,
+                   source = art.source,
                    hint=art.hint, 
                    art_id=art_id,
-                   img = art.img_url)
+                   img = img)
 
 @app.route('/log/<art_id>', methods=['POST'])
 def log_art(art_id):
@@ -154,10 +160,6 @@ def log_art(art_id):
     img_filename = handle_img_upload(file)
     comment = request.form["comment"]
 
-    time.sleep(2)
-
-    print("NEW ORDER!!!!!!")
-
     log = Log(art_id=art_id,
               user_id = current_user.user_id,
               comment=comment,
@@ -167,8 +169,7 @@ def log_art(art_id):
     db.session.commit()
 
     s3_resource.put_object(Bucket=bucket_name, Key=img_filename, Body=image_resize)
-
-    return "Your site had been logged"
+    return "Your site has been logged"
 
 
 
