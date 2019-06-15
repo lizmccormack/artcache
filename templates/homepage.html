@@ -23,6 +23,7 @@
       hint:<p id="hint"></p><p id="art-id" hidden></p>
       <button type="button" id="show-image">reveal photo</button>
     </div>
+    
     <hr style="border: 4px; color: black;" />
     
     <!-- log artwork form -->
@@ -30,9 +31,9 @@
       <div>
         <h7>Log Artwork</h7>
         <form method="post" enctype="multipart/form-data" id="log-form" style="display:block;">
-          Comment<br>
+          comment<br>
           <textarea type="text" id="comment" name="comment"></textarea><br>
-          Image<br>
+          upload image<br>
           <input type="file" id="image" name="image"></input><br><br>
           <input type="submit" value="log"></form>
         </form>
@@ -44,10 +45,6 @@
     <button type="button" id="info">show logs</button> 
       <div>
         <ul id="user-logs" style="display:none;">
-          <!-- <div class="grid-contaner"
-
-            <img class="grid-item" id="art-log-img" src=log.image></img>
-            <span class="grid-item" id="comment"> log.comment </span></div> -->
         </ul> 
       </div>
     </div>
@@ -59,34 +56,31 @@
         <div id="words">
           <h4>Discover, log, and share public art in San Francisco!</h4><br>
               <p>
-                Map View: zoom in on map to see individual art sites, click them to see the title, artist and a clue to find them 
+                map<br>zoom in on the map to see art sites and click them for more information
               </p>
               <p>
-                <span class="info-icons"><i class="fas fa-walking"></i></span>tour: see a tour of art in different San Francisco Neighborhoods. 
+                <span class="info-icons"><i class="fas fa-walking"></i></span><br> see a tour of art through different San Francisco neighborhoods 
               </p>
               <p>
-                <span class="info-icons"><i class="far fa-plus-square"></i></span>add art: add a new artwork to the map for others to find
+                <span class="info-icons"><i class="far fa-plus-square"></i></span><br> add a new artwork to the map for others to find
               </p> 
               <p>
-                 <span class="info-icons"><i class="far fa-user"></i></span>Profile: view your added art and logged art
+                 <span class="info-icons"><i class="far fa-user"></i></span><br> view your added art and logged art
               </p> 
-          <h5>data sources</h5><br>
+          <h5>Public Data Sources</h5>
               <p>
-              1% public art program: 
+              1% Art Program: program that requires all projects involving new building in Downtown San Francisco provide public art equal to or at least 1% of total construction cost. It was established by the 1985 Downtown plan and governed by Section 429 of the Planning Code
               </p>
               <p>
-              Civic art: 
+              Civic Art: includes publicly-sites works in the Civic Art Collection including historic monuments, murals, and artworks commissioned through the city's Public Art Program
               <p>
-          <h5>about me<h5> 
-          <p>
-              My name is liz and I made this project as part of the Hackbright Academy Fellowship in June 2019. The idea for my project came from geocaching (dictionary definition: the recreational activity of hunting and finding hidden objects by means of GPS coordinates posted on a website), because while doing this you can discover a new place or explore a familiar one. Seeing artwork around the city is one of my favorite parts of San Francisco. I wanted a way to know more about public art, and also to allow art I’ve found. 
+          <h5>About Me</h5> 
+          <p id="about-me">
+              My name is Liz, and I made this project as part of the Hackbright Academy Fellowship in June 2019. The idea for my project came from geocaching - a digital scavenger hunt. The two goals of this project are to create a database of public art and to allow users to explore the city through finding art. 
           </p>  
-        </div>
-        <button type=button class="modal-button">map</button>
-        <button type="button" class="modal-button" href="/register">register</button>
-        <button type="button" class="modal-button" href="/login">login</button>
-      </div>
   </div> 
+  </div>
+</div>
 
   <div id="image-modal" class="modal" style="display:none;">
     <div class="modal-content">

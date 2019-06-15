@@ -5,7 +5,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40N
 // create map variable
 var map_tour = new mapboxgl.Map({
   container: 'map-tour',
-  style: 'mapbox://styles/lizmccormack/cjwtkxume7k901cpadxxgdlm1/draft',
+  style: 'mapbox://styles/lizmccormack/cjwtkxume7k901cpadxxgdlm1',
   center: [-122.4194, 37.7749],
   zoom: 14,
   bearing: 27,
@@ -22,15 +22,15 @@ const sites = {
   'site1': {
     bearing: 27,
     center: [-122.419490, 37.763060],
-    zoom: 15.5,
-    pitch: 20
+    zoom: 16,
+    pitch: 18
   },
   'site2': {
     duration: 6000,
     center: [-122.422620, 37.761420],
     bearing: 150,
-    zoom: 15,
-    pitch: 0
+    zoom: 16,
+    pitch: 5
   },
   'site3': {
     bearing: 90,

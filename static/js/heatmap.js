@@ -7,7 +7,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGl6bWNjb3JtYWNrIiwiYSI6ImNqdndyNWJzNjBwYW40N
 let map = new mapboxgl.Map({
   // create a map variable 
   container: 'map',
-  style: 'mapbox://styles/lizmccormack/cjwtkxume7k901cpadxxgdlm1/draft',
+  style: 'mapbox://styles/lizmccormack/cjwtkxume7k901cpadxxgdlm1',
   center: [-122.4450, 37.7600],
   zoom: 11.5,
   // bearing: 27,

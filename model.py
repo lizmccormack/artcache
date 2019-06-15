@@ -135,35 +135,35 @@ class Neighborhood(db.Model):
         return f'<Neighborhood neighborhood_id:{self.neighborhood_id} name:{self.name}>'
 
 
-# def example_data():
-#     """Create some sample data."""
+def example_data():
+    """Create some sample data."""
 
-#     # In case this is run more than once, empty out existing data
-#     Add.query.delete()
-#     Log.quer.detele()
-#     Artworks.query.delete()
-#     User.query.delete()
+    # In case this is run more than once, empty out existing data
+    Add.query.delete()
+    Log.query.delete()
+    Artwork.query.delete()
+    User.query.delete()
 
-#     leo = User(name='Leonard', dept=dl)
-#     larry = User(name='Liz', dept=dl)
+    leo = User(email='leonard@gmail.com', username='leo', password='artrules')
+    liz = User(email='liz@gmail.com', username='liz', password='artrules2')
 
-#     db.session.add_all([leo, liz])
-#     db.session.commit()
+    db.session.add_all([leo, liz])
+    db.session.commit()
 
         
-#     # Add sample employees and departments
-#     # leo adds paiting and sculpture; larry add graffiti 
-#     painting = Artwork(dept_code='fin', dept='Finance', phone='555-1000')
-#     sculpture = Artwork(dept_code='legal', dept='Legal', phone='555-2222')
-#     graffiti = Artwork(dept_code='mktg', dept='Marketing', phone='555-9999')
+    # Add sample employees and departments
+    # leo adds paiting and sculpture; larry add graffiti 
+    # painting = Artwork(title='Mural on Fell', address='657 Mission Street, San Francisco, CA 94105', hint='This is a sculpture')
+    # sculpture = Artwork(title='ART', address='1 The Embarcadero, San Francisco, CA 94105', hint='Near the Ferries')
+    # graffiti = Artwork(title='mural', dept='96 Clarion Alley San Francisco, CA', hint='mission alley')
 
-#     # leo logs graffiti; larry logs painting and sculpture
-#     log_graffiti = Log()
-#     log_sculpture = Log()
-#     log_painting = Log() 
+    # # leo logs graffiti; larry logs painting and sculpture
+    # log_graffiti = Log()
+    # log_sculpture = Log()
+    # log_painting = Log() 
 
-#      db.session.add_all([painting, sculpture, graffiti, log_graffiti, log_sculpture, log_painting])
-#      db.session.commit()
+    # db.session.add_all([painting, sculpture, graffiti, log_graffiti, log_sculpture, log_painting])
+    # db.session.commit()
 
 
 ################################################################################

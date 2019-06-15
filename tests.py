@@ -1,5 +1,5 @@
 import unittest
-from model import User, Artwork, Add, Log, connect_to_db, db
+from model import User, Artwork, Add, Log, connect_to_db, db, example_data
 from server import app 
 import server
 from sqlalchemy import func 
@@ -54,7 +54,6 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
 
         # create tables and add sample data 
         db.create_all()
-        # example_data()
 
     def tearDown(self):
         """Do at the end of every test."""
@@ -73,7 +72,7 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
         """GET register route."""
         results = self.Client.get("/register")
         self.assertEqual(results.status_code, 200)
-        self.assertIn(b'<h1>Register!</h1>', results.data)
+        self.assertIn(b'username', results.data)
 
     def test_post_register_200(self):
         """POST registration form."""
@@ -94,13 +93,13 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
                                            "username": "test user",
                                            "password": "test"},
                                     follow_redirects = True)
-        self.assertIn(b'<h1>Login</h1>', results.data)
+        self.assertIn(b'log in', results.data)
 
     def test_get_login_200(self):
         """GET login route."""
         results = self.Client.get("/login")
         self.assertEqual(results.status_code, 200)
-        self.assertIn(b'<h1>Login</h1>', results.data)
+        self.assertIn(b'not registered', results.data)
 
 
 
@@ -110,12 +109,18 @@ class TestFlaskRouteLogIn(unittest.TestCase):
         """Set up elements before every test."""
         self.Client = app.test_client()
         app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+
+        with self.Client as c:
+            with c.session_transaction() as sess:
+                sess['email'] = 'liz@gmail.com'
 
         # connect to test database 
         connect_to_db(app, "postgresql:///testdb")
 
         # create tables and add sample data 
         db.create_all()
+        example_data()
 
     def tearDown(self):
         """Do at the end of every test."""
@@ -134,22 +139,34 @@ class TestFlaskRouteLogIn(unittest.TestCase):
 
     def test_get_add_art_200(self):
         """GET add_art route."""
-        results = self.client.get("/add_art")
-        self.assertEqual(results.status_code, 200)
-        self.assertIn(b'<h1>Add Art Site</h1>', results.data)
+        results = self.Client.get("/add_art")
+        self.assertEqual(results.status_code, 302)
+        self.assertIn(b'title', results.data)
 
     def test_post_add_art_200(self):
         """POST add_art form."""
-        pass
+        results = self.Client.post("/add_art",
+                                   data={
+                                   "title": "testartwork",
+                                   "artist": "testartist",
+                                   "address": "657 Mission Street. San Francisco, CA 94105",
+                                   "hint": "test_hint"
+                                   })
+        self.assertEqual(results.status_code, 302)
 
-    def test_post_add_art_invalid_400(self):
-        """POST add_art invalid form."""
-        pass
+    # def test_post_add_art_invalid_400(self):
+    #     """POST add_art invalid form."""
+    #     results = self.Client.post("/add_art",
+    #                                data={
+    #                                "artist": "testartist",
+    #                                "hint": "test_hint"
+    #                                })
+    #     self.assertEqual(results.status_code, 400)
 
     def test_get_profile_200(self):
         """non-database test for profile route."""
-        results = self.client.get('/profile')
-        self.assertEqual(results.status_code, 200)
+        results = self.Client.get('/profile')
+        self.assertEqual(results.status_code, 302)
 
 
     def test_logout_200(self):

@@ -48,6 +48,10 @@ body {
   top: 5%;
 }
 
+#username {
+  padding:15px;
+}
+
 .profile-info #profile-add-row {
   display: inline-block;
 }
@@ -60,14 +64,14 @@ body {
   display: grid;
   grid-template-columns: auto auto auto;
   padding: 2px;
-  width: 500px;
+  width: 900px;
 } #art-log-img {
   width: 15em;
 }
 
 .grid-item {
   /*border: 1px solid rgba(0, 0, 0, 0.8);*/
-  padding: 20px;
+  padding: 10px;
   font-size: 12px;
   text-align: center;
 } 
@@ -206,7 +210,7 @@ section:last-child {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
+} 
 
 /* Modal Content/Box */
 
@@ -217,6 +221,10 @@ section:last-child {
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
 } 
+
+.modal-content > h4 {
+  margin: auto;
+}
 
 /* The Close Buttons */
 .close {
@@ -278,19 +286,20 @@ input[type=text], input[type=password], input[type=email], textarea {
   box-sizing: border-box;
 }
 
-input[type="submit"], #info {
+input[type="submit"], #info, .modal-button {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   width: 100%;
   padding: 3%;
-  background: #00B383;
-  border-bottom: 2px solid #30C29E;
+  background: #3C576E;
+  border-bottom: 2px solid #3C576E;
   border-top-style: none;
   border-right-style: none;
   border-left-style: none;  
   color: #fff;
 } 
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {

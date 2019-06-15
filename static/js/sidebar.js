@@ -47,7 +47,7 @@ function handlePictureEvent(evt) {
   $.get('/art/' + artId, showPictureModal);
 }
 
-$('#show-image').on('mouseover', handlePictureEvent)
+$('#show-image').on('click', handlePictureEvent)
 
 const span_img = $('#close-btn-img')[0];
 console.log(span_img);
