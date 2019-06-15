@@ -57,7 +57,7 @@ const sites = {
 $('#features').on('scroll', function() {
 
   const siteNames = Object.keys(sites);
-  console.log(sites)
+
     for (var i = 0; i < siteNames.length; i++) {
       const siteName = siteNames[i];
       if (isElementOnScreen(siteName)) {
@@ -71,7 +71,8 @@ $('#features').on('scroll', function() {
 let activeSiteName = 'site1';
 
 map_tour.on('load', function () {
-  var el = document.createElement('div');
+
+  const el = document.createElement('div');
   el.className = 'marker';
   new mapboxgl.Marker(el)
     .setLngLat(sites['site1']["center"])
@@ -81,7 +82,7 @@ map_tour.on('load', function () {
 function setActiveSite(siteName) {
   if (siteName === activeSiteName) return;
 
-  var el = document.createElement('div');
+  let el = document.createElement('div');
   el.className = 'marker';
 
   new mapboxgl.Marker(el)

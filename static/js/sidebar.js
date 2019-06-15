@@ -12,8 +12,6 @@ function showArtInfo(response) {
   $('#title').html(response.title);
   $('#artist').html(response.artist);
   $('#art-id').html(response.art_id);
-  console.log(response.img);
-  console.log(response.source);
 
   if (response.source === 'user') {
     $('#show-image').show(); 
@@ -37,7 +35,6 @@ function showPictureModal(response) {
 
    $('#image-modal').css('display', 'block');
    $('#art-img').attr('src', response.img);
-   console.log(response.img);
 }
 
 function handlePictureEvent(evt) {
@@ -50,15 +47,14 @@ function handlePictureEvent(evt) {
 $('#show-image').on('click', handlePictureEvent)
 
 const span_img = $('#close-btn-img')[0];
-console.log(span_img);
 
 $('#close-btn-img').on('click', function() {
     $('#image-modal').css("display", "none");
 })
 // show info page in sidebar 
 function showInfoPage() {
-  var x = $('#user-logs');
-  var displaysetting = x[0].style.display;
+  let x = $('#user-logs');
+  let displaysetting = x[0].style.display;
   if (x[0].style.display === "block") {
     x[0].style.display = "none";
   } else {
@@ -68,9 +64,7 @@ function showInfoPage() {
   const artId = $('#art-id').text()
 
   $.get('/art_logs/' + artId, (response) => {
-    console.log(response);
     let myArray = response.logs 
-    console.log(myArray);
     if (myArray.length < 1) {
       $('#user-logs').html('<p>not logged yet</p>')
     } else {
@@ -78,7 +72,6 @@ function showInfoPage() {
       let li = '<li>'
       for (let i = 0; i < myArray.length; i++) {
              const log = myArray[i];
-             console.log(log);
              li += '<div class="grid-contaner"><img class="grid-item" id="art-log-img" src=' + log.image + '></img><span class="grid-item" id="comment">' + log.comment + '</span></div>'
             };
             li + '</li>'
@@ -118,9 +111,6 @@ const opts = {
   contentType: false,
   success: sendAlert
 }
-
-  console.log(formData);
-  console.log('POST /info for log');
 
   $.ajax(opts);
 }

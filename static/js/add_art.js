@@ -19,7 +19,7 @@ function initAutocomplete() {
   // restrics return data to address_component
   autocomplete.setFields(['address_component']);
 
-  // populate address fields when the user selects from the dropdown 
+  // populate address fields 
   autocomplete.addListener('place_changed', fillInAddress);
 }
 

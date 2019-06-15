@@ -9,9 +9,7 @@ let map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/lizmccormack/cjwtkxume7k901cpadxxgdlm1',
   center: [-122.4450, 37.7600],
-  zoom: 11.5,
-  // bearing: 27,
-  // pitch: 45
+  zoom: 11.5
   });
 
 map.on('load', function () {
