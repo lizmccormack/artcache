@@ -9,9 +9,9 @@
 
   <div id='art-legend' class='art-legend' style="display:none;">
     <h4> Art Sites </h4>
-    <div><span style='background-color: #FF3C00'></span class="catgeory">Civic</div>
-    <div><span style='background-color: #00B383'></span class="category">Public 1%</div>
-    <div><span style='background-color: #fbaf08'></span class="category">User</div>
+    <div class="category"><span style='background-color: #FF3C00'></span>Civic</div>
+    <div class="category"><span style='background-color: #00B383'></span>Public 1%</div>
+    <div class="category"><span style='background-color: #fbaf08'></span>User</div>
   </div>
 
   <div id="Sidebar" class="sidebar">
@@ -54,40 +54,48 @@
     <div class="modal-content">
         <span id='close-btn' class="close">&times;</span>
         <div id="words">
-          <h4>Discover, log, and share public art in San Francisco!</h4><br>
-              <p>
-                map<br>zoom in on the map to see art sites and click them for more information
+          <div id="artcache-info">
+          <h4>Artcache Info</h4>
+          </div>
+          <div><br>
+              <p> 
+                Artcache is an app to discover, log, and share public art! The idea came from geocaching - a digital scavenger hunt. The two goals of this project are to create a database of public art and to allow users to explore the city through finding art. 
               </p>
-              <p>
+              <h6 class="artcache-subheading">guide to start artcaching:</h6>
+              <p class="guide">
+                map<br>zoom in on the map to see art sites, click a site for more information and to log a site 
+              </p>
+              <p class="guide">
                 <span class="info-icons"><i class="fas fa-walking"></i></span><br> see a tour of art through different San Francisco neighborhoods 
               </p>
-              <p>
+              <p class="guide">
                 <span class="info-icons"><i class="far fa-plus-square"></i></span><br> add a new artwork to the map for others to find
               </p> 
-              <p>
+             <!--  <p>
                  <span class="info-icons"><i class="far fa-user"></i></span><br> view your added art and logged art
-              </p> 
-          <h5>Public Data Sources</h5>
+              </p>  -->
+          <h6 class="artcache-subheading">public data sources:</h6>
               <p>
-              1% Art Program: program that requires all projects involving new building in Downtown San Francisco to provide public art equal to 1% of total construction cost. It was established by the 1985 Downtown plan and governed by Section 429 of the Planning Code
+              1% Art Program: A city-wide program that requires all projects involving new building in Downtown San Francisco to provide public art equal to 1% of total construction cost. It was established by the 1985 Downtown plan and governed by Section 429 of the Planning Code.
               </p>
               <p>
-              Civic Art: includes publicly-sited works in the Civic Art Collection including historic monuments, murals, and artworks commissioned through the city's Public Art Program
+              Civic Art: Includes publicly-sited works in the Civic Art Collection including historic monuments, murals, and artworks commissioned through the city's Public Art Program.
               <p>
-          <h5>About Me</h5> 
+          <hr id="line break"/> 
           <p id="about-me">
-              My name is Liz, and I made this project as part of the Hackbright Academy Fellowship in June 2019. The idea for my project came from geocaching - a digital scavenger hunt. The two goals of this project are to create a database of public art and to allow users to explore the city through finding art. 
+              My name is <a href="https://github.com/lizmccormack">Liz<a>, and I made this project as part of the Hackbright Academy Fellowship in June 2019 for the purpose of learning full-stack web development. You can check out the code <a href="https://github.com/lizmccormack/artcache">here</a>! 
           </p>  
-  </div> 
+      </div> 
+    </div>
   </div>
 </div>
 
-  <div id="image-modal" class="modal" style="display:none;">
-    <div class="modal-content">
-    <span id='close-btn-img' class="close">&times;</span>
-    <img class="modal-content" id="art-img" style="width:100%;max-width:300px">
-  </div>
-  </div>
+  <div id="image-modal" style="display:none;">
+    <div id="image-modal-content">
+       <!-- <span id='close-btn-img' class="close">&times;</span> -->
+         <span id='close-btn-img' class="close">&times;</span>
+         <img id="art-img" style="width:100%;max-width:300px">
+    </div>
   </div>
 
 
@@ -101,6 +109,10 @@
         $('#Sidebar > #show-logs').hide();
         $('#Sidebar > #art-tour').hide();
      {% endif %}
+
+     $('#img-modal-content').on("click", function(){
+          $('#image-modal').css('display', 'none');
+     })
   </script>
 
 {% endblock %}

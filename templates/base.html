@@ -47,7 +47,7 @@
           <a class="nav-link" id='add-site' href="/add_art" disabled><i class="far fa-plus-square"></i><span class="nav-label"></span><span class="sr-only">Add Art Site</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id='user-profile' href="/profile" disabled><i class="far fa-user"></i><span class="nav-label"></span><span class="sr-only">Profile</span></a>
+          <a class="nav-link" id='user-profile' disabled><span id="profile-username" class="nav-label"></span><span class="sr-only">Profile</span></a>
         </li>
         <li class="nav-item" id="logout-link">
           <a class="nav-link" id="login-logout" href="/logout">log out<span class="sr-only">(current)</span></a>
@@ -102,6 +102,12 @@
         $('#login-logout').attr("href" , "/login");
         $('#login-logout').html("log in");
      {% endif %}
+
+     $.get('/logs.json', (response) => {
+
+        $('#profile-username').html('hi, ' + response.username + '!');
+
+    })
 
    </script>
 

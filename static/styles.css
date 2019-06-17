@@ -14,13 +14,25 @@
 }
 
 .nav-item {
-  padding: 0px 10px 10px 0px;
-} 
+  padding-left: 10px;
+  padding-right: 10px;
+} .nav-link {
+  vertical-align: center;
+}
 
 #logout-link {
-  width: 85px;
+  width: 110px;
 } #logout-link > a {
   font-size: 1em;
+} 
+
+#profile-username {
+  font-size: 1em;
+} 
+
+#user-profile {
+  width: 100px;
+  text-align: center;
 }
 
 #site-info {
@@ -38,7 +50,7 @@ body {
 
 .main-content {
   position: relative;
-  height: 93vh;
+  height: 95vh;
 }
 
 .profile {
@@ -123,21 +135,24 @@ body {
 } 
 
 .art-legend > h4 {
- font-size: 20px;
- font-style: bold;
+ font-size: 18px;
+ left: 10px;
 }
 
 .art-legend div span {
   border-radius: 50%;
   display: inline-block;
-  font-size: 12px;
+  font-size: 10px;
   height: 10px;
   margin: 5% 5% 5% 5%;
   width: 10px;
 } 
 
-.category {
-  font-size: 12px;
+div.category {
+  font-size: 13px !important;
+  position: relative;
+} .category > span {
+  top: 20px;
 }
 
 h1 {
@@ -219,12 +234,68 @@ section:last-child {
   margin: 5% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 45%; /* Could be more or less, depending on screen size */
+  background: url(halftone-yellow.png) no-repeat center center;
+  background-size: cover;
+} .modal-content > p {
+  font-size: 12px;
+}
+
+#artcache-info {
+  position: relative;
+  width: 200px;
+  text-align: center;
+  margin: 0 auto;
+} #artcache-info > h4 {
+  font-family: 'Montserrat Bold', sans-serif;
+}
+
+.artcache-subheading {
+  font-family: 'Montserrat Bold', sans-serif;
+  font-size: 18px;
+
+}
+
+#line-break {
+  border: 0;
+  height: 5px;
+  background: #333;
+}
+
+#image-modal {
+  display: none;
+  position: fixed; 
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+#img-modal-content {
+  margin: 45% auto; /* 15% from the top and centered */
+  display: block;
+  width: 40%;
+  max-width: 700px;
 } 
 
-.modal-content > h4 {
-  margin: auto;
+#art-img {
+  position: relative;
+  width: 200px;
+  left: 20%;
 }
+
+#image-modal-content {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 7% auto;
+}
+
 
 /* The Close Buttons */
 .close {
@@ -232,6 +303,12 @@ section:last-child {
   float: right;
   font-size: 28px;
   font-weight: bold;
+} 
+
+#close-btn-img{
+  position: relative;
+  float: left;
+  z-index: 1;
 }
 
 #sidebar-close-btn  {
