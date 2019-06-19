@@ -1,5 +1,5 @@
 # Artcache 
-A web application to discover, log, and share public art in San Francsico. The idea came from geocaching - a digital scavenget hunt. 
+A web application to discover, log, and share public art in San Francisco. The idea came from geocaching - a digital scavenger hunt. 
 
 ### Goals of the project 
 * start a database of public art in SF 
@@ -20,8 +20,12 @@ __tour__
 __add art__
 * add new artworks for other users to find 
 
+![Screenshot](add.png)
+
 __log__
 * add a photo and comment of art 
+
+![Screenshot](log.png)
 
 
 
@@ -36,10 +40,12 @@ commissioned through the city's Public Art Program.
 
 * User Art: added by YOU
 
-### Contributions 
+###  
 
-### Known Issues 
+### Contributions & Known Issues 
+
+contributions are welcome and for known issues check out the issues board. The next release of artcache with improved UI, bug fixes, and expanded tour feature coming soon. 
 
 ### Final
 
-
+I made this app while learning web development and CS fundamentals and Hackbright Academy. 
