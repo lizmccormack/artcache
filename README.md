@@ -10,7 +10,7 @@ __map views__
 * heatmap: the density of public artworks by count 
 * point map: zoom in on the map to see art sites, click a site for more information and to log a site
 
-![](map-view.gif)
+![](static/map-view.gif)
 
 __tour__
 * see an art tour through different San Francisco Neighborhoods 
