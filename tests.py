@@ -5,44 +5,11 @@ import server
 from sqlalchemy import func 
 from geoalchemy2 import Geometry
 
-# TEST PLAN 
-# Backend tests: unittest 
-# Testflaskroutesnologin: 
-
-# test_get_homepage_200
-# test_get_register_200
-# test_post_register_200 
-# rest_post_register_invalid_400
-# test_get_login_200
-# test_post_login_200
-# test_post_login_invalid_400
-
-# Testflaskrouteslogin:
-
-# test_post_login_200
-# test_logout
-
-# test_get_add_art_200
-# test_post_add_art_200
-# test_post_add_art_invalid_400
-
-# test_get_profile_200
-
-
-# TEST EDGE CASES 
-# User 
-# - user already registered, goes to register, 400 
-# - user not register tries to login, 400 
-# - user email address/username already registered, 400 
-# - user login not in database, 400 
-# Artwork 
-# - artwork already add (how will i validate for this)
-# - artwork does not have required fields 
-        # location, hint, or image 
-
-
-
 class TestFlaskRoutesNoLogIn(unittest.TestCase):
+    """
+    Test routes and functionality accessible without log in. 
+
+    """
 
     def setUp(self):
         """Set up elements before every test."""
@@ -104,6 +71,10 @@ class TestFlaskRoutesNoLogIn(unittest.TestCase):
 
 
 class TestFlaskRouteLogIn(unittest.TestCase):
+    """
+    Test routes and functionality only accessible after log in.  
+
+    """
 
     def setUp(self):
         """Set up elements before every test."""

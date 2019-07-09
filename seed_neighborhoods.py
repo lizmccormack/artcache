@@ -11,7 +11,6 @@ import shapely.wkb
 import shapely.wkt
 
 
-
 def load_neighborhood():
     """Load neighborhood data into database."""
     print("SF Neighborhoods")

@@ -44,8 +44,8 @@ commissioned through the city's Public Art Program.
 
 ### Contributions & Known Issues 
 
-contributions are welcome and for known issues check out the issues board. The next release of artcache with improved UI, bug fixes, and expanded tour feature coming soon. 
+Contributions are welcome and for known issues check out the issues board. The next release of artcache with improved UI, bug fixes, and expanded tour feature coming soon. 
 
 ### Final
 
-I made this app while learning web development and CS fundamentals and Hackbright Academy. 
+I made this app while learning web development and CS fundamentals and Hackbright Academy in June 2019. It is my first independent web app and is still a work in progress. 

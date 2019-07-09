@@ -7,8 +7,6 @@ from geoalchemy2.shape import from_shape
 from shapely.geometry import Point
 
 
-
-
 def load_civic(): 
     """Load Civic data."""
     print("Civic Artwork")

@@ -8,8 +8,6 @@ from shapely.geometry import Point
 import re
 
 
-
-
 def load_oneper(): 
     """Load Public 1% Artwork into database"""
     print("Public 1% Artwork")

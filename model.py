@@ -150,22 +150,6 @@ def example_data():
     db.session.add_all([leo, liz])
     db.session.commit()
 
-        
-    # Add sample employees and departments
-    # leo adds paiting and sculpture; larry add graffiti 
-    # painting = Artwork(title='Mural on Fell', address='657 Mission Street, San Francisco, CA 94105', hint='This is a sculpture')
-    # sculpture = Artwork(title='ART', address='1 The Embarcadero, San Francisco, CA 94105', hint='Near the Ferries')
-    # graffiti = Artwork(title='mural', dept='96 Clarion Alley San Francisco, CA', hint='mission alley')
-
-    # # leo logs graffiti; larry logs painting and sculpture
-    # log_graffiti = Log()
-    # log_sculpture = Log()
-    # log_painting = Log() 
-
-    # db.session.add_all([painting, sculpture, graffiti, log_graffiti, log_sculpture, log_painting])
-    # db.session.commit()
-
-
 ################################################################################
 # Helper functions 
 
